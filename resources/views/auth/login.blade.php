@@ -27,6 +27,38 @@
             <!-- Form Login -->
             <form method="POST" action="{{ route('login') }}" class="space-y-4">
                 @csrf
+                <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+               @error('username')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+
+                @error('password')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+
+                @if(session('loginError'))
+                    <div class="mt-2 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+                        {{ session('loginError') }}
+                        @if(session('lockoutSeconds'))
+                            <span id="countdown"> ({{ session('lockoutSeconds') }} detik)</span>
+                            <script>
+                                let seconds = {{ session('lockoutSeconds') }};
+                                const countdownEl = document.getElementById('countdown');
+                                const timer = setInterval(() => {
+                                    seconds--;
+                                    if (seconds > 0) {
+                                        countdownEl.textContent = ` (${seconds} detik)`;
+                                    } else {
+                                        clearInterval(timer);
+                                        countdownEl.textContent = " Silakan coba lagi.";
+                                        location.reload();
+                                    }
+                                }, 1000);
+                            </script>
+                        @endif
+                    </div>
+                @endif
+
                 <div>
                     <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
                     <input type="text" id="username" name="username"
@@ -62,5 +94,17 @@
             </p>
         </div>
     </div>
+
+       {{-- recapcha --}}                   
+  <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site') }}"></script>
+  <script>
+      grecaptcha.ready(function() {
+          grecaptcha.execute('{{ config('services.recaptcha.site') }}', {action: 'login'}).then(function(token) {
+              console.log("Token reCAPTCHA:", token);
+              document.getElementById('g-recaptcha-response').value = token;
+          });
+      });
+  </script>
+  {{-- end recapcha --}}
 </body>
 </html>
