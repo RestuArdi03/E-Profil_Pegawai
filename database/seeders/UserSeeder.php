@@ -19,7 +19,6 @@ class UserSeeder extends Seeder
 
         // Buat Super Admin
         User::create([
-            'name' => 'Super Admin',
             'username' => 'admin',
             'email' => 'admin@example.com',
             'password' => Hash::make('password'), // ganti dengan password aman
@@ -30,7 +29,6 @@ class UserSeeder extends Seeder
         if ($pegawai) {
             User::create([
                 'pegawai_id' => $pegawai->id,
-                'name' => 'Pegawai Contoh',
                 'username' => 'pegawai1',
                 'email' => 'pegawai1@example.com',
                 'password' => Hash::make('password'),

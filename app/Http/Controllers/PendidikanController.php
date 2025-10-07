@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\RiwayatPendidikan;
+use App\Models\Strata;
+use App\Models\Pegawai;
 
 class PendidikanController extends Controller
 {
@@ -38,7 +40,17 @@ class PendidikanController extends Controller
      */
     public function show(string $id)
     {
-        //
+        session(['pegawai_id' => $id]);
+
+        $pegawai = Pegawai::findOrFail($id);
+        $riwayat_pendidikan = RiwayatPendidikan::with('strata')
+                                ->where('pegawai_id', $id)
+                                ->orderByDesc('thn_lulus') // opsional
+                                ->get();
+
+        $strata = Strata::all();
+
+        return view('backend.pegawai.riwayat_pendidikan', compact('pegawai', 'riwayat_pendidikan', 'strata'));
     }
 
     /**

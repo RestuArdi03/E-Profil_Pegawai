@@ -176,13 +176,13 @@
             <tbody class="divide-y divide-gray-200">
                 @forelse ($latestUpdates as $index => $update)
                     <tr>
-                        <td class="border px-6 py-4 text-sm text-gray-800">{{ $loop->iteration }}</td>
-                        <td class="border px-6 py-4 text-sm text-gray-800">{{ $update['nama'] }}</td>
-                        <td class="border px-6 py-4 text-sm text-gray-800">{{ \Carbon\Carbon::parse($update['created_at'])->format('d M Y H:i:s') }}</td>
+                        <td class="border px-6 py-3 text-sm text-gray-800">{{ $loop->iteration }}</td>
+                        <td class="border px-6 py-3 text-sm text-gray-800">{{ $update['nama'] }}</td>
+                        <td class="border px-6 py-3 text-sm text-gray-800">{{ \Carbon\Carbon::parse($update['created_at'])->format('d M Y H:i:s') }}</td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="px-4 py-3 text-center text-gray-500">
+                        <td colspan="4" class="border py-3 text-center text-gray-800">
                             Belum ada aktivitas terbaru
                         </td>
                     </tr>

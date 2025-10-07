@@ -44,7 +44,68 @@ class Pegawai extends Model
     {
         return $this->belongsTo(Instansi::class);
     }
+
+    public function riwayatGolongan()
+    {
+        return $this->hasMany(RiwayatGolongan::class);
+    }
     
+    public function riwayatPlhPlt()
+    {
+        return $this->hasMany(RiwayatPlhPlt::class);
+    }
+
+    public function riwayatDiklat()
+    {
+        return $this->hasMany(RiwayatDiklat::class);
+    }
+
+    public function riwayatGaji()
+    {
+        return $this->hasMany(RiwayatGaji::class);
+    }
+
+    public function riwayatKgb()
+    {
+        return $this->hasMany(RiwayatKgb::class);
+    }
+
+    public function riwayatPenghargaan()
+    {
+        return $this->hasMany(RiwayatPenghargaan::class);
+    }
+
+    public function riwayatOrganisasi()
+    {
+        return $this->hasMany(riwayatOrganisasi::class);
+    }
+    
+    public function prestasiKerja()
+    {
+        return $this->hasMany(NilaiPrestasiKerja::class);
+    }
+
+    public function riwayatAsesmen()
+    {
+        return $this->hasMany(RiwayatAsesmen::class);
+    }
+
+    public function riwayatKesejahteraan()
+    {
+        return $this->hasMany(Kesejahteraan::class);
+    }
+
+    public function dataKeluarga()
+    {
+        return $this->hasMany(DataKeluarga::class);
+    }
+
+    public function Dokumen()
+    {
+        return $this->hasMany(Dokumen::class);
+    }
+
+
     // public function unit_kerja()
     // {
     //     return $this->belongsTo(UnitKerja::class, 'unit_kerja_id');

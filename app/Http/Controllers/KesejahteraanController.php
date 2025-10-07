@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Kesejahteraan;
+use App\Models\Pegawai;
 
 class KesejahteraanController extends Controller
 {
@@ -39,7 +40,12 @@ class KesejahteraanController extends Controller
      */
     public function show(string $id)
     {
-        //
+        session(['pegawai_id' => $id]);
+
+        $pegawai = Pegawai::with('riwayatKesejahteraan')->findOrFail($id);
+        $kesejahteraan = $pegawai->riwayatKesejahteraan;
+
+        return view('backend.pegawai.riwayat_kesejahteraan', compact('pegawai', 'kesejahteraan'));
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\RiwayatKgb;
+use App\Models\Pegawai;
 
 class KgbController extends Controller
 {
@@ -38,7 +39,12 @@ class KgbController extends Controller
      */
     public function show(string $id)
     {
-        //
+        session(['pegawai_id' => $id]);
+
+        $pegawai = Pegawai::with('riwayatKgb')->findOrFail($id);
+        $riwayat_kgb = $pegawai->riwayatKgb;
+
+        return view('backend.pegawai.riwayat_kgb', compact('pegawai', 'riwayat_kgb'));
     }
 
     /**

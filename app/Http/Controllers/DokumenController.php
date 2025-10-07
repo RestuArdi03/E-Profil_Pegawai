@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Dokumen;
 use App\Models\Folder;
+use App\Models\Pegawai;
 
 class DokumenController extends Controller
 {
@@ -42,5 +43,15 @@ class DokumenController extends Controller
         ]);
 
         return redirect()->route('dokumen.index')->with('success', 'Dokumen berhasil disimpan!');
+    }
+
+        public function show(string $id)
+    {
+        session(['pegawai_id' => $id]);
+
+        $pegawai = Pegawai::with('dokumen')->findOrFail($id);
+        $dokumen = $pegawai->dokumen;
+
+        return view('backend.pegawai.dokumen', compact('pegawai', 'dokumen'));
     }
 }

@@ -14,7 +14,6 @@ return new class extends Migration
             // Relasi opsional ke pegawai
             $table->unsignedBigInteger('pegawai_id')->nullable();
 
-            $table->string('name');
             $table->string('username')->unique();
             $table->string('email')->nullable()->unique();
             $table->string('password');

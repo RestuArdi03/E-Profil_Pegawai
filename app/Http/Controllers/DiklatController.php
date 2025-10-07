@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\RiwayatDiklat;
+use App\Models\Pegawai;
 
 class DiklatController extends Controller
 {
@@ -38,7 +39,12 @@ class DiklatController extends Controller
      */
     public function show(string $id)
     {
-        //
+        session(['pegawai_id' => $id]);
+
+        $pegawai = Pegawai::with('riwayatDiklat')->findOrFail($id);
+        $riwayat_diklat = $pegawai->riwayatDiklat;
+
+        return view('backend.pegawai.riwayat_diklat', compact('pegawai', 'riwayat_diklat'));
     }
 
     /**

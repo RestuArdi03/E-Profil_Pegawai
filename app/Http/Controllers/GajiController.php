@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\RiwayatGaji;
+use App\Models\Pegawai;
 
 class GajiController extends Controller
 {
@@ -38,7 +39,12 @@ class GajiController extends Controller
      */
     public function show(string $id)
     {
-        //
+        session(['pegawai_id' => $id]);
+
+        $pegawai = Pegawai::with('riwayatGaji')->findOrFail($id);
+        $riwayat_gaji = $pegawai->riwayatGaji;
+
+        return view('backend.pegawai.riwayat_gaji', compact('pegawai', 'riwayat_gaji'));
     }
 
     /**

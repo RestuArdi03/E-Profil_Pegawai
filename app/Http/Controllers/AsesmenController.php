@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\RiwayatAsesmen;
+use App\Models\Pegawai;
 
 class AsesmenController extends Controller
 {
@@ -38,7 +39,12 @@ class AsesmenController extends Controller
      */
     public function show(string $id)
     {
-        //
+        session(['pegawai_id' => $id]);
+
+        $pegawai = Pegawai::with('riwayatAsesmen')->findOrFail($id);
+        $riwayat_asesmen = $pegawai->riwayatAsesmen;
+
+        return view('backend.pegawai.riwayat_asesmen', compact('pegawai', 'riwayat_asesmen'));
     }
 
     /**

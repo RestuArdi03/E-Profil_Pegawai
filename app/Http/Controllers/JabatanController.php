@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\RiwayatJabatan;
+use App\Models\Eselon;
+use App\Models\JenisJabatan;
+use App\Models\Pegawai;
+
 
 class JabatanController extends Controller
 {
@@ -38,7 +42,17 @@ class JabatanController extends Controller
      */
     public function show(string $id)
     {
-        //
+        session(['pegawai_id' => $id]);
+
+        $pegawai = Pegawai::findOrFail($id);
+        $riwayat_jabatan = RiwayatJabatan::with('eselon', 'jenis_jabatan')
+                                ->where('pegawai_id', $id)
+                                ->get();
+
+        $eselon = Eselon::all();
+        $jenis_jabatan = JenisJabatan::all();
+
+        return view('backend.pegawai.riwayat_jabatan', compact('pegawai', 'riwayat_jabatan', 'eselon', 'jenis_jabatan'));
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\NilaiPrestasiKerja;
+use App\Models\Pegawai;
 
 class PrestasiKerjaController extends Controller
 {
@@ -38,7 +39,12 @@ class PrestasiKerjaController extends Controller
      */
     public function show(string $id)
     {
-        //
+        session(['pegawai_id' => $id]);
+
+        $pegawai = Pegawai::with('prestasiKerja')->findOrFail($id);
+        $nilai_prestasi_kerja = $pegawai->prestasiKerja;
+
+        return view('backend.pegawai.nilai_prestasi_kerja', compact('pegawai', 'nilai_prestasi_kerja'));
     }
 
     /**

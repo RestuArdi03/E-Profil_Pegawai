@@ -1,12 +1,10 @@
-@extends('main.layout2')
-
-@section('content')
+@extends('main.layout2')@section('content')
     <h1 class="text-xl font-semibold mb-4">Daftar Pegawai
         <button type="button"
         onclick="openTambahModal()"
         class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md shadow-sm">
             <span class="material-icons" style="margin-right: 5px; margin-left: -5px;font-size: 16px;">add</span>
-            Tambah Pegawai
+            Tambah Data
         </button>
     </h1>
 
@@ -36,10 +34,10 @@
                     <tbody class="bg-white divide-y divide-gray-200">
                         @foreach ($pegawai as $item)
                             <tr>
-                                <td class="border px-6 py-4 text-sm text-gray-800">{{ $loop->iteration }}</td>
-                                <td class="border px-6 py-4 text-sm text-gray-800">{{ $item->nama }}</td>
-                                <td class="border px-6 py-4 text-sm text-gray-800">{{ $item->nip }}</td>
-                                <td class="border px-6 py-4 text-sm text-gray-800 space-x-2">
+                                <td class="border px-6 py-3 text-sm text-gray-800">{{ $loop->iteration }}</td>
+                                <td class="border px-6 py-3 text-sm text-gray-800">{{ $item->nama }}</td>
+                                <td class="border px-6 py-3 text-sm text-gray-800">{{ $item->nip }}</td>
+                                <td class="border px-6 py-3 text-sm text-gray-800 space-x-2">
                                     {{-- Tombol Detail --}}
                                     <a href="{{ route('backend.pegawai.show', $item->id) }}"
                                     class="inline-block px-3 py-1 text-sm text-white bg-blue-600 rounded hover:bg-blue-700">
@@ -67,18 +65,41 @@
         </div>
     </div>
 
-    <!-- Modal Tambah Pegawai / Employee Create Modal -->
+    <!-- Modal Tambah Pegawai dan Akun User -->
     <div id="tambahModal" class="fixed inset-0 z-50 hidden flex justify-center items-center bg-black/50">
         <div class="bg-white rounded-lg shadow-lg w-full max-w-xl border border-green-300 outline outline-green-600 outline-offset-4" style="max-width: 800px; max-height: 1200px;">
             <div class="p-6">
-                <h2 class="text-base font-semibold">Tambah Data Pegawai</h2>
+                <h2 class="text-base font-semibold">Tambah Akun User dan Data Pegawai</h2>
             </div>
 
             <div id="tambahScrollContainer" class="p-6 overflow-y-auto" style="max-height: 600px;">
-                <form id="tambahForm" method="POST" action="{{ route('backend.daftar_pegawai.store') }}" enctype="multipart/form-data" class="space-y-4" novalidate>
+                <form id="tambahForm" method="POST" action="{{ route('backend.daftar_pegawai.store') }}" enctype="multipart/form-data" class="space-y-4">
                     @csrf
 
+                    {{-- TAMBAH AKUN UNTUK PEGAWAI (tabel users) --}}
                     <div class="mb-3" style="margin-top: -25px;">
+                        <label for="tambah_email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" name="email" id="tambah_email" value="{{ old('email') }}"
+                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-green-200 focus:outline-none text-sm" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tambah_username" class="block text-sm font-medium text-gray-700">Username</label>
+                        <input type="text" name="username" id="tambah_username" value="{{ old('username') }}"
+                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-green-200 focus:outline-none text-sm" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tambah_password" class="block text-sm font-medium text-gray-700">Password</label>
+                        <input type="password" name="password" id="tambah_password" value="{{ old('password') }}"
+                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-green-200 focus:outline-none text-sm" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tambah_password_confirmation" class="block text-sm font-medium text-gray-700">Konfirmasi Password</label>
+                        <input type="password" name="password_confirmation" id="tambah_password_confirmation" value="{{ old('password') }}"
+                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-green-200 focus:outline-none text-sm" required>
+                    </div>
+
+                    {{-- TAMBAH PEGAWAI (tabel pegawai)--}}
+                    <div class="mb-3">
                         <label for="tambah_foto" class="block text-sm font-medium text-gray-700">Foto Pegawai</label>
 
                         <div class= "w-full flex items-center border border-gray-300 rounded-md shadow-sm px-3 bg-white text-sm text-gray-900">
@@ -138,7 +159,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="tambah_status_kawin" class="block text-sm font-medium text-gray-700">Status Perkawinan</label>
-                        <select name="status_kawin" id="tambah_status_kawin"
+                        <select name="status_kawin" id="tambah_status_kawin" required
                             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:outline-none text-sm">
                             <option value="">Pilih Status</option>
                             <option value="Belum Kawin" {{ old('status_kawin') == 'Belum Kawin' ? 'selected' : '' }}>Belum Kawin</option>
@@ -300,6 +321,14 @@
             if (oldInstansi) {
                 instansiSelect.value = oldInstansi;
                 instansiSelect.dispatchEvent(new Event('change'));
+
+                // Tambahan: tunggu fetch unit kerja selesai, lalu trigger fetch satuan kerja
+                setTimeout(() => {
+                    if (oldUnitKerja) {
+                        unitKerjaSelect.value = oldUnitKerja;
+                        unitKerjaSelect.dispatchEvent(new Event('change'));
+                    }
+                }, 500); // delay kecil untuk pastikan unit kerja sudah terisi
             }
         });
     </script>

@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\RiwayatOrganisasi;
+use App\Models\Pegawai;
 
-class OrganisaasiController extends Controller
+class OrganisasiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -38,7 +39,12 @@ class OrganisaasiController extends Controller
      */
     public function show(string $id)
     {
-        //
+        session(['pegawai_id' => $id]);
+
+        $pegawai = Pegawai::with('riwayatOrganisasi')->findOrFail($id);
+        $riwayat_organisasi = $pegawai->riwayatOrganisasi;
+
+        return view('backend.pegawai.riwayat_organisasi', compact('pegawai', 'riwayat_organisasi'));
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Models\Pegawai;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Instansi;
@@ -12,6 +13,17 @@ use App\Models\SatuanKerja;
 
 class PegawaiController extends Controller
 {
+    public function getUnitKerja($instansi_id)
+    {
+        $unitKerja = UnitKerja::where('instansi_id', $instansi_id)->get(['id', 'nm_unit_kerja']);
+        return response()->json($unitKerja);
+    }
+
+    public function getSatuanKerja($unit_kerja_id)
+    {
+        $satuanKerja = SatuanKerja::where('unit_kerja_id', $unit_kerja_id)->get(['id', 'nm_satuan_kerja']);
+        return response()->json($satuanKerja);
+    }
     /**
      * Display a listing of the resource.
      */
@@ -58,7 +70,7 @@ class PegawaiController extends Controller
         $unitKerjas = UnitKerja::all();
         $satuanKerjas = SatuanKerja::all();
 
-        return view('backend.pegawai.show', compact('pegawai', 'instansis', 'unitKerjas', 'satuanKerjas'));
+        return view('backend.pegawai.profil', compact('pegawai', 'instansis', 'unitKerjas', 'satuanKerjas'));
 
     }
 
@@ -76,6 +88,31 @@ class PegawaiController extends Controller
     public function update(Request $request, $id)
     {
         $pegawai = Pegawai::findOrFail($id);
+
+        logger()->info('Validasi edit pegawai', [
+            'id' => $pegawai->id,
+            'nip' => $request->nip,
+            'karpeg' => $request->no_karpeg,
+            'karsu' => $request->no_karis_karsu,
+        ]);
+        $request->validate([
+            'nip' => [
+                'required',
+                Rule::unique('pegawai', 'nip')->ignore($pegawai->id),
+            ],
+            'no_karpeg' => [
+                'required',
+                Rule::unique('pegawai', 'no_karpeg')->ignore($pegawai->id),
+            ],
+            'no_karis_karsu' => [
+                'required',
+                Rule::unique('pegawai', 'no_karis_karsu')->ignore($pegawai->id),
+            ],
+        ], [
+            'nip.unique' => 'NIP sudah digunakan oleh pegawai lain.',
+            'no_karpeg.unique' => 'Nomor Karpeg sudah digunakan oleh pegawai lain.',
+            'no_karis_karsu.unique' => 'Nomor Karis/Karsu sudah digunakan oleh pegawai lain.',
+        ]);
 
         $pegawai->nama = $request->nama;
         $pegawai->nip = $request->nip;

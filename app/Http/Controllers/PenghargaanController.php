@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\RiwayatPenghargaan;
+use App\Models\Pegawai;
 
 class PenghargaanController extends Controller
 {
@@ -38,7 +39,12 @@ class PenghargaanController extends Controller
      */
     public function show(string $id)
     {
-        //
+        session(['pegawai_id' => $id]);
+
+        $pegawai = Pegawai::with('riwayatPenghargaan')->findOrFail($id);
+        $riwayat_penghargaan = $pegawai->riwayatPenghargaan;
+
+        return view('backend.pegawai.riwayat_penghargaan', compact('pegawai', 'riwayat_penghargaan'));
     }
 
     /**

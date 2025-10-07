@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\RiwayatGolongan;
+use App\Models\Pegawai;
 
 class GolonganController extends Controller
 {
@@ -38,7 +39,8 @@ class GolonganController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $pegawai = Pegawai::with('riwayatGolongan')->findOrFail($id);
+        return view('backend.pegawai.riwayat_golongan', compact('pegawai'));
     }
 
     /**

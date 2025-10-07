@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use App\Models\Pegawai;
 use App\Models\Instansi;
 use App\Models\UnitKerja;
 use App\Models\SatuanKerja;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -51,6 +55,18 @@ class DaftarPegawaiController extends Controller
     {
         // === VALIDASI DATA ===
     $validated = $request->validate([
+
+        // VALIDASI UNTUK AKUN USER
+        'username' => 'required|unique:users,username',
+        'email' => 'required|email|unique:users,email',
+        'password' => [
+            'required',
+            'min:8',
+            'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/',
+        ],
+        'password_confirmation' => 'required|same:password',
+        
+        // VALIDASI UNTUK DATA PEGAWAI
         'nama' => 'required|string|max:255',
         'nip' => 'required|string|max:50|unique:pegawai,nip',
         'no_kk' => 'required|string|max:50',
@@ -68,6 +84,12 @@ class DaftarPegawaiController extends Controller
         'unit_kerja_id' => 'required|exists:unit_kerja,id',
         'satuan_kerja_id' => 'required|exists:satuan_kerja,id',
         'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+    ],[
+        'username.unique' => 'Username sudah digunakan oleh pengguna lain.',
+        'email.unique' => 'Email sudah terdaftar.',
+        'password.min' => 'Password minimal 6 karakter.',
+        'password.regex' => 'Password harus mengandung huruf besar, huruf kecil, angka, dan simbol.',
+        'password_confirmation.same' => 'Konfirmasi password tidak cocok.',
     ]);
 
     // === SIMPAN FOTO JIKA ADA ===
@@ -80,17 +102,45 @@ class DaftarPegawaiController extends Controller
         $validated['golongan_darah'] = null;
     }
 
+    // === MULAI TRANSACTION ===
+    DB::transaction(function () use ($validated) {
+        // Simpan data pegawai
+        $pegawai = Pegawai::create([
+            'nama' => $validated['nama'],
+            'nip' => $validated['nip'],
+            'no_kk' => $validated['no_kk'],
+            'tpt_lahir' => $validated['tpt_lahir'],
+            'tgl_lahir' => $validated['tgl_lahir'],
+            'no_karpeg' => $validated['no_karpeg'],
+            'agama' => $validated['agama'],
+            'golongan_darah' => $validated['golongan_darah'],
+            'status_kawin' => $validated['status_kawin'],
+            'tgl_kawin' => $validated['tgl_kawin'] ?? null,
+            'no_karis_karsu' => $validated['no_karis_karsu'],
+            'almt_rumah' => $validated['almt_rumah'],
+            'tmt_pensiun' => $validated['tmt_pensiun'],
+            'instansi_id' => $validated['instansi_id'],
+            'unit_kerja_id' => $validated['unit_kerja_id'],
+            'satuan_kerja_id' => $validated['satuan_kerja_id'],
+            'foto' => $validated['foto'] ?? null,
+        ]);
+
+        // Simpan akun user
+        User::create([
+            'username' => $validated['username'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role' => 6, // default pegawai
+            'pegawai_id' => $pegawai->id,
+        ]);
+    });
+
     // 🔍 Audit isi data sebelum simpan
     logger('📦 Data yang akan disimpan:', $validated);
 
-    // === SIMPAN DATA PEGAWAI ===
-    Pegawai::create($validated);
-
     // === REDIRECT DENGAN NOTIFIKASI ===
     return redirect()->route('backend.daftar_pegawai')
-        ->with('success', '✅ Data pegawai berhasil ditambahkan.');
-
-
+        ->with('success', '✅ Data pegawai berhasil ditambahkan dan akun user berhasil dibuat.');
     }
 
     /**
