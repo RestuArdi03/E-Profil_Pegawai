@@ -86,6 +86,9 @@ Route::prefix('/admin')->name('backend.')->middleware(['auth', 'is_admin'])->gro
 
     // ROUTE PENDIDIKAN
     Route::get('/riwayat_pendidikan/{pegawai}', [PendidikanController::class, 'show'])->name('pendidikan.show');
+    Route::post('/riwayat_pendidikan/store', [PendidikanController::class, 'store'])->name('backend.pendidikan.store');
+    Route::put('/admin/pendidikan/{id}', [PendidikanController::class, 'update'])->name('backend.pendidikan.update');
+    Route::delete('/riwayat_pendidikan/{id}', [PendidikanController::class, 'destroy'])->name('pendidikan.destroy');
 
     // ROUTE JABATAN
     Route::get('/riwayat_jabatan/{pegawai}', [JabatanController::class, 'show'])->name('jabatan.show');

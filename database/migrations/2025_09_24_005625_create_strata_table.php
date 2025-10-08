@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('strata', function (Blueprint $table) {
             $table->id();
 
-            $table->string('strata');
+            $table->string('nama_strata');
             $table->string('jurusan');
 
             $table->timestamps();

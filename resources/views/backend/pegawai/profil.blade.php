@@ -1,6 +1,6 @@
 @extends('main.layout2')
 @section('content')
-    <h1 class="text-xl font-semibold mb-4">Profil Pegawai
+    <h1 class="text-xl">Profil Pegawai
         <button type="button"
             onclick="openEditModalPegawai(
                 {{ $pegawai->id }},
@@ -22,6 +22,7 @@
                 '{{ $pegawai->satuan_kerja_id }}'
             )"
             class="inline-block px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-medium rounded-md shadow-sm">
+            <span class="material-icons" style="margin-right: 5px; margin-left: -5px; font-size: 16px;">edit</span>
         Edit
         </button>
     </h1>

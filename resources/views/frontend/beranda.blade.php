@@ -1,8 +1,8 @@
 @extends('main.layout')
 
 @section('content')
-<div class="px-6 py-4">
-    <h1 class="text-2xl font-bold text-gray-800 mb-6">Selamat Datang di E-Profile Pegawai</h1>
+<div class="py-4">
+    <h1 class="text-2xl font-bold text-gray-800">Selamat Datang di E-Profile Pegawai</h1>
 
     <!-- Profil Pegawai yang login -->
     <div class="bg-white shadow rounded-xl p-6 mb-6">
