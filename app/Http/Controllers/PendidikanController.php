@@ -32,35 +32,23 @@ class PendidikanController extends Controller
      */
     public function store(Request $request)
     {
+        // 🔍 Validasi field wajib diisi
         $request->validate([
             'pegawai_id' => 'required|exists:pegawai,id',
+            'strata_id' => 'required|exists:strata,id',
             'nm_sekolah_pt' => 'required|string|max:255',
-            'no_ijazah' => 'required|string|max:100',
-            'thn_lulus' => 'required|digits:4|integer|min:1901|max:' . date('Y'),
-            'pimpinan' => 'nullable|string|max:100',
-            'kode_pendidikan' => 'nullable|string|max:50',
+            'no_ijazah' => 'required|string|max:100|unique:riwayat_pendidikan,no_ijazah',
+            'thn_lulus' => 'required|digits:4|integer|min:1950|max:' . date('Y'),
+            'pimpinan' => 'required|string|max:100',
+            'kode_pendidikan' => 'required|string|max:50',
+        ],[
+            'no_ijazah.unique' => 'Nomor ijazah sudah digunakan / Nomor ijazah harus berbeda dengan yang lain.',
         ]);
-
-        // Validasi strata: minimal pilih atau isi baru
-        if (!$request->strata_id && (!$request->nama_strata || !$request->jurusan)) {
-            return back()->withErrors(['strata_id' => 'Pilih strata lama atau isi strata baru.'])->withInput();
-        }
-
-        // ✅ Simpan strata jika baru dibuat
-        if ($request->strata_id) {
-            $strata_id = $request->strata_id;
-        } else {
-            $strata = Strata::create([
-                'nama_strata' => $request->nama_strata,
-                'jurusan' => $request->jurusan,
-            ]);
-            $strata_id = $strata->id;
-        }
 
         // ✅ Simpan riwayat pendidikan
         RiwayatPendidikan::create([
             'pegawai_id' => $request->pegawai_id,
-            'strata_id' => $strata_id,
+            'strata_id' => $request->strata_id,
             'nm_sekolah_pt' => $request->nm_sekolah_pt,
             'no_ijazah' => $request->no_ijazah,
             'thn_lulus' => $request->thn_lulus,
@@ -104,6 +92,19 @@ class PendidikanController extends Controller
     public function update(Request $request, string $id)
     {
         $rp = RiwayatPendidikan::findOrFail($id);
+        // 🔍 Validasi data edit
+        $request->validate([
+            'strata_id' => 'required',
+            'nm_sekolah_pt' => 'required|string|max:255',
+            'no_ijazah' => 'required|string|max:100|unique:riwayat_pendidikan,no_ijazah,' . $id,
+            'thn_lulus' => 'required|digits:4|integer|min:1950|max:' . date('Y'),
+            'pimpinan' => 'required|string|max:100',
+            'kode_pendidikan' => 'required|string|max:50',
+        ], [
+            'no_ijazah.unique' => 'Nomor ijazah sudah digunakan / Nomor ijazah harus berbeda dengan yang lain.',
+        ]);
+
+        // ✅ Update data
         $rp->update([
             'strata_id' => $request->strata_id,
             'nm_sekolah_pt' => $request->nm_sekolah_pt,
@@ -113,8 +114,7 @@ class PendidikanController extends Controller
             'kode_pendidikan' => $request->kode_pendidikan,
         ]);
 
-        return redirect()->back()->with('success', '✅ Data riwayat pendidikan dan strata berhasil diperbarui.');
-
+        return redirect()->route('backend.pendidikan.show', $request->pegawai_id) ->with('success', '✅ Data riwayat pendidikan berhasil diperbarui.');
     }
 
     /**

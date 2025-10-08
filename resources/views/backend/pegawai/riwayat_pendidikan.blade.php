@@ -80,7 +80,7 @@
                             " style="width: 250px;">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="bg-white divide-y divide-gray-200">
                         @forelse ($riwayat_pendidikan as $rp)
                             <tr class="odd:bg-white">
                                 <td class="border border-gray px-6 py-3 text-sm text-default-800">{{ $loop->iteration }}</td>
@@ -105,34 +105,36 @@
                                 <td class="border border-gray px-6 py-3 text-sm text-default-800">
                                     {{ $rp->kode_pendidikan ?? '-' }}
                                 </td>
-                                <td class="border px-6 py-3 text-sm text-gray-800 space-x-2">
-                                    {{-- Tombol Edit --}}
-                                    <button type="button"
-                                        onclick="openEditModalPendidikan(
-                                            {{ $rp->id }},
-                                            '{{ addslashes(e($rp->strata->id)) }}',
-                                            '{{ addslashes(e($rp->nm_sekolah_pt)) }}',
-                                            '{{ addslashes(e($rp->no_ijazah)) }}',
-                                            '{{ addslashes(e($rp->thn_lulus)) }}',
-                                            '{{ addslashes(e($rp->pimpinan)) }}',
-                                            '{{ addslashes(e($rp->kode_pendidikan)) }}'
-                                        )"
-                                        class="inline-block px-3 py-1 text-sm text-white bg-yellow-500 rounded hover:bg-yellow-600">
-                                        <span class="material-icons" style="margin-right: 3px; margin-left: -3px; font-size: 12px;">edit</span>
-                                        Edit
-                                    </button>
-
-                                    {{-- Tombol Delete --}}
-                                    <form action="{{ route('backend.pendidikan.destroy', $rp->id) }}" method="POST" class="inline-block"
-                                        onsubmit="return confirm('Yakin ingin menghapus data ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            class="px-3 py-1 text-sm text-white bg-red-600 rounded hover:bg-red-700">
-                                            <span class="material-icons" style="margin-right: 3px; margin-left: -3px; font-size: 12px;">delete</span>
-                                            Delete
+                                <td class="border text-sm px-6 py-3 text-gray-800 text-center align-middle">
+                                    <div class="flex flex-nowrap items-center gap-2 overflow-auto justify-center">
+                                        {{-- Tombol Edit --}}
+                                        <button type="button"
+                                            onclick="openEditModalPendidikan(
+                                                {{ $rp->id }},
+                                                '{{ addslashes(e($rp->strata->id)) }}',
+                                                '{{ addslashes(e($rp->nm_sekolah_pt)) }}',
+                                                '{{ addslashes(e($rp->no_ijazah)) }}',
+                                                '{{ addslashes(e($rp->thn_lulus)) }}',
+                                                '{{ addslashes(e($rp->pimpinan)) }}',
+                                                '{{ addslashes(e($rp->kode_pendidikan)) }}'
+                                            )"
+                                            class="px-3 py-1 text-sm text-white bg-yellow-500 rounded hover:bg-yellow-600 flex flex-nowrap items-center gap-2 overflow-auto">
+                                            <span class="material-icons" style="margin-right: 3px; margin-left: -3px; font-size: 12px;">edit</span>
+                                            Edit
                                         </button>
-                                    </form>
+
+                                        {{-- Tombol Delete --}}
+                                        <form action="{{ route('backend.pendidikan.destroy', $rp->id) }}" method="POST" class="inline-block"
+                                            onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="flex flex-nowrap items-center gap-2 overflow-auto px-3 py-1 text-sm text-white bg-red-600 rounded hover:bg-red-700">
+                                                <span class="material-icons" style="margin-right: 3px; margin-left: -3px; font-size: 12px;">delete</span>
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @empty
@@ -158,46 +160,46 @@
 
                                 <input type="hidden" name="pegawai_id" value="{{ $pegawai->id }}">
                                 <input type="hidden" name="id" id="tambah_id_pendidikan">
+                                <input type="hidden" name="mode" value="tambah">
 
-                                <div class="mb-4">
+                                <div class="mb-3">
                                     <label class="block text-sm font-medium" style="margin-top: -25px;">Strata dan Jurusan</label>
-                                    <select name="strata_id" id="strata_id" class="w-full border rounded-md text-sm">
-                                        <option value="">-- Pilih strata dan jurusan yang tersedia (opsional) --</option>
+                                    <select name="strata_id" id="strata_id" class="w-full border rounded-md text-sm" required>
+                                        <option value="">-- Pilih strata dan jurusan --</option>
                                         @foreach ($strata as $s)
-                                            <option value="{{ $s->id }}">{{ $s->nama_strata }} - {{ $s->jurusan }}</option>
+                                            <option value="{{ $s->id }}">
+                                                {{ $s->nama_strata }} - {{ $s->jurusan }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
 
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium">Atau Tambah Strata dan Jurusn Baru</label>
-                                    <input type="text" name="nama_strata" placeholder="Kolom Strata" class="w-full border rounded-md text-sm">
-                                    <input type="text" name="jurusan" placeholder="Kolom Jurusan" class="w-full border rounded-md text-sm mt-2">
-                                </div>
-
                                 <div class="mb-3">
                                     <label for="tambah_nm_sekolah_pt" class="block text-sm font-medium text-gray-700">Nama Sekolah/PT</label>
-                                    <input type="text" name="nm_sekolah_pt" id="tambah_nm_sekolah_pt" class="w-full border rounded-md text-sm">
+                                    <input type="text" name="nm_sekolah_pt" id="tambah_nm_sekolah_pt" class="w-full border rounded-md text-sm" required value="{{ old('nm_sekolah_pt') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_no_ijazah" class="block text-sm font-medium text-gray-700">No Ijazah</label>
-                                    <input type="text" name="no_ijazah" id="tambah_no_ijazah" class="w-full border rounded-md text-sm">
+                                    <input type="text" name="no_ijazah" id="tambah_no_ijazah" class="w-full border rounded-md text-sm" required value="{{ old('no_ijazah') }}">
+                                    @error('no_ijazah')
+                                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_thn_lulus" class="block text-sm font-medium text-gray-700">Tahun Lulus</label>
-                                    <input type="number" name="thn_lulus" id="tambah_thn_lulus" class="w-full border rounded-md text-sm" min="1900" max="{{ date('Y') }}">
+                                    <input type="number" name="thn_lulus" id="tambah_thn_lulus" class="w-full border rounded-md text-sm" min="1950" max="{{ date('Y') }}" required value="{{ old('thn_lulus') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_pimpinan" class="block text-sm font-medium text-gray-700">Pimpinan</label>
-                                    <input type="text" name="pimpinan" id="tambah_pimpinan" class="w-full border rounded-md text-sm">
+                                    <input type="text" name="pimpinan" id="tambah_pimpinan" class="w-full border rounded-md text-sm" required value="{{ old('pimpinan') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_kode_pendidikan" class="block text-sm font-medium text-gray-700">Kode Pendidikan</label>
-                                    <input type="text" name="kode_pendidikan" id="tambah_kode_pendidikan" class="w-full border rounded-md text-sm">
+                                    <input type="text" name="kode_pendidikan" id="tambah_kode_pendidikan" class="w-full border rounded-md text-sm" required value="{{ old('kode_pendidikan') }}">
                                 </div>
                             </form>
                         </div>
@@ -207,6 +209,14 @@
                         </div>
                     </div>
                 </div>
+                {{-- MEMUNCULKAN KEMBALI MODAL TAMBAH DATA RIWAYAT PENDIDIKAN JIKA ADA ERROR--}}
+                @if ($errors->any() && old('mode') === 'tambah')
+                    <script>
+                        window.addEventListener('DOMContentLoaded', () => {
+                            document.getElementById('tambahModalPendidikan').classList.remove('hidden');
+                        });
+                    </script>
+                @endif
 
                 {{-- MODUL EDIT DATA RIWAYAT PENDIDIKAN --}}
                 <div id="editModalPendidikan" class="fixed inset-0 z-50 hidden flex justify-center items-center bg-black/50">
@@ -217,45 +227,54 @@
                         </div>
 
                         <div class="p-6 overflow-y-auto" style="max-height: 600px;">
-                            <form id="editFormPendidikan" method="POST">
+                            <form id="editFormPendidikan" method="POST" action="{{ route('backend.riwayat_pendidikan.update', $rp) }}">
+
                                 @csrf
                                 @method('PUT')
 
+                                <input type="hidden" name="pegawai_id" value="{{ $pegawai->id }}">
                                 <input type="hidden" name="id" id="edit_id_pendidikan">
+                                <input type="hidden" name="mode" value="edit">
 
-                                <div class="mb-4">
+                                <div class="mb-3">
                                     <label class="block text-sm font-medium" style="margin-top: -25px;">Strata dan Jurusan</label>
-                                    <select name="strata_id" id="edit_strata_id" class="w-full border rounded-md text-sm">
+                                    <select name="strata_id" id="edit_strata_id" class="w-full border rounded-md text-sm" required>
                                         <option value="">-- Pilih strata dan jurusan --</option>
                                         @foreach ($strata as $s)
-                                            <option value="{{ $s->id }}">{{ $s->nama_strata }} - {{ $s->jurusan }}</option>
+                                            <option value="{{ $s->id }}"
+                                                {{ old('strata_id', $rp->strata_id) == $s->id ? 'selected' : '' }}>
+                                                {{ $s->nama_strata }} - {{ $s->jurusan }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="edit_nm_sekolah_pt" class="block text-sm font-medium text-gray-700">Nama Sekolah/PT</label>
-                                    <input type="text" name="nm_sekolah_pt" id="edit_nm_sekolah_pt" class="w-full border rounded-md text-sm">
+                                    <input type="text" name="nm_sekolah_pt" id="edit_nm_sekolah_pt" class="w-full border rounded-md text-sm" required value="{{ old('nm_sekolah_pt', $rp->nm_sekolah_pt) }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="edit_no_ijazah" class="block text-sm font-medium text-gray-700">No Ijazah</label>
-                                    <input type="text" name="no_ijazah" id="edit_no_ijazah" class="w-full border rounded-md text-sm">
+                                    <input type="text" name="no_ijazah" id="edit_no_ijazah" class="w-full border rounded-md text-sm" required value="{{ old('no_ijazah', $rp->no_ijazah) }}">
+                                    @error('no_ijazah')
+                                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="edit_thn_lulus" class="block text-sm font-medium text-gray-700">Tahun Lulus</label>
-                                    <input type="number" name="thn_lulus" id="edit_thn_lulus" class="w-full border rounded-md text-sm">
+                                    <input type="number" name="thn_lulus" id="edit_thn_lulus" class="w-full border rounded-md text-sm" required value="{{ old('thn_lulus', $rp->thn_lulus) }}" min="1950" max="{{ date('Y') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="edit_pimpinan" class="block text-sm font-medium text-gray-700">Pimpinan</label>
-                                    <input type="text" name="pimpinan" id="edit_pimpinan" class="w-full border rounded-md text-sm">
+                                    <input type="text" name="pimpinan" id="edit_pimpinan" class="w-full border rounded-md text-sm" required value="{{ old('pimpinan', $rp->pimpinan) }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="edit_kode_pendidikan" class="block text-sm font-medium text-gray-700">Kode Pendidikan</label>
-                                    <input type="text" name="kode_pendidikan" id="edit_kode_pendidikan" class="w-full border rounded-md text-sm">
+                                    <input type="text" name="kode_pendidikan" id="edit_kode_pendidikan" class="w-full border rounded-md text-sm" required value="{{ old('kode_pendidikan', $rp->kode_pendidikan) }}">
                                 </div>
                                 <div class="flex justify-end gap-2" style="margin-top: 40px;">
                                     <button type="button" onclick="closeEditModalPendidikan()" class="px-3 py-1.5 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">Batal</button>
@@ -265,6 +284,14 @@
                         </div>
                     </div>
                 </div>
+                {{-- MEMUNCULKAN KEMBALI MODAL EDIT DATA RIWAYAT PENDIDIKAN JIKA ADA ERROR --}}
+                @if ($errors->any() && old('mode') === 'edit')
+                    <script>
+                        window.addEventListener('DOMContentLoaded', () => {
+                            document.getElementById('editModalPendidikan').classList.remove('hidden');
+                        });
+                    </script>
+                @endif
             </div>
         </div>
     </div>
@@ -280,6 +307,23 @@
             document.getElementById('tambahModalPendidikan').classList.add('hidden');
         }
     </script>
+    {{-- validasi strata --}}
+    <script>
+        document.getElementById('strata_id').addEventListener('change', function () {
+            const namaStrata = document.querySelector('input[name="nama_strata"]');
+            const jurusan = document.querySelector('input[name="jurusan"]');
+
+            if (this.value) {
+                namaStrata.value = '';
+                jurusan.value = '';
+                namaStrata.setAttribute('disabled', 'disabled');
+                jurusan.setAttribute('disabled', 'disabled');
+            } else {
+                namaStrata.removeAttribute('disabled');
+                jurusan.removeAttribute('disabled');
+            }
+        });
+    </script>
 
     {{-- JAVASCRIPT UNTUK MODAL EDIT DATA RIWAYAT PENDIDIKAN--}}
     <script>
@@ -292,7 +336,7 @@
             document.getElementById('edit_pimpinan').value = pimpinan;
             document.getElementById('edit_kode_pendidikan').value = kode_pendidikan;
 
-            document.getElementById('editFormPendidikan').action = `/admin/admin/pendidikan/${id}`;
+            document.getElementById('editFormPendidikan').action = `/admin/riwayat_pendidikan/${id}`;
             document.getElementById('editModalPendidikan').classList.remove('hidden');
         }
 

@@ -81,20 +81,23 @@ Route::prefix('/admin')->name('backend.')->middleware(['auth', 'is_admin'])->gro
     Route::get('/admin/get-satuan-kerja/{unit_kerja_id}', [PegawaiController::class, 'getSatuanKerja']);
     Route::resource('pegawai', PegawaiController::class);
 
-    // ROUTE GOLONGAN
-    Route::get('/golongan/{pegawai}', [GolonganController::class, 'show'])->name('golongan.show');
-
     // ROUTE PENDIDIKAN
-    Route::get('/riwayat_pendidikan/{pegawai}', [PendidikanController::class, 'show'])->name('pendidikan.show');
-    Route::post('/riwayat_pendidikan/store', [PendidikanController::class, 'store'])->name('backend.pendidikan.store');
-    Route::put('/admin/pendidikan/{id}', [PendidikanController::class, 'update'])->name('backend.pendidikan.update');
+    Route::resource('riwayat_pendidikan', PendidikanController::class);
+    Route::get('/riwayat_pendidikan/daftar/{pegawai}', [PendidikanController::class, 'show'])->name('pendidikan.show');
+    Route::post('/riwayat_pendidikan/store', [PendidikanController::class, 'store'])->name('pendidikan.store');
     Route::delete('/riwayat_pendidikan/{id}', [PendidikanController::class, 'destroy'])->name('pendidikan.destroy');
-
+    
     // ROUTE JABATAN
     Route::get('/riwayat_jabatan/{pegawai}', [JabatanController::class, 'show'])->name('jabatan.show');
-
+    Route::delete('/riwayat_jabatan/{id}', [JabatanController::class, 'destroy'])->name('jabatan.destroy');
+    Route::resource('riwayat_jabatan', JabatanController::class);
+    Route::post('/riwayat_jabatan/store', [JabatanController::class, 'store'])->name('jabatan.store');
+    
     // ROUTE PLH/PLT
     Route::get('/riwayat_plh_plt/{pegawai}', [PlhPltController::class, 'show'])->name('plh_plt.show');
+
+    // ROUTE GOLONGAN
+    Route::get('/golongan/{pegawai}', [GolonganController::class, 'show'])->name('golongan.show');
 
     // ROUTE DIKLAT
     Route::get('/riwayat_diklat/{pegawai}', [DiklatController::class, 'show'])->name('diklat.show');

@@ -10,6 +10,19 @@ class RiwayatJabatan extends Model
     use HasFactory;
     protected $table = 'riwayat_jabatan';
 
+    protected $fillable = [
+        'pegawai_id',
+        'jabatan',
+        'eselon_id',
+        'jenis_jabatan_id',
+        'tmt',
+        'no_sk',
+        'tgl_sk',
+        'pejabat_penetap',
+        'jenis_mutasi',
+    ];
+
+
     public function pegawai()
     {
         return $this->belongsTo(Pegawai::class);

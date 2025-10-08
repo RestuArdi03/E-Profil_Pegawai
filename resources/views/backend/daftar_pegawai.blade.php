@@ -37,25 +37,27 @@
                                 <td class="border px-6 py-3 text-sm text-gray-800">{{ $loop->iteration }}</td>
                                 <td class="border px-6 py-3 text-sm text-gray-800">{{ $item->nama }}</td>
                                 <td class="border px-6 py-3 text-sm text-gray-800">{{ $item->nip }}</td>
-                                <td class="border px-6 py-3 text-sm text-gray-800 space-x-2">
-                                    {{-- Tombol Detail --}}
-                                    <a href="{{ route('backend.pegawai.show', $item->id) }}"
-                                    class="inline-block px-3 py-1 text-sm text-white bg-blue-600 rounded hover:bg-blue-700">
-                                     <span class="material-icons" style="margin-right: 3px; margin-left: -3px; font-size: 12px;">zoom_in</span>
-                                        Detail
-                                    </a>
+                                <td class="border px-6 py-3 text-sm text-gray-800 space-x-2 text-center align-middle">
+                                    <div class="flex flex-nowrap items-center gap-2 overflow-auto justify-center">
+                                        {{-- Tombol Detail --}}
+                                        <a href="{{ route('backend.pegawai.show', $item->id) }}"
+                                        class="inline-block px-3 py-1 text-sm text-white bg-blue-600 rounded hover:bg-blue-700">
+                                        <span class="material-icons" style="margin-right: 3px; margin-left: -3px; font-size: 12px;">zoom_in</span>
+                                            Detail
+                                        </a>
 
-                                    {{-- Tombol Delete --}}
-                                    <form action="{{ route('backend.daftar_pegawai.destroy', $item->id) }}" method="POST" class="inline-block"
-                                        onsubmit="return confirm('Yakin ingin menghapus data ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            class="px-3 py-1 text-sm text-white bg-red-600 rounded hover:bg-red-700">
-                                            <span class="material-icons" style="margin-right: 3px; margin-left: -3px; font-size: 12px;">delete</span>
-                                            Delete
-                                        </button>
-                                    </form>
+                                        {{-- Tombol Delete --}}
+                                        <form action="{{ route('backend.daftar_pegawai.destroy', $item->id) }}" method="POST" class="inline-block"
+                                            onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="px-3 py-1 text-sm text-white bg-red-600 rounded hover:bg-red-700">
+                                                <span class="material-icons" style="margin-right: 3px; margin-left: -3px; font-size: 12px;">delete</span>
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
