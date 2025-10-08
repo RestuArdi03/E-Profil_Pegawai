@@ -28,7 +28,8 @@
             <form method="POST" action="{{ route('login') }}" class="space-y-4">
                 @csrf
                 <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
-               @error('username')
+                
+                @error('username')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
 
