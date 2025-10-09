@@ -154,7 +154,7 @@
                             <h2 class="text-base font-semibold">Tambah Riwayat Jabatan</h2>
                         </div>
 
-                        <div class="p-6 overflow-y-auto" style="max-height: 600px;">
+                        <div class="form_edit p-6 overflow-y-auto">
                             <form id="tambahFormJabatan" method="POST" action="/admin/riwayat_jabatan/store">
                                 @csrf
 
@@ -173,7 +173,7 @@
                                         <option value="">-- Pilih eselon --</option>
                                         @foreach ($eselon as $sln)
                                             <option value="{{ $sln->id }}"
-                                                {{ old('eselon_id', $sln->id) == $sln->id ? 'selected' : '' }}>
+                                                {{ old('eselon_id') == $sln->id ? 'selected' : '' }}>
                                                 {{ $sln->nm_eselon }}
                                             </option>
                                         @endforeach
@@ -186,7 +186,7 @@
                                         <option value="">-- Pilih jenis jabatan --</option>
                                         @foreach ($jenis_jabatan as $jbtn)
                                             <option value="{{ $jbtn->id }}"
-                                                {{ old('jenis_jabatan_id', $jbtn->id) == $jbtn->id ? 'selected' : '' }}>
+                                                {{ old('jenis_jabatan_id') == $jbtn->id ? 'selected' : '' }}>
                                                 {{ $jbtn->jenis_jabatan }}
                                             </option>
                                         @endforeach
@@ -238,13 +238,13 @@
                 @endif
 
                 {{-- MODAL EDIT DATA RIWAYAT JABATAN --}}
-                <div id="editModalJabatan" class="fixed inset-0 z-50 hidden flex justify-center items-center bg-black/50">
+                <div id="editModalJabatan" class="form_ edit fixed inset-0 z-50 hidden flex justify-center items-center bg-black/50">
                     <div class="bg-white rounded-lg shadow-lg w-full max-w-xl border border-green-300 outline outline-green-600 outline-offset-4" style="max-width: 800px; max-height: 800px;">
                         <div class="p-6">
                             <h2 class="text-base font-semibold">Edit Riwayat Jabatan</h2>
                         </div>
 
-                        <div class="p-6 overflow-y-auto" style="max-height: 600px;">
+                        <div class="form_edit p-6 overflow-y-auto">
                             <form id="editFormJabatan" method="POST" action="{{ route('backend.riwayat_jabatan.update', $rj) }}">
                                 @csrf
                                 @method('PUT')
@@ -264,7 +264,7 @@
                                         <option value="">-- Pilih eselon --</option>
                                         @foreach ($eselon as $sln)
                                             <option value="{{ $sln->id }}"
-                                                {{ old('eselon_id', $sln->id) == $sln->id ? 'selected' : '' }}>
+                                                {{ old('eselon_id') == $sln->id ? 'selected' : '' }}>
                                                 {{ $sln->nm_eselon }}
                                             </option>
                                         @endforeach
@@ -277,7 +277,7 @@
                                         <option value="">-- Pilih jenis jabatan --</option>
                                         @foreach ($jenis_jabatan as $jbtn)
                                             <option value="{{ $jbtn->id }}"
-                                                {{ old('jenis_jabatan_id', $jbtn->id) == $jbtn->id ? 'selected' : '' }}>
+                                                {{ old('jenis_jabatan_id') == $jbtn->id ? 'selected' : '' }}>
                                                 {{ $jbtn->jenis_jabatan }}
                                             </option>
                                         @endforeach
@@ -359,8 +359,8 @@
             document.getElementById('edit_id_jabatan').value = id;
             document.getElementById('edit_jabatan').value = jabatan;
             document.getElementById('edit_eselon_id').value = eselon_id;
-            document.getElementById('edit_jabatan_id').value = jenis_jabatan_id;
-            document.getElementById('edit_tmt'), value = tmt;
+            document.getElementById('edit_jenis_jabatan_id').value = jenis_jabatan_id;
+            document.getElementById('edit_tmt').value = tmt;
             document.getElementById('edit_no_sk').value = no_sk;
             document.getElementById('edit_tgl_sk').value = tgl_sk;
             document.getElementById('edit_pejabat_penetap').value = pejabat_penetap;

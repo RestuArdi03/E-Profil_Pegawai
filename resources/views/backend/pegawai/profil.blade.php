@@ -10,7 +10,7 @@
                 '{{ addslashes(e($pegawai->tpt_lahir)) }}',
                 '{{ addslashes(e($pegawai->tgl_lahir)) }}',
                 '{{ addslashes(e($pegawai->no_karpeg)) }}',
-                '{{ addslashes(e($pegawai->agama)) }}',
+                '{{ $pegawai->agama_id }}',
                 '{{ addslashes(e($pegawai->golongan_darah)) }}',
                 '{{ addslashes(e($pegawai->status_kawin)) }}',
                 '{{ addslashes(e($pegawai->tgl_kawin)) }}',
@@ -132,7 +132,7 @@
                                 Agama
                             </td>
                             <td class="border border-gray-200 px-6 py-3 whitespace-nowrap text-sm text-default-800">
-                                {{ $pegawai->agama }}
+                                {{ $pegawai->agama->nm_agama }}
                             </td>
                         </tr>
                         <tr>
@@ -219,10 +219,10 @@
     <div id="editModalPegawai" class="fixed inset-0 z-50 hidden flex justify-center items-center bg-black/50">
         <div class="bg-white rounded-lg shadow-lg w-full max-w-xl border border-blue-300 outline outline-blue-600 outline-offset-4" style="max-width: 800px; max-height: 1200px;">
             <div class="p-6">
-                <h2 class="text-base font-semibold">Edit Data ProfilPegawai</h2>
+                <h2 class="text-base font-semibold">Edit Data Profil Pegawai</h2>
             </div>
 
-            <div id="editScrollContainer" class="p-6 overflow-y-auto" style="max-height: 600px;">
+            <div id="editScrollContainer" class="form_edit p-6 overflow-y-auto">
                 <form id="editForm" method="POST" enctype="multipart/form-data" class="space-y-4">
                     @csrf
                     @method('PUT')
@@ -276,9 +276,16 @@
                     </div>
                     <div class="mb-3">
                         <label for="edit_agama" class="block text-sm font-medium text-gray-700">Agama</label>
-                        <input type="text" name="agama" id="edit_agama" value="{{ old('agama', $pegawai->agama) }}"
-                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:outline-none text-sm" required>
+                        <select name="agama_id" id="edit_agama" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:outline-none text-sm">
+                            <option value="">-- Pilih Agama --</option>
+                            @foreach ($agama as $a)
+                                <option value="{{ $a->id }}" {{ old('agama_id') == $a->id ? 'selected' : '' }}>
+                                    {{ $a->nm_agama }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
+
                     <div class="mb-3">
                         <label for="edit_golongan_darah" class="block text-sm font-medium text-gray-700">Golongan Darah</label>
                         <input type="text" name="golongan_darah" id="edit_golongan_darah" value="{{ old('golongan_darah', $pegawai->golongan_darah) }}"
@@ -407,7 +414,7 @@
     @endif
     
     <script>
-        function openEditModalPegawai(id , nama, nip, no_kk, tpt_lahir, tgl_lahir, no_karpeg, agama, golongan_darah, status_kawin, tgl_kawin, no_karis_karsu, almt_rumah, tmt_pensiun, instansi_id, unit_kerja_id, satuan_kerja_id) {
+        function openEditModalPegawai(id , nama, nip, no_kk, tpt_lahir, tgl_lahir, no_karpeg, agama_id, golongan_darah, status_kawin, tgl_kawin, no_karis_karsu, almt_rumah, tmt_pensiun, instansi_id, unit_kerja_id, satuan_kerja_id) {
             console.log('Edit modal triggered');
             console.log("Instansi ID:", instansi_id);
             console.log("Unit Kerja ID:", unit_kerja_id);
@@ -420,7 +427,7 @@
             document.getElementById('edit_tpt_lahir').value = tpt_lahir;
             document.getElementById('edit_tgl_lahir').value = tgl_lahir;
             document.getElementById('edit_no_karpeg').value = no_karpeg;
-            document.getElementById('edit_agama').value = agama;
+            document.getElementById('edit_agama').value = agama_id;
             document.getElementById('edit_golongan_darah').value = golongan_darah;
             document.getElementById('edit_status_kawin').value = status_kawin;
             document.getElementById('edit_tgl_kawin').value = tgl_kawin;

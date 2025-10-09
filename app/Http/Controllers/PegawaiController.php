@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Instansi;
 use App\Models\UnitKerja;
 use App\Models\SatuanKerja;
+use App\Models\Agama;
 
 
 class PegawaiController extends Controller
@@ -33,10 +34,11 @@ class PegawaiController extends Controller
         return view('frontend.pegawai', compact('pegawai'));
 
         $pegawais = Pegawai::all(); // untuk daftar semua pegawai
+        $agamas = Agama::all();
         $instansis = Instansi::all();
         $unitKerjas = UnitKerja::all();
         $satuanKerjas = SatuanKerja::all();
-        return view('backend.daftar_pegawai', compact('pegawais', 'instansis', 'unitKerjas', 'satuanKerjas'));
+        return view('backend.daftar_pegawai', compact('pegawais', 'agamas', 'instansis', 'unitKerjas', 'satuanKerjas'));
 
     }
 
@@ -66,12 +68,12 @@ class PegawaiController extends Controller
         session(['pegawai_id' => $id]);
 
         $pegawai = Pegawai::with(['instansi', 'unit_kerja', 'satuan_kerja'])->findOrFail($id);
+        $agama = Agama::all();
         $instansis = Instansi::all();
         $unitKerjas = UnitKerja::all();
         $satuanKerjas = SatuanKerja::all();
 
-        return view('backend.pegawai.profil', compact('pegawai', 'instansis', 'unitKerjas', 'satuanKerjas'));
-
+        return view('backend.pegawai.profil', compact('pegawai', 'agama', 'instansis', 'unitKerjas', 'satuanKerjas'));
     }
 
     /**
@@ -120,7 +122,7 @@ class PegawaiController extends Controller
         $pegawai->tpt_lahir = $request->tpt_lahir;
         $pegawai->tgl_lahir = $request->tgl_lahir;
         $pegawai->no_karpeg = $request->no_karpeg;
-        $pegawai->agama = $request->agama;
+        $pegawai->agama_id = $request->agama_id;
         $pegawai->golongan_darah = $request->golongan_darah;
         $pegawai->status_kawin = $request->status_kawin;
         $pegawai->tgl_kawin = $request->tgl_kawin;

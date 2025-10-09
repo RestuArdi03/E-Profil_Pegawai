@@ -17,7 +17,7 @@ class Pegawai extends Model
         'tpt_lahir',
         'tgl_lahir',
         'no_karpeg',
-        'agama',
+        'agama_id',
         'golongan_darah',
         'status_kawin',
         'tgl_kawin',
@@ -105,6 +105,10 @@ class Pegawai extends Model
         return $this->hasMany(Dokumen::class);
     }
 
+    public function agama()
+    {
+        return $this->belongsTo(Agama::class);
+    }
 
     // public function unit_kerja()
     // {

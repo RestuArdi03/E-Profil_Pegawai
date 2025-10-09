@@ -74,7 +74,7 @@
                 <h2 class="text-base font-semibold">Tambah Akun User dan Data Pegawai</h2>
             </div>
 
-            <div id="tambahScrollContainer" class="p-6 overflow-y-auto" style="max-height: 600px;">
+            <div id="tambahScrollContainer" class="form_edit p-6 overflow-y-auto">
                 <form id="tambahForm" method="POST" action="{{ route('backend.daftar_pegawai.store') }}" enctype="multipart/form-data" class="space-y-4">
                     @csrf
 
@@ -91,12 +91,16 @@
                     </div>
                     <div class="mb-3">
                         <label for="tambah_password" class="block text-sm font-medium text-gray-700">Password</label>
-                        <input type="password" name="password" id="tambah_password" value="{{ old('password') }}"
+                        <input type="password" name="password" id="tambah_password"
                             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-green-200 focus:outline-none text-sm" required>
+                        @error('password')
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+
                     </div>
                     <div class="mb-3">
                         <label for="tambah_password_confirmation" class="block text-sm font-medium text-gray-700">Konfirmasi Password</label>
-                        <input type="password" name="password_confirmation" id="tambah_password_confirmation" value="{{ old('password') }}"
+                        <input type="password" name="password_confirmation" id="tambah_password_confirmation"
                             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-green-200 focus:outline-none text-sm" required>
                     </div>
 
@@ -151,8 +155,14 @@
                     </div>
                     <div class="mb-3">
                         <label for="tambah_agama" class="block text-sm font-medium text-gray-700">Agama</label>
-                        <input type="text" name="agama" id="tambah_agama" value="{{ old('agama') }}"
-                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:outline-none text-sm" required>
+                        <select name="agama_id" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:outline-none text-sm">
+                            <option value="">-- Pilih Agama --</option>
+                            @foreach ($agama as $a)
+                                <option value="{{ $a->id }}" {{ old('agama_id') == $a->id ? 'selected' : '' }}>
+                                    {{ $a->nm_agama }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="tambah_golongan_darah" class="block text-sm font-medium text-gray-700">Golongan Darah</label>
@@ -165,16 +175,17 @@
                             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:outline-none text-sm">
                             <option value="">Pilih Status</option>
                             <option value="Belum Kawin" {{ old('status_kawin') == 'Belum Kawin' ? 'selected' : '' }}>Belum Kawin</option>
-                            <option value="Menikah" {{ old('status_kawin') == 'Menikah' ? 'selected' : '' }}>Kawin</option>
+                            <option value="Kawin" {{ old('status_kawin') == 'Kawin' ? 'selected' : '' }}>Kawin</option>
                             <option value="Cerai" {{ old('status_kawin') == 'Cerai' ? 'selected' : '' }}>Cerai</option>
                         </select>
                     </div>
 
-                        <div class="mb-3">
+                    <div class="mb-3">
                         <label for="tambah_tgl_kawin" class="block text-sm font-medium text-gray-700">Tanggal Kawin</label>
                         <input type="date" name="tgl_kawin" id="tambah_tgl_kawin"
-                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:outline-none text-sm">
+                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:outline-none text-sm" value="{{ old('tgl_kawin') }}">
                     </div>
+
                     <div class="form-group mb-3">
                         <label for="no_karis_karsu" class="block text-sm font-medium text-gray-700">No. Karis/Karsu</label>
                         <input type="text" required name="no_karis_karsu" id="no_karis_karsu" class="form-control mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:outline-none text-sm @error('no_karis_karsu') is-invalid @enderror" value="{{ old('no_karis_karsu') }}">
@@ -248,10 +259,8 @@
                 const modal = document.getElementById('tambahModal');
                 if (modal) {
                     modal.classList.remove('hidden'); // Tailwind-style
-                    modal.classList.add('flex');      // atau 'block' sesuai modal kamu
+                    modal.classList.add('flex');      // atau 'block' sesuai modal
                 }
-
-                // Jika pakai Alpine.js atau toggle JS lain, trigger sesuai framework
             });
         </script>
     @endif
@@ -330,11 +339,12 @@
                         unitKerjaSelect.value = oldUnitKerja;
                         unitKerjaSelect.dispatchEvent(new Event('change'));
                     }
-                }, 500); // delay kecil untuk pastikan unit kerja sudah terisi
+                }, 800); // delay kecil untuk pastikan unit kerja sudah terisi
             }
         });
     </script>
-
+    
+    {{-- JAVASCRIPT UNTUK STATUS PERKAWAINAN DAN TANGGAL KAWIN--}}
     <script>
         const statusKawin = document.getElementById('tambah_status_kawin');
         const tglKawin = document.getElementById('tambah_tgl_kawin');
@@ -354,4 +364,22 @@
         // Jalankan saat status kawin berubah
         statusKawin.addEventListener('change', toggleTanggalKawin);
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const statusKawin = document.getElementById('tambah_status_kawin');
+            const tglKawin = document.getElementById('tambah_tgl_kawin');
+
+            function toggleRequired() {
+                if (statusKawin.value === 'Kawin') {
+                    tglKawin.setAttribute('required', 'required');
+                } else {
+                    tglKawin.removeAttribute('required');
+                }
+            }
+
+            statusKawin.addEventListener('change', toggleRequired);
+            toggleRequired(); // inisialisasi saat halaman dimuat
+        });
+    </script>
+
 @endsection

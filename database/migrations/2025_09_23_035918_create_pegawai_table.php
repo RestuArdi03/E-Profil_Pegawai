@@ -21,7 +21,8 @@ return new class extends Migration
             $table->date('tgl_lahir');
             $table->string('no_karpeg')->unique();
             $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
-            $table->string('agama');
+            $table->unsignedBigInteger('agama_id');
+            $table->foreign('agama_id')->references('id')->on('agama')->onDelete('restrict');
             $table->string('golongan_darah')->nullable();
             $table->enum('status_kawin', ['Kawin', 'Belum Kawin', 'Cerai']);
             $table->date('tgl_kawin')->nullable();

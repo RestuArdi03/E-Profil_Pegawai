@@ -85,7 +85,7 @@
                             <tr class="odd:bg-white">
                                 <td class="border border-gray px-6 py-3 text-sm text-default-800">{{ $loop->iteration }}</td>
                                 <td class="border border-gray px-6 py-3 text-sm text-default-800">
-                                    {{ $rp->strata->nama_strata ?? '-' }}
+                                    {{ $rp->strata->nm_strata ?? '-' }}
                                 </td>
                                 <td class="border border-gray px-6 py-3 text-sm text-default-800">
                                     {{ $rp->strata->jurusan ?? '-' }}
@@ -154,7 +154,7 @@
                             <h2 class="text-base font-semibold">Tambah Riwayat Pendidikan</h2>
                         </div>
 
-                        <div class="p-6 overflow-y-auto" style="max-height: 600px;">
+                        <div class="form_edit p-6 overflow-y-auto">
                             <form id="tambahFormPendidikan" method="POST" action="/admin/riwayat_pendidikan/store">
                                 @csrf
 
@@ -164,12 +164,12 @@
 
                                 <div class="mb-3">
                                     <label class="block text-sm font-medium" style="margin-top: -25px;">Strata dan Jurusan</label>
-                                    <select name="strata_id" id="strata_id" class="w-full border rounded-md text-sm" required>
+                                    <select name="strata_id" id="strata_id" class="w-full border rounded-md text-sm" required value>
                                         <option value="">-- Pilih strata dan jurusan --</option>
                                         @foreach ($strata as $s)
-                                            <option value="{{ $s->id }}">
-                                                {{ $s->nama_strata }} - {{ $s->jurusan }}
-                                            </option>
+                                            <option value="{{ $s->id }}" {{ old('strata_id') == $s->id ? 'selected' : '' }}>
+                                            {{ $s->nm_strata }} - {{ $s->jurusan }}
+                                        </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -226,8 +226,12 @@
                             <h2 class="text-base font-semibold">Edit Riwayat Pendidikan</h2>
                         </div>
 
-                        <div class="p-6 overflow-y-auto" style="max-height: 600px;">
-                            <form id="editFormPendidikan" method="POST" action="{{ route('backend.riwayat_pendidikan.update', $rp) }}">
+                        <div class="form_edit p-6 overflow-y-auto">
+                            @if(isset($rp))
+                                <form id="editFormPendidikan" method="POST" action="{{ route('backend.riwayat_pendidikan.update', $rp) }}">
+                            @else
+                                <form id="editFormPendidikan" method="POST">
+                            @endif
 
                                 @csrf
                                 @method('PUT')
@@ -243,7 +247,7 @@
                                         @foreach ($strata as $s)
                                             <option value="{{ $s->id }}"
                                                 {{ old('strata_id', $rp->strata_id) == $s->id ? 'selected' : '' }}>
-                                                {{ $s->nama_strata }} - {{ $s->jurusan }}
+                                                {{ $s->nm_strata }} - {{ $s->jurusan }}
                                             </option>
                                         @endforeach
                                     </select>

@@ -59,7 +59,7 @@
                             <tr class="odd:bg-white">
                                 <td class="border border-gray px-6 py-3 text-sm text-default-800">{{ $loop->iteration }}</td>
                                 <td class="border border-gray px-6 py-3 text-sm text-default-800">
-                                    {{ $rp->strata->strata ?? '-' }}
+                                    {{ $rp->strata->nm_strata ?? '-' }}
                                 </td>
                                 <td class="border border-gray px-6 py-3 text-sm text-default-800">
                                     {{ $rp->strata->jurusan ?? '-' }}

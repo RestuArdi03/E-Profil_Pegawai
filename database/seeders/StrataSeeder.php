@@ -14,7 +14,7 @@ class StrataSeeder extends Seeder
     public function run(): void
     {
         DB::table('strata')->insert([
-            'strata' => 'abcd',
+            'nm_strata' => 'abcd',
             'jurusan' => 'efgh',
             'created_at' => now(),
             'updated_at' => now(),

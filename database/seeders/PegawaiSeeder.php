@@ -18,7 +18,7 @@ class PegawaiSeeder extends Seeder
             'tgl_lahir' => '1995-08-17',
             'no_karpeg' => 'KPG123456',
             'jenis_kelamin' => 'Laki-laki',
-            'agama' => 'Islam',
+            'agama_id' => 1,
             'golongan_darah' => 'O',
             'status_kawin' => 'Kawin',
             'tgl_kawin' => '2020-06-01',

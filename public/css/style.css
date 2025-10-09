@@ -13,5 +13,32 @@
     -webkit-font-feature-settings: 'liga';
     -webkit-font-smoothing: antialiased;
 }
+ 
 
-/* 
+.form_edit {
+  max-height: 600px;
+}
+
+@media (min-width: 640px) {
+  .form_edit {
+    max-height: 300px;
+  }
+}
+
+@media (min-width: 768px) {
+  .form_edit {
+    max-height: 400px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .form_edit {
+    max-height: 400px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .form_edit {
+    max-height: 500px;
+  }
+}

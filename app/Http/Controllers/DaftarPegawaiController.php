@@ -11,6 +11,7 @@ use App\Models\Instansi;
 use App\Models\UnitKerja;
 use App\Models\SatuanKerja;
 use App\Models\User;
+use App\Models\Agama;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -33,11 +34,12 @@ class DaftarPegawaiController extends Controller
     public function index()
     {
         $pegawai = Pegawai::all();
+        $agama = Agama::all();
         $instansis = Instansi::all();
         $unitKerjas = UnitKerja::all();
         $satuanKerjas = SatuanKerja::all();
 
-        return view('backend.daftar_pegawai', compact('pegawai', 'instansis', 'unitKerjas', 'satuanKerjas'));
+        return view('backend.daftar_pegawai', compact('pegawai', 'agama',  'instansis', 'unitKerjas', 'satuanKerjas'));
     }
 
     /**
@@ -63,8 +65,9 @@ class DaftarPegawaiController extends Controller
             'required',
             'min:8',
             'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/',
+            'confirmed'        
         ],
-        'password_confirmation' => 'required|same:password',
+        'password_confirmation' => 'required',
         
         // VALIDASI UNTUK DATA PEGAWAI
         'nama' => 'required|string|max:255',
@@ -73,10 +76,10 @@ class DaftarPegawaiController extends Controller
         'tpt_lahir' => 'required|string|max:100',
         'tgl_lahir' => 'required|date',
         'no_karpeg' => 'required|string|max:50|unique:pegawai,no_karpeg',
-        'agama' => 'required|string|max:50',
+        'agama_id' => 'required|exists:agama,id',
         'golongan_darah' => 'nullable|string|not_in:-,?,null|max:2',
-        'status_kawin' => 'required|string|max:50',
-        'tgl_kawin' => 'required_if:status_kawin,kawin|date',
+        'status_kawin' => 'required|in:Kawin,Belum Kawin,Cerai',
+        'tgl_kawin' => 'nullable|date|required_if:status_kawin,kawin|date',
         'no_karis_karsu' => 'required|string|max:50|unique:pegawai,no_karis_karsu',
         'almt_rumah' => 'required|string|max:255',
         'tmt_pensiun' => 'required|date',
@@ -87,9 +90,9 @@ class DaftarPegawaiController extends Controller
     ],[
         'username.unique' => 'Username sudah digunakan oleh pengguna lain.',
         'email.unique' => 'Email sudah terdaftar.',
-        'password.min' => 'Password minimal 6 karakter.',
+        'password.min' => 'Password minimal 8 karakter.',
         'password.regex' => 'Password harus mengandung huruf besar, huruf kecil, angka, dan simbol.',
-        'password_confirmation.same' => 'Konfirmasi password tidak cocok.',
+        'password.confirmed' => 'Konfirmasi password tidak cocok.',
     ]);
 
     // === SIMPAN FOTO JIKA ADA ===
@@ -112,7 +115,7 @@ class DaftarPegawaiController extends Controller
             'tpt_lahir' => $validated['tpt_lahir'],
             'tgl_lahir' => $validated['tgl_lahir'],
             'no_karpeg' => $validated['no_karpeg'],
-            'agama' => $validated['agama'],
+            'agama_id' => $validated['agama_id'],
             'golongan_darah' => $validated['golongan_darah'],
             'status_kawin' => $validated['status_kawin'],
             'tgl_kawin' => $validated['tgl_kawin'] ?? null,

@@ -90,7 +90,7 @@
                                 Agama
                             </td>
                             <td class="border border-gray-200 px-6 py-3 whitespace-nowrap text-sm text-default-800">
-                                {{ $pegawai->agama }}
+                                {{ $pegawai->agama->nm_agama }}
                             </td>
                         </tr>
                         <tr>
