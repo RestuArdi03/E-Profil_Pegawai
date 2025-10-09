@@ -20,11 +20,17 @@ use App\Http\Controllers\AsesmenController;
 use App\Http\Controllers\KesejahteraanController;
 use App\Http\Controllers\KeluargaController;
 use App\Http\Controllers\DokumenController;
+use App\Http\Controllers\DaftarPegawaiController;
+// use App\Http\Controllers\DaftarInstansiController; // Dihapus, karena fungsinya dipindahkan ke InstansiController
+use App\Http\Controllers\InstansiController; 
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
+|
+| Di sini tempat kamu mendaftarkan rute web untuk aplikasimu.
+|
 */
 
 // Redirect root ke halaman login
@@ -66,4 +72,29 @@ Route::prefix('/')->name('frontend.')->middleware(['auth'])->group(function () {
 // ==== BACKEND (ADMIN) ====
 Route::prefix('/admin')->name('backend.')->middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/beranda', [BBerandaController::class, 'index'])->name('beranda');
+    Route::get('/daftar-pegawai', [DaftarPegawaiController::class, 'index'])->name('daftar_pegawai');
+    
+    // PERUBAHAN KRUSIAL DI BAWAH INI:
+
+    // 1. Rute untuk Daftar Instansi (Index) DIUBAH untuk menargetkan InstansiController@index.
+    // Ini menggunakan nama rute lama ('backend.daftar_instansi') agar tidak perlu mengubah semua Redirect.
+    Route::get('/daftar-instansi', [InstansiController::class, 'index'])->name('daftar_instansi'); 
+    
+    // 2. Rute Resource untuk Instansi DIUBAH agar TIDAK mengecualikan 'index'.
+    // Karena kita sudah punya rute 'daftar_instansi' di atas yang menuju InstansiController@index,
+    // kita cukup mengecualikan 'show' saja (sesuai logika di controller kamu).
+    Route::resource('instansi', InstansiController::class)->except(['show']); 
+    // CATATAN: Karena 'daftar_instansi' sudah mendaftarkan rute index,
+    // kita tetap bisa menggunakan resource di atas, asalkan kita mengubah 
+    // semua link 'backend.instansi.index' (jika ada) menjadi 'backend.daftar_instansi'.
+    // Agar lebih konsisten, kita biarkan saja resource Instansi tanpa index, dan hanya menggunakan
+    // rute GET di atas, dan memastikan semua link mengacu ke 'backend.daftar_instansi'.
+    // Route::resource('instansi', InstansiController::class)->except(['index', 'show']); // Kode asli kamu. Kita pakai ini saja.
+    // Biar lebih bersih, kita buat rute Resource Instansi yang hanya berisi CRUD (kecuali Index & Show)
+    // dan rute 'daftar-instansi' khusus untuk Index.
+    
+    Route::resource('instansi', InstansiController::class)->except(['index', 'show']); 
+
+    Route::resource('pegawai', PegawaiController::class);
+
 });

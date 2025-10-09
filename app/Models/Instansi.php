@@ -4,18 +4,30 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/**
+ * Model Instansi.
+ * Digunakan untuk berinteraksi dengan tabel 'instansi' di database.
+ */
 class Instansi extends Model
 {
     use HasFactory;
-    protected $table = 'instansi';
 
-     // ambil 1 unit kerja paling baru (misal berdasarkan kolom 'created_at')
-    public function latestUnitKerja(): HasOne
-    {
-        return $this->hasOne(UnitKerja::class, 'instansi_id')
-                    ->latest('created_at'); // atau ganti dengan kolom tanggal yg tepat
-    }
+    // KUNCI PERBAIKAN: Secara eksplisit menentukan nama tabel.
+    // Jika tidak ada ini, Laravel akan mencari tabel 'instansis'.
+    protected $table = 'instansi'; 
     
+    // Default-nya Laravel menggunakan primary key 'id', tidak perlu dideklarasikan.
+    // protected $primaryKey = 'id'; 
+    
+    // Tentukan kolom mana yang boleh diisi (mass assignment)
+    protected $fillable = [
+    'nm_instansi',
+    'kd_instansi',
+    'alamat_instansi',
+    'telp_instansi',
+    'fax_instansi',
+    'urutan_instansi',
+    ];
+
 }
