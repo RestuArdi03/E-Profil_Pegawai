@@ -238,94 +238,96 @@
                 @endif
 
                 {{-- MODAL EDIT DATA RIWAYAT JABATAN --}}
-                <div id="editModalJabatan" class="form_ edit fixed inset-0 z-50 hidden flex justify-center items-center bg-black/50">
-                    <div class="bg-white rounded-lg shadow-lg w-full max-w-xl border border-green-300 outline outline-green-600 outline-offset-4" style="max-width: 800px; max-height: 800px;">
-                        <div class="p-6">
-                            <h2 class="text-base font-semibold">Edit Riwayat Jabatan</h2>
-                        </div>
+                @if(isset($rj))
+                    <div id="editModalJabatan" class="form_ edit fixed inset-0 z-50 hidden flex justify-center items-center bg-black/50">
+                        <div class="bg-white rounded-lg shadow-lg w-full max-w-xl border border-green-300 outline outline-green-600 outline-offset-4" style="max-width: 800px; max-height: 800px;">
+                            <div class="p-6">
+                                <h2 class="text-base font-semibold">Edit Riwayat Jabatan</h2>
+                            </div>
 
-                        <div class="form_edit p-6 overflow-y-auto">
-                            <form id="editFormJabatan" method="POST" action="{{ route('backend.riwayat_jabatan.update', $rj) }}">
-                                @csrf
-                                @method('PUT')
+                            <div class="form_edit p-6 overflow-y-auto">
+                                <form id="editFormJabatan" method="POST" action="{{ route('backend.riwayat_jabatan.update', $rj) }}">
+                                    @csrf
+                                    @method('PUT')
 
-                                <input type="hidden" name="pegawai_id" value="{{ $pegawai->id }}">
-                                <input type="hidden" name="id" id="edit_id_jabatan">
-                                <input type="hidden" name="mode" value="edit">
+                                    <input type="hidden" name="pegawai_id" value="{{ $pegawai->id }}">
+                                    <input type="hidden" name="id" id="edit_id_jabatan">
+                                    <input type="hidden" name="mode" value="edit">
 
-                                <div class="mb-3" style="margin-top: -25px;">
-                                    <label for="edit_jabatan" class="block text-sm font-medium text-gray-700">Jabatan</label>
-                                    <input type="text" name="jabatan" id="edit_jabatan" class="w-full border rounded-md text-sm" required value="{{ old('jabatan', $rj->jabatan) }}">
-                                </div>
+                                    <div class="mb-3" style="margin-top: -25px;">
+                                        <label for="edit_jabatan" class="block text-sm font-medium text-gray-700">Jabatan</label>
+                                        <input type="text" name="jabatan" id="edit_jabatan" class="w-full border rounded-md text-sm" required value="{{ old('jabatan', $rj->jabatan) }}">
+                                    </div>
 
-                                <div class="mb-3">
-                                    <label class="block text-sm font-medium">Eselon</label>
-                                    <select name="eselon_id" id="edit_eselon_id" class="w-full border rounded-md text-sm" required>
-                                        <option value="">-- Pilih eselon --</option>
-                                        @foreach ($eselon as $sln)
-                                            <option value="{{ $sln->id }}"
-                                                {{ old('eselon_id') == $sln->id ? 'selected' : '' }}>
-                                                {{ $sln->nm_eselon }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                    <div class="mb-3">
+                                        <label class="block text-sm font-medium">Eselon</label>
+                                        <select name="eselon_id" id="edit_eselon_id" class="w-full border rounded-md text-sm" required>
+                                            <option value="">-- Pilih eselon --</option>
+                                            @foreach ($eselon as $sln)
+                                                <option value="{{ $sln->id }}"
+                                                    {{ old('eselon_id') == $sln->id ? 'selected' : '' }}>
+                                                    {{ $sln->nm_eselon }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
 
-                                <div class="mb-3">
-                                    <label class="block text-sm font-medium">Jenis Jabatan</label>
-                                    <select name="jenis_jabatan_id" id="edit_jenis_jabatan_id" class="w-full border rounded-md text-sm" required>
-                                        <option value="">-- Pilih jenis jabatan --</option>
-                                        @foreach ($jenis_jabatan as $jbtn)
-                                            <option value="{{ $jbtn->id }}"
-                                                {{ old('jenis_jabatan_id') == $jbtn->id ? 'selected' : '' }}>
-                                                {{ $jbtn->jenis_jabatan }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                    <div class="mb-3">
+                                        <label class="block text-sm font-medium">Jenis Jabatan</label>
+                                        <select name="jenis_jabatan_id" id="edit_jenis_jabatan_id" class="w-full border rounded-md text-sm" required>
+                                            <option value="">-- Pilih jenis jabatan --</option>
+                                            @foreach ($jenis_jabatan as $jbtn)
+                                                <option value="{{ $jbtn->id }}"
+                                                    {{ old('jenis_jabatan_id') == $jbtn->id ? 'selected' : '' }}>
+                                                    {{ $jbtn->jenis_jabatan }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
 
-                                <div class="mb-3">
-                                    <label for="edit_tmt" class="block text-sm font-medium text-gray-700">TMT</label>
-                                    <input type="date" name="tmt" id="edit_tmt" class="w-full border rounded-md text-sm" required value="{{ old('tmt', $rj->tmt) }}">
-                                </div>
+                                    <div class="mb-3">
+                                        <label for="edit_tmt" class="block text-sm font-medium text-gray-700">TMT</label>
+                                        <input type="date" name="tmt" id="edit_tmt" class="w-full border rounded-md text-sm" required value="{{ old('tmt', $rj->tmt) }}">
+                                    </div>
 
-                                <div class="mb-3">
-                                    <label for="edit_no_sk" class="block text-sm font-medium text-gray-700">No SK</label>
-                                    <input type="text" name="no_sk" id="edit_no_sk" class="w-full border rounded-md text-sm" required value="{{ old('no_sk', $rj->no_sk) }}">
-                                    @error('no_sk')
-                                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                                    <div class="mb-3">
+                                        <label for="edit_no_sk" class="block text-sm font-medium text-gray-700">No SK</label>
+                                        <input type="text" name="no_sk" id="edit_no_sk" class="w-full border rounded-md text-sm" required value="{{ old('no_sk', $rj->no_sk) }}">
+                                        @error('no_sk')
+                                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                        @enderror
+                                    </div>
 
-                                <div class="mb-3">
-                                    <label for="edit_tgl_sk" class="block text-sm font-medium text-gray-700">Tanggal SK</label>
-                                    <input type="date" name="tgl_sk" id="edit_tgl_sk" class="w-full border rounded-md text-sm" required value="{{ old('tgl_sk', $rj->tgl_sk) }}">
-                                </div>
+                                    <div class="mb-3">
+                                        <label for="edit_tgl_sk" class="block text-sm font-medium text-gray-700">Tanggal SK</label>
+                                        <input type="date" name="tgl_sk" id="edit_tgl_sk" class="w-full border rounded-md text-sm" required value="{{ old('tgl_sk', $rj->tgl_sk) }}">
+                                    </div>
 
-                                <div class="mb-3">
-                                    <label for="edit_pejabat_penetap" class="block text-sm font-medium text-gray-700">Pejabat Penetap</label>
-                                    <input type="text" name="pejabat_penetap" id="edit_pejabat_penetap" class="w-full border rounded-md text-sm" required value="{{ old('pejabat_penetap', $rj->pejabat_penetap) }}">
-                                </div>
+                                    <div class="mb-3">
+                                        <label for="edit_pejabat_penetap" class="block text-sm font-medium text-gray-700">Pejabat Penetap</label>
+                                        <input type="text" name="pejabat_penetap" id="edit_pejabat_penetap" class="w-full border rounded-md text-sm" required value="{{ old('pejabat_penetap', $rj->pejabat_penetap) }}">
+                                    </div>
 
-                                <div class="mb-3">
-                                    <label for="edit_jenis_mutasi" class="block text-sm font-medium text-gray-700">Jenis Mutasi</label>
-                                    <input type="text" name="jenis_mutasi" id="edit_jenis_mutasi" class="w-full border rounded-md text-sm" required value="{{ old('jenis_mutasi', $rj->jenis_mutasi) }}">
-                                </div>
-                            </form>
-                        </div>
-                        <div class="flex justify-end gap-2 p-6">
-                            <button type="button" onclick="closeEditModalJabatan()" class="px-3 py-1.5 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">Batal</button>
-                            <button type="submit" form="editFormJabatan" class="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Simpan</button>
+                                    <div class="mb-3">
+                                        <label for="edit_jenis_mutasi" class="block text-sm font-medium text-gray-700">Jenis Mutasi</label>
+                                        <input type="text" name="jenis_mutasi" id="edit_jenis_mutasi" class="w-full border rounded-md text-sm" required value="{{ old('jenis_mutasi', $rj->jenis_mutasi) }}">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="flex justify-end gap-2 p-6">
+                                <button type="button" onclick="closeEditModalJabatan()" class="px-3 py-1.5 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">Batal</button>
+                                <button type="submit" form="editFormJabatan" class="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Simpan</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                {{-- MEMUNCULKAN KEMBALI MODAL EDIT DATA RIWAYAT JABATAN JIKA ADA ERROR--}}
-                @if ($errors->any() && old('mode') === 'edit')
-                    <script>
-                        window.addEventListener('DOMContentLoaded', () => {
-                            document.getElementById('editModalJabatan').classList.remove('hidden');
-                        });
-                    </script>
+                    {{-- MEMUNCULKAN KEMBALI MODAL EDIT DATA RIWAYAT JABATAN JIKA ADA ERROR--}}
+                    @if ($errors->any() && old('mode') === 'edit')
+                        <script>
+                            window.addEventListener('DOMContentLoaded', () => {
+                                document.getElementById('editModalJabatan').classList.remove('hidden');
+                            });
+                        </script>
+                    @endif
                 @endif
 
             </div>

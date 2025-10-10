@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('unit_kerja_id')->references('id')->on('unit_kerja')->onDelete('cascade');
             
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nm_instansi');
             
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

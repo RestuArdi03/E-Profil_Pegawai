@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('golru');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

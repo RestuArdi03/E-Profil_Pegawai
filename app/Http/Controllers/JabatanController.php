@@ -138,7 +138,7 @@ class JabatanController extends Controller
     public function destroy(string $id)
     {
         $riwayat_jabatan = RiwayatJabatan::findOrFail($id);
-        $riwayat_jabatan->delete();
+        $riwayat_jabatan->delete(); // ✅ Hapus data riwayat jabatan (soft delete)
 
         return redirect()->back()->with('success', '✅ Data riwayat jabatan berhasil dihapus.');
     }

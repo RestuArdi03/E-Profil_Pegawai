@@ -25,6 +25,7 @@ return new class extends Migration
             $table->foreign('strata_id')->references('id')->on('strata')->onDelete('cascade');
             
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

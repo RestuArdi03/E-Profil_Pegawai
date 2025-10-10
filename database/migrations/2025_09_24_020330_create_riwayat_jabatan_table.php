@@ -28,6 +28,7 @@ return new class extends Migration
             $table->foreign('eselon_id')->references('id')->on('eselon')->onDelete('cascade');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

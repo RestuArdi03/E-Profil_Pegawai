@@ -24,6 +24,7 @@ return new class extends Migration
             $table->foreign('pegawai_id')->references('id')->on('pegawai')->onDelete('cascade');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

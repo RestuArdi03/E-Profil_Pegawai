@@ -182,7 +182,7 @@ class DaftarPegawaiController extends Controller
             Storage::disk('public')->delete($pegawai->foto);
         }
 
-        $pegawai->delete();
+        $pegawai->delete(); // Hapus data pegawai (soft delete)
 
         return redirect()->back()->with('success', '✅ Data pegawai berhasil dihapus.');
 

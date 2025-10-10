@@ -219,83 +219,84 @@
                 @endif
 
                 {{-- MODUL EDIT DATA RIWAYAT PENDIDIKAN --}}
-                <div id="editModalPendidikan" class="fixed inset-0 z-50 hidden flex justify-center items-center bg-black/50">
-                    <div class="bg-white rounded-lg shadow-lg w-full max-w-xl border border-blue-300 outline outline-blue-600 outline-offset-4"
-                    style="max-width: 800px; max-height: 800px;">
-                        <div class="p-6">
-                            <h2 class="text-base font-semibold">Edit Riwayat Pendidikan</h2>
-                        </div>
+                {{-- MODUL EDIT DATA RIWAYAT PENDIDIKAN --}}
+                @if(isset($rp))
+                    <div id="editModalPendidikan" class="fixed inset-0 z-50 hidden flex justify-center items-center bg-black/50">
+                        <div class="bg-white rounded-lg shadow-lg w-full max-w-xl border border-blue-300 outline outline-blue-600 outline-offset-4"
+                        style="max-width: 800px; max-height: 800px;">
+                            <div class="p-6">
+                                <h2 class="text-base font-semibold">Edit Riwayat Pendidikan</h2>
+                            </div>
 
-                        <div class="form_edit p-6 overflow-y-auto">
-                            @if(isset($rp))
+                            <div class="form_edit p-6 overflow-y-auto">
                                 <form id="editFormPendidikan" method="POST" action="{{ route('backend.riwayat_pendidikan.update', $rp) }}">
-                            @else
-                                <form id="editFormPendidikan" method="POST">
-                            @endif
+                                    @csrf
+                                    @method('PUT')
 
-                                @csrf
-                                @method('PUT')
+                                    <input type="hidden" name="pegawai_id" value="{{ $pegawai->id }}">
+                                    <input type="hidden" name="id" id="edit_id_pendidikan">
+                                    <input type="hidden" name="mode" value="edit">
 
-                                <input type="hidden" name="pegawai_id" value="{{ $pegawai->id }}">
-                                <input type="hidden" name="id" id="edit_id_pendidikan">
-                                <input type="hidden" name="mode" value="edit">
+                                    <div class="mb-3">
+                                        <label class="block text-sm font-medium -mt-6">Strata dan Jurusan</label>
+                                        <select name="strata_id" id="edit_strata_id" class="w-full border rounded-md text-sm" required>
+                                            <option value="">-- Pilih strata dan jurusan --</option>
+                                            @foreach ($strata as $s)
+                                                <option value="{{ $s->id }}"
+                                                    {{ old('strata_id', $rp->strata_id) == $s->id ? 'selected' : '' }}>
+                                                    {{ $s->nm_strata }} - {{ $s->jurusan }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
 
-                                <div class="mb-3">
-                                    <label class="block text-sm font-medium" style="margin-top: -25px;">Strata dan Jurusan</label>
-                                    <select name="strata_id" id="edit_strata_id" class="w-full border rounded-md text-sm" required>
-                                        <option value="">-- Pilih strata dan jurusan --</option>
-                                        @foreach ($strata as $s)
-                                            <option value="{{ $s->id }}"
-                                                {{ old('strata_id', $rp->strata_id) == $s->id ? 'selected' : '' }}>
-                                                {{ $s->nm_strata }} - {{ $s->jurusan }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                    <div class="mb-3">
+                                        <label for="edit_nm_sekolah_pt" class="block text-sm font-medium text-gray-700">Nama Sekolah/PT</label>
+                                        <input type="text" name="nm_sekolah_pt" id="edit_nm_sekolah_pt" class="w-full border rounded-md text-sm" required value="{{ old('nm_sekolah_pt', $rp->nm_sekolah_pt) }}">
+                                    </div>
 
-                                <div class="mb-3">
-                                    <label for="edit_nm_sekolah_pt" class="block text-sm font-medium text-gray-700">Nama Sekolah/PT</label>
-                                    <input type="text" name="nm_sekolah_pt" id="edit_nm_sekolah_pt" class="w-full border rounded-md text-sm" required value="{{ old('nm_sekolah_pt', $rp->nm_sekolah_pt) }}">
-                                </div>
+                                    <div class="mb-3">
+                                        <label for="edit_no_ijazah" class="block text-sm font-medium text-gray-700">No Ijazah</label>
+                                        <input type="text" name="no_ijazah" id="edit_no_ijazah" class="w-full border rounded-md text-sm" required value="{{ old('no_ijazah', $rp->no_ijazah) }}">
+                                        @error('no_ijazah')
+                                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                        @enderror
+                                    </div>
 
-                                <div class="mb-3">
-                                    <label for="edit_no_ijazah" class="block text-sm font-medium text-gray-700">No Ijazah</label>
-                                    <input type="text" name="no_ijazah" id="edit_no_ijazah" class="w-full border rounded-md text-sm" required value="{{ old('no_ijazah', $rp->no_ijazah) }}">
-                                    @error('no_ijazah')
-                                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                                    <div class="mb-3">
+                                        <label for="edit_thn_lulus" class="block text-sm font-medium text-gray-700">Tahun Lulus</label>
+                                        <input type="number" name="thn_lulus" id="edit_thn_lulus" class="w-full border rounded-md text-sm" required value="{{ old('thn_lulus', $rp->thn_lulus) }}" min="1950" max="{{ date('Y') }}">
+                                    </div>
 
-                                <div class="mb-3">
-                                    <label for="edit_thn_lulus" class="block text-sm font-medium text-gray-700">Tahun Lulus</label>
-                                    <input type="number" name="thn_lulus" id="edit_thn_lulus" class="w-full border rounded-md text-sm" required value="{{ old('thn_lulus', $rp->thn_lulus) }}" min="1950" max="{{ date('Y') }}">
-                                </div>
+                                    <div class="mb-3">
+                                        <label for="edit_pimpinan" class="block text-sm font-medium text-gray-700">Pimpinan</label>
+                                        <input type="text" name="pimpinan" id="edit_pimpinan" class="w-full border rounded-md text-sm" required value="{{ old('pimpinan', $rp->pimpinan) }}">
+                                    </div>
 
-                                <div class="mb-3">
-                                    <label for="edit_pimpinan" class="block text-sm font-medium text-gray-700">Pimpinan</label>
-                                    <input type="text" name="pimpinan" id="edit_pimpinan" class="w-full border rounded-md text-sm" required value="{{ old('pimpinan', $rp->pimpinan) }}">
-                                </div>
+                                    <div class="mb-3">
+                                        <label for="edit_kode_pendidikan" class="block text-sm font-medium text-gray-700">Kode Pendidikan</label>
+                                        <input type="text" name="kode_pendidikan" id="edit_kode_pendidikan" class="w-full border rounded-md text-sm" required value="{{ old('kode_pendidikan', $rp->kode_pendidikan) }}">
+                                    </div>
 
-                                <div class="mb-3">
-                                    <label for="edit_kode_pendidikan" class="block text-sm font-medium text-gray-700">Kode Pendidikan</label>
-                                    <input type="text" name="kode_pendidikan" id="edit_kode_pendidikan" class="w-full border rounded-md text-sm" required value="{{ old('kode_pendidikan', $rp->kode_pendidikan) }}">
-                                </div>
-                                <div class="flex justify-end gap-2" style="margin-top: 40px;">
-                                    <button type="button" onclick="closeEditModalPendidikan()" class="px-3 py-1.5 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">Batal</button>
-                                    <button type="submit" form="editFormPendidikan" class="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Simpan</button>
-                                </div>
-                            </form>
+                                    <div class="flex justify-end gap-2 mt-10">
+                                        <button type="button" onclick="closeEditModalPendidikan()" class="px-3 py-1.5 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">Batal</button>
+                                        <button type="submit" form="editFormPendidikan" class="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Simpan</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-                {{-- MEMUNCULKAN KEMBALI MODAL EDIT DATA RIWAYAT PENDIDIKAN JIKA ADA ERROR --}}
-                @if ($errors->any() && old('mode') === 'edit')
-                    <script>
-                        window.addEventListener('DOMContentLoaded', () => {
-                            document.getElementById('editModalPendidikan').classList.remove('hidden');
-                        });
-                    </script>
+
+                    {{-- MEMUNCULKAN KEMBALI MODAL EDIT DATA RIWAYAT PENDIDIKAN JIKA ADA ERROR --}}
+                    @if ($errors->any() && old('mode') === 'edit')
+                        <script>
+                            window.addEventListener('DOMContentLoaded', () => {
+                                document.getElementById('editModalPendidikan').classList.remove('hidden');
+                            });
+                        </script>
+                    @endif
                 @endif
+
             </div>
         </div>
     </div>

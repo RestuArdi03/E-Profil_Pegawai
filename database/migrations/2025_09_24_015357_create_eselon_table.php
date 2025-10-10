@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nm_eselon');
             
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

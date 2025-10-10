@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nm_agama');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

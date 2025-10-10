@@ -33,6 +33,7 @@ return new class extends Migration
             $table->foreign('instansi_id')->references('id')->on('instansi')->onDelete('cascade');
             
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

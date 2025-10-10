@@ -123,7 +123,7 @@ class PendidikanController extends Controller
     public function destroy(string $id)
     {
         $riwayat_pendidikan = RiwayatPendidikan::findOrFail($id);
-        $riwayat_pendidikan->delete();
+        $riwayat_pendidikan->delete(); // ✅ Hapus data riwayat pendidikan (soft delete)
 
         return redirect()->back()->with('success', '✅ Data riwayat pendidikan berhasil dihapus.');
     }

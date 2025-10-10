@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreign('folder_id')->references('id')->on('folder')->onDelete('cascade');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

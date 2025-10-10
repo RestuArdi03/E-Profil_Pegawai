@@ -22,6 +22,9 @@ return new class extends Migration
 
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
+
+            // Relasi ke pegawai
 
             $table->foreign('pegawai_id')->references('id')->on('pegawai')->onDelete('cascade');
         });

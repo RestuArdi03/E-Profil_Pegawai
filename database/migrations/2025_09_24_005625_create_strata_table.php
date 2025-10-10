@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('jurusan');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -25,6 +25,7 @@ return new class extends Migration
             $table->foreign('golongan_id')->references('id')->on('golongan')->onDelete('cascade');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
