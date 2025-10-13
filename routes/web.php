@@ -100,7 +100,7 @@ Route::prefix('/admin')->name('backend.')->middleware(['auth', 'is_admin'])->gro
     Route::post('/riwayat_plh_plt/store', [PlhPltController::class, 'store'])->name('plh_plt.store');
 
     // ROUTE GOLONGAN
-    Route::get('/golongan/{pegawai}', [GolonganController::class, 'show'])->name('golongan.show');
+    Route::get('/riwayat_golongan/{pegawai}', [GolonganController::class, 'show'])->name('golongan.show');
     Route::delete('/riwayat_golongan/{id}', [GolonganController::class, 'destroy'])->name('golongan.destroy');
     Route::resource('riwayat_golongan', GolonganController::class);
     Route::post('/riwayat_golongan/store', [GolonganController::class, 'store'])->name('golongan.store');
