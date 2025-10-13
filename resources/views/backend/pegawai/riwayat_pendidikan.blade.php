@@ -148,7 +148,7 @@
                 </table>
 
                 {{-- MODAL TAMBAH DATA RIWAYAT PENDIDIKAN --}}
-                <div id="tambahModalPendidikan" class="fixed inset-0 z-50 hidden flex justify-center items-center bg-black/50">
+                <div id="tambahModalPendidikan" class="fixed inset-0 z-50 p-4 hidden flex justify-center items-center bg-black/50">
                     <div class="bg-white rounded-lg shadow-lg w-full max-w-xl border border-green-300 outline outline-green-600 outline-offset-4" style="max-width: 800px; max-height: 800px;">
                         <div class="p-6">
                             <h2 class="text-base font-semibold">Tambah Riwayat Pendidikan</h2>
@@ -164,7 +164,7 @@
 
                                 <div class="mb-3">
                                     <label class="block text-sm font-medium" style="margin-top: -25px;">Strata dan Jurusan</label>
-                                    <select name="strata_id" id="strata_id" class="w-full border rounded-md text-sm" required value>
+                                    <select name="strata_id" id="strata_id" class="w-full border rounded-md text-sm" required>
                                         <option value="">-- Pilih strata dan jurusan --</option>
                                         @foreach ($strata as $s)
                                             <option value="{{ $s->id }}" {{ old('strata_id') == $s->id ? 'selected' : '' }}>
@@ -203,7 +203,7 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="flex justify-end gap-2 p-6" style="margin-top: -25px;">
+                        <div class="flex justify-end gap-2 p-6">
                             <button type="button" onclick="closeTambahModalPendidikan()" class="px-3 py-1.5 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">Batal</button>
                             <button type="submit" form="tambahFormPendidikan" class="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Simpan</button>
                         </div>
@@ -219,9 +219,8 @@
                 @endif
 
                 {{-- MODUL EDIT DATA RIWAYAT PENDIDIKAN --}}
-                {{-- MODUL EDIT DATA RIWAYAT PENDIDIKAN --}}
                 @if(isset($rp))
-                    <div id="editModalPendidikan" class="fixed inset-0 z-50 hidden flex justify-center items-center bg-black/50">
+                    <div id="editModalPendidikan" class="fixed inset-0 z-50 p-4 hidden flex justify-center items-center bg-black/50">
                         <div class="bg-white rounded-lg shadow-lg w-full max-w-xl border border-blue-300 outline outline-blue-600 outline-offset-4"
                         style="max-width: 800px; max-height: 800px;">
                             <div class="p-6">
@@ -238,7 +237,7 @@
                                     <input type="hidden" name="mode" value="edit">
 
                                     <div class="mb-3">
-                                        <label class="block text-sm font-medium -mt-6">Strata dan Jurusan</label>
+                                        <label class="block text-sm font-medium" style="margin-top: -25px;">Strata dan Jurusan</label>
                                         <select name="strata_id" id="edit_strata_id" class="w-full border rounded-md text-sm" required>
                                             <option value="">-- Pilih strata dan jurusan --</option>
                                             @foreach ($strata as $s)
@@ -277,12 +276,11 @@
                                         <label for="edit_kode_pendidikan" class="block text-sm font-medium text-gray-700">Kode Pendidikan</label>
                                         <input type="text" name="kode_pendidikan" id="edit_kode_pendidikan" class="w-full border rounded-md text-sm" required value="{{ old('kode_pendidikan', $rp->kode_pendidikan) }}">
                                     </div>
-
-                                    <div class="flex justify-end gap-2 mt-10">
-                                        <button type="button" onclick="closeEditModalPendidikan()" class="px-3 py-1.5 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">Batal</button>
-                                        <button type="submit" form="editFormPendidikan" class="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Simpan</button>
-                                    </div>
                                 </form>
+                            </div>
+                            <div class="flex justify-end gap-2 p-6">
+                                <button type="button" onclick="closeEditModalPendidikan()" class="px-3 py-1.5 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">Batal</button>
+                                <button type="submit" form="editFormPendidikan" class="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Simpan</button>
                             </div>
                         </div>
                     </div>
@@ -311,23 +309,6 @@
         function closeTambahModalPendidikan() {
             document.getElementById('tambahModalPendidikan').classList.add('hidden');
         }
-    </script>
-    {{-- validasi strata --}}
-    <script>
-        document.getElementById('strata_id').addEventListener('change', function () {
-            const namaStrata = document.querySelector('input[name="nama_strata"]');
-            const jurusan = document.querySelector('input[name="jurusan"]');
-
-            if (this.value) {
-                namaStrata.value = '';
-                jurusan.value = '';
-                namaStrata.setAttribute('disabled', 'disabled');
-                jurusan.setAttribute('disabled', 'disabled');
-            } else {
-                namaStrata.removeAttribute('disabled');
-                jurusan.removeAttribute('disabled');
-            }
-        });
     </script>
 
     {{-- JAVASCRIPT UNTUK MODAL EDIT DATA RIWAYAT PENDIDIKAN--}}

@@ -148,7 +148,7 @@
                 </table>
 
                 {{-- MODAL TAMBAH DATA RIWAYAT JABATAN --}}
-                <div id="tambahModalJabatan" class="fixed inset-0 z-50 hidden flex justify-center items-center bg-black/50">
+                <div id="tambahModalJabatan" class="fixed inset-0 z-50 p-4 hidden flex justify-center items-center bg-black/50">
                     <div class="bg-white rounded-lg shadow-lg w-full max-w-xl border border-green-300 outline outline-green-600 outline-offset-4" style="max-width: 800px; max-height: 800px;">
                         <div class="p-6">
                             <h2 class="text-base font-semibold">Tambah Riwayat Jabatan</h2>
@@ -239,7 +239,7 @@
 
                 {{-- MODAL EDIT DATA RIWAYAT JABATAN --}}
                 @if(isset($rj))
-                    <div id="editModalJabatan" class="form_ edit fixed inset-0 z-50 hidden flex justify-center items-center bg-black/50">
+                    <div id="editModalJabatan" class="form_ edit fixed inset-0 z-50 p-4 hidden flex justify-center items-center bg-black/50">
                         <div class="bg-white rounded-lg shadow-lg w-full max-w-xl border border-green-300 outline outline-green-600 outline-offset-4" style="max-width: 800px; max-height: 800px;">
                             <div class="p-6">
                                 <h2 class="text-base font-semibold">Edit Riwayat Jabatan</h2>

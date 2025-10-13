@@ -14,6 +14,16 @@ class RiwayatGolongan extends Model
     protected $table = 'riwayat_golongan';
     protected $dates = ['deleted_at'];
 
+    protected $fillable = [
+        'pegawai_id',
+        'golongan_id',
+        'tmt_golongan',
+        'no_sk',
+        'tgl_sk',
+        'masa_kerja',
+        'pejabat',
+    ];
+
     public function pegawai()
     {
         return $this->belongsTo(Pegawai::class);

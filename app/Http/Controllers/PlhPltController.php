@@ -31,7 +31,28 @@ class PlhPltController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // 🔍 Validasi field wajib diisi
+        $request->validate([
+            'pegawai_id' => 'required|exists:pegawai,id',
+            'no_sprint' => 'required|string|max:100',
+            'tgl_sprint' => 'required|date',
+            'tgl_mulai' => 'required|date',
+            'tgl_selesai' => 'required|date',
+            'jabatan_plh_plt' => 'required|string|max:255',
+        ]);
+
+        // ✅ Simpan Riwayat PLH/PLT
+        RiwayatPlhPlt::create([
+            'pegawai_id' => $request->pegawai_id,
+            'no_sprint' => $request->no_sprint,
+            'tgl_sprint' => $request->tgl_sprint,
+            'tgl_mulai' => $request->tgl_mulai,
+            'tgl_selesai' => $request->tgl_selesai,
+            'jabatan_plh_plt' => $request->jabatan_plh_plt,
+        ]);
+
+        return redirect()->route('backend.plh_plt.show', $request->pegawai_id)
+            ->with('success', '✅ Data Riwayat PLH/PLT berhasil ditambahkan.');
     }
 
     /**
@@ -60,7 +81,28 @@ class PlhPltController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $rpp = RiwayatPlhPlt::findOrFail($id);
+        // 🔍 Validasi data edit
+        $request->validate([
+            'no_sprint' => 'required|string|max:100',
+            'tgl_sprint' => 'required|date',
+            'tgl_mulai' => 'required|date',
+            'tgl_selesai' => 'required|date',
+            'jabatan_plh_plt' => 'required|string|max:255',
+        ]);
+
+        // ✅ Update data
+        $rpp->update([
+            'pegawai_id' => $request->pegawai_id,
+            'no_sprint' => $request->no_sprint,
+            'tgl_sprint' => $request->tgl_sprint,
+            'tgl_mulai' => $request->tgl_mulai,
+            'tgl_selesai' => $request->tgl_selesai,
+            'jabatan_plh_plt' => $request->jabatan_plh_plt,
+        ]);
+
+        return redirect()->route('backend.plh_plt.show', $request->pegawai_id)
+            ->with('success', '✅ Data Riwayat PLH/PLT berhasil diperbarui.');
     }
 
     /**
@@ -68,6 +110,9 @@ class PlhPltController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $riwayat_plh_plt = RiwayatPlhPlt::findOrFail($id);
+        $riwayat_plh_plt->delete(); // ✅ Hapus data Riwayat PLH/PLT (soft delete)
+
+        return redirect()->back()->with('success', '✅ Data Riwayat PLH/PLT berhasil dihapus.');
     }
 }

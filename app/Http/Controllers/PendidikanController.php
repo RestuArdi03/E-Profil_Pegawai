@@ -57,7 +57,7 @@ class PendidikanController extends Controller
         ]);
 
         return redirect()->route('backend.pendidikan.show', $request->pegawai_id)
-            ->with('success', '✅ Data Riwayat pendidikan berhasil ditambahkan.');
+            ->with('success', '✅ Data Riwayat Pendidikan berhasil ditambahkan.');
     }
 
     /**
@@ -114,7 +114,7 @@ class PendidikanController extends Controller
             'kode_pendidikan' => $request->kode_pendidikan,
         ]);
 
-        return redirect()->route('backend.pendidikan.show', $request->pegawai_id) ->with('success', '✅ Data riwayat pendidikan berhasil diperbarui.');
+        return redirect()->route('backend.pendidikan.show', $request->pegawai_id) ->with('success', '✅ Data Riwayat Pendidikan berhasil diperbarui.');
     }
 
     /**
@@ -125,6 +125,6 @@ class PendidikanController extends Controller
         $riwayat_pendidikan = RiwayatPendidikan::findOrFail($id);
         $riwayat_pendidikan->delete(); // ✅ Hapus data riwayat pendidikan (soft delete)
 
-        return redirect()->back()->with('success', '✅ Data riwayat pendidikan berhasil dihapus.');
+        return redirect()->back()->with('success', '✅ Data Riwayat Pendidikan berhasil dihapus.');
     }
 }

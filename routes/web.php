@@ -95,9 +95,15 @@ Route::prefix('/admin')->name('backend.')->middleware(['auth', 'is_admin'])->gro
     
     // ROUTE PLH/PLT
     Route::get('/riwayat_plh_plt/{pegawai}', [PlhPltController::class, 'show'])->name('plh_plt.show');
+    Route::delete('/riwayat_plh_plt/{id}', [PlhPltController::class, 'destroy'])->name('plh_plt.destroy');
+    Route::resource('riwayat_plh_plt', PlhPltController::class);
+    Route::post('/riwayat_plh_plt/store', [PlhPltController::class, 'store'])->name('plh_plt.store');
 
     // ROUTE GOLONGAN
     Route::get('/golongan/{pegawai}', [GolonganController::class, 'show'])->name('golongan.show');
+    Route::delete('/riwayat_golongan/{id}', [GolonganController::class, 'destroy'])->name('golongan.destroy');
+    Route::resource('riwayat_golongan', GolonganController::class);
+    Route::post('/riwayat_golongan/store', [GolonganController::class, 'store'])->name('golongan.store');
 
     // ROUTE DIKLAT
     Route::get('/riwayat_diklat/{pegawai}', [DiklatController::class, 'show'])->name('diklat.show');

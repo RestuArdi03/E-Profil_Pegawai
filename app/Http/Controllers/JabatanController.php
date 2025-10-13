@@ -64,7 +64,7 @@ class JabatanController extends Controller
 
         return redirect()
             ->route('backend.jabatan.show', $request->pegawai_id)
-            ->with('success', '✅ Riwayat jabatan berhasil ditambahkan.');
+            ->with('success', '✅ Riwayat Jabatan berhasil ditambahkan.');
     }
 
     /**
@@ -140,6 +140,6 @@ class JabatanController extends Controller
         $riwayat_jabatan = RiwayatJabatan::findOrFail($id);
         $riwayat_jabatan->delete(); // ✅ Hapus data riwayat jabatan (soft delete)
 
-        return redirect()->back()->with('success', '✅ Data riwayat jabatan berhasil dihapus.');
+        return redirect()->back()->with('success', '✅ Data Riwayat Jabatan berhasil dihapus.');
     }
 }
