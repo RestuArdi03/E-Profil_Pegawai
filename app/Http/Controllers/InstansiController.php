@@ -12,13 +12,28 @@ use Illuminate\Support\Facades\Validator;
  */
 class InstansiController extends Controller
 {
-    /**
-     * Menampilkan daftar semua Instansi.
-     */
-    public function index()
+
+// InstansiController.php - method index()
+// Kode ini sudah benar dan kita pertahankan untuk mendapatkan data terbaru di atas
+// App\Http\Controllers\InstansiController.php
+
+    public function index(Request $request)
     {
-        // Menggunakan kolom 'nm_instansi' untuk urutan
-        $instansi = Instansi::orderBy('nm_instansi', 'asc')->get();
+        $query = Instansi::query(); 
+
+        // Tambahkan Logic Pencarian 
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where('nm_instansi', 'like', '%' . $search . '%')
+                ->orWhere('kode', 'like', '%' . $search . '%')
+                ->orWhere('kd_instansi', 'like', '%' . $search . '%');
+        }
+
+        // PERBAIKAN FINAL: Mengurutkan berdasarkan ID secara ascending (plek ketiplek DB)
+        $instansi = $query->orderBy('id', 'asc') // <<< DIUBAH DI SINI
+                        ->paginate(15)
+                        ->withQueryString();
+
         return view('backend.instansi.daftar_instansi', compact('instansi'));
     }
 
@@ -33,27 +48,37 @@ class InstansiController extends Controller
     /**
      * Menyimpan Instansi yang baru dibuat ke storage.
      */
+// InstansiController.php
+
+// ... (Di dalam class InstansiController)
+
+    /**
+     * Menyimpan Instansi yang baru dibuat ke storage.
+     */
+// InstansiController.php - method store()
+
     public function store(Request $request)
     {
-        // Perbaikan: Pastikan kolom unique disesuaikan dengan nama kolom di DB (kd_instansi)
+        // Pastikan semua kolom yang harus diisi diberi 'required'
         $validator = Validator::make($request->all(), [
-            'nm_instansi' => 'required|string|max:255',
-            'kd_instansi' => 'required|string|unique:instansi,kd_instansi|max:50',
-            'alamat_instansi' => 'nullable|string|max:500',
-            'telp_instansi'   => 'nullable|string|max:30',
-            'fax_instansi'    => 'nullable|string|max:30',
-            'urutan_instansi' => 'required|integer|min:1',
+            'id'              => 'required|integer|unique:instansi,id', // ID wajib dan unik
+            'nm_instansi'     => 'required|string|max:255',
+            'kd_instansi'     => 'required|string|max:50', 
+            'kode'            => 'required|string|max:20', 
+            
+            'alamat_instansi' => 'nullable|string|max:500', // Ini boleh kosong
+            'telp_instansi'   => 'nullable|string|max:30',   // Ini boleh kosong
+            'fax_instansi'    => 'nullable|string|max:30',     // Ini boleh kosong
+
+            'urutan_instansi' => 'required|integer|min:0', // Urutan Wajib
         ]);
 
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator)->withInput();
         }
-
-        // Simpan kolom 'nm_instansi' dan 'kd_instansi'
-        Instansi::create($request->only('nm_instansi', 'kd_instansi'));
-
-        return Redirect::route('backend.daftar_instansi')->with('success', 'Data Instansi berhasil ditambahkan.');
     }
+
+// ...
     
     public function show(string $id)
     {
@@ -70,29 +95,30 @@ class InstansiController extends Controller
     }
 
 
-    /**
-     * Memperbarui (Update) Instansi di storage.
-     */
+
     public function update(Request $request, string $id)
     {
         $instansi = Instansi::findOrFail($id);
         
-        // VALIDASI UNTUK NAMA INSTANSI dan KODE INSTANSI (jika diizinkan diubah)
         $validator = Validator::make($request->all(), [
-            'nm_instansi' => 'required|string|max:255',
-            'kd_instansi' => 'required|string|unique:instansi,kd_instansi,'.$id.'|max:10',
+            'nm_instansi'     => 'required|string|max:255',
+            'kd_instansi'     => 'required|string|max:50', 
+            'kode'            => 'required|string|max:20',
             'alamat_instansi' => 'nullable|string|max:500',
             'telp_instansi'   => 'nullable|string|max:30',
             'fax_instansi'    => 'nullable|string|max:30',
-            'urutan_instansi' => 'required|integer|min:1',
+            'urutan_instansi' => 'required|integer|min:0', 
         ]);
 
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator)->withInput(); 
         }
 
-        // Izinkan update untuk 'nm_instansi' dan 'kd_instansi'
-        $instansi->update($request->only('nm_instansi', 'kd_instansi'));
+        // UPDATE SEMUA KOLOM
+        $instansi->update($request->only(
+            'nm_instansi', 'kd_instansi', 'kode',
+            'alamat_instansi', 'telp_instansi', 'fax_instansi', 'urutan_instansi' 
+        ));
 
         return Redirect::route('backend.daftar_instansi')->with('success', 'Data Instansi berhasil diperbarui.');
     }
