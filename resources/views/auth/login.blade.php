@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - E-Profil Pegawai</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{{ asset('assets/images/logo_komdigi.png') }}">
+    
     <style>
         body {
             background-image: url('{{ asset("assets/images/bg_login.png") }}');

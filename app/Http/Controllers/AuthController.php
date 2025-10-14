@@ -58,10 +58,10 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             // Redirect berdasarkan role
-            if (Auth::user()->role == 1) {
-                return redirect()->route('backend.beranda');
-            } elseif (Auth::user()->role == 6) {
+            if (Auth::user()->role == 0) {
                 return redirect()->route('frontend.beranda');
+            } elseif (Auth::user()->role == 1) {
+                return redirect()->route('backend.beranda');
             } else {
                 return redirect()->route('login');
             }

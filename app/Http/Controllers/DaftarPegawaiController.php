@@ -133,7 +133,7 @@ class DaftarPegawaiController extends Controller
             'username' => $validated['username'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'role' => 6, // default pegawai
+            'role' => 0, // default pegawai
             'pegawai_id' => $pegawai->id,
         ]);
     });

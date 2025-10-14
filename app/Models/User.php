@@ -14,7 +14,6 @@ class User extends Authenticatable
 
     protected $fillable = [
         'pegawai_id',
-        'name',
         'username',
         'email',
         'password',

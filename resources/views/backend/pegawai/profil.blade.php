@@ -288,8 +288,14 @@
 
                     <div class="mb-3">
                         <label for="edit_golongan_darah" class="block text-sm font-medium text-gray-700">Golongan Darah</label>
-                        <input type="text" name="golongan_darah" id="edit_golongan_darah" value="{{ old('golongan_darah', $pegawai->golongan_darah) }}"
+                        <select name="golongan_darah" id="edit_golongan_darah"
                             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:outline-none text-sm">
+                            <option value="">Pilih Golongan Darah</option>
+                            <option value="A" {{ old('golongan_darah') == 'A' ? 'selected' : '' }}>A</option>
+                            <option value="B" {{ old('golongan_darah') == 'B' ? 'selected' : '' }}>B</option>
+                            <option value="AB" {{ old('golongan_darah') == 'AB' ? 'selected' : '' }}>AB</option>
+                            <option value="O" {{ old('golongan_darah') == 'O' ? 'selected' : '' }}>O</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="edit_status_kawin" class="block text-sm font-medium text-gray-700">Status Perkawinan</label>

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('email')->nullable()->unique();
             $table->string('password');
 
-            $table->unsignedTinyInteger('role')->default(6); // 1 = admin, 6 = pegawai
+            $table->unsignedTinyInteger('role')->default(0); // 0 = pegawai, 1 = admin
 
             $table->rememberToken();
             $table->timestamps();
