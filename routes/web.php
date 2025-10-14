@@ -107,15 +107,27 @@ Route::prefix('/admin')->name('backend.')->middleware(['auth', 'is_admin'])->gro
 
     // ROUTE DIKLAT
     Route::get('/riwayat_diklat/{pegawai}', [DiklatController::class, 'show'])->name('diklat.show');
+    Route::delete('/riwayat_diklat/{id}', [DiklatController::class, 'destroy'])->name('diklat.destroy');
+    Route::resource('riwayat_diklat', DiklatController::class);
+    Route::post('/riwayat_diklat/store', [DiklatController::class, 'store'])->name('diklat.store');
 
     // ROUTE GAJI
     Route::get('/riwayat_gaji/{pegawai}', [GajiController::class, 'show'])->name('gaji.show');
+    Route::delete('/riwayat_gaji/{id}', [GajiController::class, 'destroy'])->name('gaji.destroy');
+    Route::resource('riwayat_gaji', GajiController::class);
+    Route::post('/riwayat_gaji/store', [GajiController::class, 'store'])->name('gaji.store');
 
     // ROUTE KGB
     Route::get('/riwayat_kgb/{pegawai}', [KgbController::class, 'show'])->name('kgb.show');
+    Route::delete('/riwayat_kgb/{id}', [KgbController::class, 'destroy'])->name('kgb.destroy');
+    Route::resource('riwayat_kgb', KgbController::class);
+    Route::post('/riwayat_kgb/store', [KgbController::class, 'store'])->name('kgb.store');
     
     // ROUTE PENGHARGAAN
     Route::get('/riwayat_penghargaan/{pegawai}', [PenghargaanController::class, 'show'])->name('penghargaan.show');
+    Route::delete('/riwayat_penghargaan/{id}', [PenghargaanController::class, 'destroy'])->name('penghargaan.destroy');
+    Route::resource('riwayat_penghargaan', PenghargaanController::class);
+    Route::post('/riwayat_penghargaan/store', [PenghargaanController::class, 'store'])->name('penghargaan.store');
     
     // ROUTE SLKS
     Route::get('/riwayat_slks/{pegawai}', [SlksController::class, 'show'])->name('slks.show');

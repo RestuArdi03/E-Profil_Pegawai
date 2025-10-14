@@ -23,12 +23,6 @@ class RiwayatKgb extends Model
     'jml_gaji',
     'ket',
     ];
-    
-    protected $casts = [
-    'tgl_sk' => 'date',
-    'tgl_tmt' => 'date',
-    'jml_gaji' => 'decimal:2',
-    ];
 
     public function pegawai()
     {

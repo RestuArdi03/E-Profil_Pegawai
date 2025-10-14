@@ -1,7 +1,14 @@
 @extends('main.layout2')
 
 @section('content')
-    <h1 class="text-xl">Riwayat Kenaikan Gaji Bulanan</h1>
+    <h1 class="text-xl">Riwayat Kenaikan Gaji Bulanan
+        <button type="button"
+        onclick="openTambahModalKgb()"
+        class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md shadow-sm">
+            <span class="material-icons" style="margin-right: 5px; margin-left: -5px;font-size: 16px;">add</span>
+            Tambah Data
+        </button>
+    </h1>
     <!-- Profil Pegawai -->
     <div class="mb-6">
         @php
@@ -62,6 +69,7 @@
                             <th class="border border-gray-200 px-6 py-3 text-sm text-default-100">Tanggal TMT</th>
                             <th class="border border-gray-200 px-6 py-3 text-sm text-default-100">Jumlah Gaji</th>
                             <th class="border border-gray-200 px-6 py-3 text-sm text-default-100">Keterangan</th>
+                            <th class="border border-gray-200 px-6 py-3 text-sm text-default-100">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -70,21 +78,218 @@
                                 <td class="border px-6 py-3 text-gray-800">{{ $loop->iteration }}</td>
                                 <td class="border px-6 py-3 text-gray-800">{{ $kgb->pejabat_penetap }}</td>
                                 <td class="border px-6 py-3 text-gray-800">{{ $kgb->no_sk }}</td>
-                                <td class="border px-6 py-3 text-gray-800">{{ \Carbon\Carbon::parse($kgb->tgl_sk)->format('d-m-Y') }}</td>
-                                <td class="border px-6 py-3 text-gray-800">{{ \Carbon\Carbon::parse($kgb->tgl_tmt)->format('d-m-Y') }}</td>
+                                <td class="border px-6 py-3 text-gray-800">{{ $kgb->tgl_sk}}</td>
+                                <td class="border px-6 py-3 text-gray-800">{{ $kgb->tgl_tmt}}</td>
                                 <td class="border px-6 py-3 text-gray-800">Rp {{ number_format($kgb->jml_gaji, 2, ',', '.') }}</td>
                                 <td class="border px-6 py-3 text-gray-800">{{ $kgb->ket ?? '-' }}</td>
+                                <td class="border text-sm px-6 py-3 text-gray-800 text-center align-middle">
+                                    <div class="flex flex-nowrap items-center gap-2 overflow-auto justify-center">
+                                        {{-- Tombol Edit --}}
+                                        <button type="button"
+                                            onclick="openEditModalKgb(
+                                                {{ $kgb->id }},
+                                                '{{ addslashes(e($kgb->pejabat_penetap)) }}',
+                                                '{{ addslashes(e($kgb->no_sk)) }}',
+                                                '{{ addslashes(e($kgb->tgl_sk)) }}',
+                                                '{{ addslashes(e($kgb->tgl_tmt)) }}',
+                                                '{{ addslashes(e($kgb->jml_gaji)) }}',
+                                                '{{ addslashes(e($kgb->ket)) }}'
+                                            )"
+                                            class="px-3 py-1 text-sm text-white bg-yellow-500 rounded hover:bg-yellow-600 flex flex-nowrap items-center gap-2 overflow-auto">
+                                            <span class="material-icons" style="margin-right: 3px; margin-left: -3px; font-size: 12px;">edit</span>
+                                            Edit
+                                        </button>
+
+                                        {{-- Tombol Delete --}}
+                                        <form action="{{ route('backend.kgb.destroy', $kgb->id) }}" method="POST" class="inline-block"
+                                            onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="flex flex-nowrap items-center gap-2 overflow-auto px-3 py-1 text-sm text-white bg-red-600 rounded hover:bg-red-700">
+                                                <span class="material-icons" style="margin-right: 3px; margin-left: -3px; font-size: 12px;">delete</span>
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="7" class="text-center border border-gray px-6 py-3 text-sm text-default-800">
+                                <td colspan="8" class="text-center border border-gray px-6 py-3 text-sm text-default-800">
                                     Belum ada data Riwayat KGB.
                                 </td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
+            {{-- MODAL TAMBAH DATA RIWAYAT KGB --}}
+                <div id="tambahModalKgb" class="fixed inset-0 z-50 p-4 hidden flex justify-center items-center bg-black/50">
+                    <div class="bg-white rounded-lg shadow-lg w-full max-w-xl border border-green-300 outline outline-green-600 outline-offset-4" style="max-width: 800px; max-height: 800px;">
+                        <div class="p-6">
+                            <h2 class="text-base font-semibold">Tambah Riwayat KGB</h2>
+                        </div>
+
+                        <div class="form_edit p-6 overflow-y-auto">
+                            <form id="tambahFormKgb" method="POST" action="/admin/riwayat_kgb/store">
+                                @csrf
+
+                                <input type="hidden" name="pegawai_id" value="{{ $pegawai->id }}">
+                                <input type="hidden" name="id" id="tambah_id_kgb">
+                                <input type="hidden" name="mode" value="tambah">
+
+                                <div class="mb-3">
+                                    <label for="tambah_pejabat_penetap" class="block text-sm font-medium text-gray-700" style="margin-top: -25px;">Pejabat Penetap</label>
+                                    <input type="text" name="pejabat_penetap" id="tambah_pejabat_penetap" class="w-full border rounded-md text-sm" required value="{{ old('pejabat_penetap') }}">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="tambah_no_sk" class="block text-sm font-medium text-gray-700">No SK</label>
+                                    <input type="text" name="no_sk" id="tambah_no_sk" class="w-full border rounded-md text-sm" required value="{{ old('no_sk') }}">
+                                    @error('no_sk')
+                                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="tambah_tgl_sk" class="block text-sm font-medium text-gray-700">Tanggal SK</label>
+                                    <input type="date" name="tgl_sk" id="tambah_tgl_sk" class="w-full border rounded-md text-sm" required value="{{ old('tgl_sk') }}">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="tambah_tgl_tmt" class="block text-sm font-medium text-gray-700">Tanggal TMT</label>
+                                    <input type="date" name="tgl_tmt" id="tambah_tgl_tmt" class="w-full border rounded-md text-sm" min="1950" max="{{ date('Y') }}" required value="{{ old('tgl_tmt') }}">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="tambah_jml_gaji" class="block text-sm font-medium text-gray-700">Jumlah Gaji</label>
+                                    <input type="text" name="jml_gaji" id="tambah_jml_gaji" class="w-full border rounded-md text-sm" required value="{{ old('jml_gaji') }}">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="tambah_ket" class="block text-sm font-medium text-gray-700">Keterangan</label>
+                                    <input type="text" name="ket" id="tambah_ket" class="w-full border rounded-md text-sm" value="{{ old('ket') }}">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="flex justify-end gap-2 p-6" style="margin-top: -25px;">
+                            <button type="button" onclick="closeTambahModalKgb()" class="px-3 py-1.5 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">Batal</button>
+                            <button type="submit" form="tambahFormKgb" class="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Simpan</button>
+                        </div>
+                    </div>
+                </div>
+                {{-- MEMUNCULKAN KEMBALI MODAL TAMBAH DATA RIWAYAT KGB JIKA ADA ERROR--}}
+                @if ($errors->any() && old('mode') === 'tambah')
+                    <script>
+                        window.addEventListener('DOMContentLoaded', () => {
+                            document.getElementById('tambahModalKgb').classList.remove('hidden');
+                        });
+                    </script>
+                @endif
+
+                {{-- MODUL EDIT DATA RIWAYAT KGB --}}
+                @if(isset($kgb))
+                    <div id="editModalKgb" class="fixed inset-0 z-50 p-4 hidden flex justify-center items-center bg-black/50">
+                        <div class="bg-white rounded-lg shadow-lg w-full max-w-xl border border-blue-300 outline outline-blue-600 outline-offset-4"
+                        style="max-width: 800px; max-height: 800px;">
+                            <div class="p-6">
+                                <h2 class="text-base font-semibold">Edit Riwayat KGB</h2>
+                            </div>
+
+                            <div class="form_edit p-6 overflow-y-auto">
+                                <form id="editFormKgb" method="POST" action="{{ route('backend.riwayat_kgb.update', $kgb) }}">
+                                    @csrf
+                                    @method('PUT')
+
+                                    <input type="hidden" name="pegawai_id" value="{{ $pegawai->id }}">
+                                    <input type="hidden" name="id" id="edit_id_kgb">
+                                    <input type="hidden" name="mode" value="edit">
+
+                                    <div class="mb-3">
+                                        <label for="edit_pejabat_penetap" class="block text-sm font-medium text-gray-700" style="margin-top: -25px;">Pejabat Penetap</label>
+                                        <input type="text" name="pejabat_penetap" id="edit_pejabat_penetap" class="w-full border rounded-md text-sm" required value="{{ old('pejabat_penetap', $kgb->pejabat_penetap) }}">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="edit_no_sk" class="block text-sm font-medium text-gray-700">No SK</label>
+                                        <input type="text" name="no_sk" id="edit_no_sk" class="w-full border rounded-md text-sm" required value="{{ old('no_sk', $kgb->no_sk) }}">
+                                        @error('no_sk')
+                                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="edit_tgl_sk" class="block text-sm font-medium text-gray-700">Tanggal SK</label>
+                                        <input type="date" name="tgl_sk" id="edit_tgl_sk" class="w-full border rounded-md text-sm" required value="{{ old('tgl_sk', $kgb->tgl_sk) }}">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="edit_tgl_tmt" class="block text-sm font-medium text-gray-700">Tanggal TMT</label>
+                                        <input type="date" name="tgl_tmt" id="edit_tgl_tmt" class="w-full border rounded-md text-sm" required value="{{ old('tgl_tmt', $kgb->tgl_tmt) }}">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="edit_jml_gaji" class="block text-sm font-medium text-gray-700">Jumlah Gaji</label>
+                                        <input type="text" name="jml_gaji" id="edit_jml_gaji" class="w-full border rounded-md text-sm" required value="{{ old('jml_gaji', $kgb->jml_gaji) }}">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="edit_ket" class="block text-sm font-medium text-gray-700">Keterangan</label>
+                                        <input type="text" name="ket" id="edit_ket" class="w-full border rounded-md text-sm" value="{{ old('ket', $kgb->ket) }}">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="flex justify-end gap-2 p-6" style="margin-top: -25px;">
+                                <button type="button" onclick="closeEditModalKgb()" class="px-3 py-1.5 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">Batal</button>
+                                <button type="submit" form="editFormKgb" class="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Simpan</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- MEMUNCULKAN KEMBALI MODAL EDIT DATA RIWAYAT KGB JIKA ADA ERROR --}}
+                    @if ($errors->any() && old('mode') === 'edit')
+                        <script>
+                            window.addEventListener('DOMContentLoaded', () => {
+                                document.getElementById('editModalKgb').classList.remove('hidden');
+                            });
+                        </script>
+                    @endif
+                @endif
+
             </div>
         </div>
     </div>
+
+    {{-- JAVASCRIPT UNTUK MODAL TAMBAH DATA RIWAYAT KGB--}}
+    <script>
+        console.log(document.getElementById('tambahFormKgb').action);
+        function openTambahModalKgb() {
+        document.getElementById('tambahModalKgb').classList.remove('hidden');
+        }
+
+        function closeTambahModalKgb() {
+            document.getElementById('tambahModalKgb').classList.add('hidden');
+        }
+    </script>
+
+    {{-- JAVASCRIPT UNTUK MODAL EDIT DATA RIWAYAT KGB--}}
+    <script>
+        function openEditModalKgb(id, pejabat_penetap, no_sk, tgl_sk, tgl_tmt, jml_gaji, ket) {
+            document.getElementById('edit_id_kgb').value = id;
+            document.getElementById('edit_pejabat_penetap').value = pejabat_penetap;
+            document.getElementById('edit_no_sk').value = no_sk;
+            document.getElementById('edit_tgl_sk').value = tgl_sk;
+            document.getElementById('edit_tgl_tmt').value = tgl_tmt;
+            document.getElementById('edit_jml_gaji').value = jml_gaji;
+            document.getElementById('edit_ket').value = ket;
+
+            document.getElementById('editFormKgb').action = `/admin/riwayat_kgb/${id}`;
+            document.getElementById('editModalKgb').classList.remove('hidden');
+        }
+
+        function closeEditModalKgb() {
+            document.getElementById('editModalKgb').classList.add('hidden');
+        }
+    </script>
+                                
 @endsection

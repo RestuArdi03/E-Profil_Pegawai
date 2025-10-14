@@ -31,7 +31,30 @@ class GajiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // 🔍 Validasi field wajib diisi
+        $request->validate([
+            'pegawai_id' => 'required|exists:pegawai,id',
+            'pejabat_penetap' => 'required|string|max:255',
+            'no_sk' => 'required|string|max:100|unique:riwayat_gaji,no_sk',
+            'tgl_sk' => 'required|date',
+            'jml_gaji' => 'required|string|max:20',
+            'ket' => 'nullable|string|max:50',
+        ],[
+            'no_sk.unique' => 'Nomor SK sudah digunakan / Nomor SK harus berbeda dengan yang lain.',
+        ]);
+
+        // ✅ Simpan riwayat gaji
+        RiwayatGaji::create([
+            'pegawai_id' => $request->pegawai_id,
+            'pejabat_penetap' => $request->pejabat_penetap,
+            'no_sk' => $request->no_sk,
+            'tgl_sk' => $request->tgl_sk,
+            'jml_gaji' => $request->jml_gaji,
+            'ket' => $request->ket,
+        ]);
+
+        return redirect()->route('backend.gaji.show', $request->pegawai_id)
+            ->with('success', '✅ Data Riwayat Gaji berhasil ditambahkan.');
     }
 
     /**
@@ -60,7 +83,29 @@ class GajiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $gaji = RiwayatGaji::findOrFail($id);
+        // 🔍 Validasi data edit
+        $request->validate([
+            'pegawai_id' => 'required|exists:pegawai,id',
+            'pejabat_penetap' => 'required|string|max:255',
+            'no_sk' => 'required|string|max:100|unique:riwayat_gaji,no_sk,' . $id,
+            'tgl_sk' => 'required|date',
+            'jml_gaji' => 'required|string|max:20',
+            'ket' => 'nullable|string|max:50',
+        ],[
+            'no_sk.unique' => 'Nomor SK sudah digunakan / Nomor SK harus berbeda dengan yang lain.',
+        ]);
+
+        // ✅ Update data
+        $gaji->update([
+            'pejabat_penetap' => $request->pejabat_penetap,
+            'no_sk' => $request->no_sk,
+            'tgl_sk' => $request->tgl_sk,
+            'jml_gaji' => $request->jml_gaji,
+            'ket' => $request->ket,
+        ]);
+
+        return redirect()->route('backend.gaji.show', $request->pegawai_id) ->with('success', '✅ Data Riwayat Gaji berhasil diperbarui.');
     }
 
     /**
@@ -68,6 +113,9 @@ class GajiController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $riwayat_gaji = RiwayatGaji::findOrFail($id);
+        $riwayat_gaji->delete(); // ✅ Hapus data riwayat gaji (soft delete)
+
+        return redirect()->back()->with('success', '✅ Data Riwayat Gaji berhasil dihapus.');
     }
 }

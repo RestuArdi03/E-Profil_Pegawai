@@ -11,6 +11,17 @@ class RiwayatPenghargaan extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $fillable = [
+        'pegawai_id',
+        'nm_penghargaan',
+        'no_urut',
+        'no_sertifikat',
+        'tgl_sertifikat',
+        'pejabat_penetap',
+        'link'
+    ];
+
+
     protected $table = 'riwayat_penghargaan';
     protected $dates = ['deleted_at'];
 

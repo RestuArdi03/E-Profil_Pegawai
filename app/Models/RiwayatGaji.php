@@ -11,6 +11,15 @@ class RiwayatGaji extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $fillable = [
+        'pegawai_id',
+        'pejabat_penetap',
+        'no_sk',
+        'tgl_sk',
+        'jml_gaji',
+        'ket',
+    ];
+
     protected $table = 'riwayat_gaji';
     protected $dates = ['deleted_at'];
 

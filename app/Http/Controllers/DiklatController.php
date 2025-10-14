@@ -31,7 +31,33 @@ class DiklatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // 🔍 Validasi field wajib diisi
+        $request->validate([
+            'nm_diklat' => 'required|string|max:255',
+            'jpl' => 'required|string',
+            'tgl_mulai' => 'required|date',
+            'tgl_selesai' => 'required|date',
+            'no_sertifikat' => 'required|string|max:100|unique:riwayat_diklat,no_sertifikat',
+            'tgl_sertifikat' => 'required|date',
+            'penyelenggara' => 'required|string|max:255',
+        ], [
+            'no_sertifikat.unique' => 'Nomor sertifikat sudah digunakan / Nomor sertifikat harus berbeda dengan yang lain.',
+        ]);
+
+        // ✅ Simpan riwayat diklat
+        RiwayatDiklat::create([
+            'pegawai_id' => $request->pegawai_id,
+            'nm_diklat' => $request->nm_diklat,
+            'jpl' => $request->jpl,
+            'tgl_mulai' => $request->tgl_mulai,
+            'tgl_selesai' => $request->tgl_selesai,
+            'no_sertifikat' => $request->no_sertifikat,
+            'tgl_sertifikat' => $request->tgl_sertifikat,
+            'penyelenggara' => $request->penyelenggara,
+        ]);
+
+        return redirect()->route('backend.diklat.show', $request->pegawai_id)
+            ->with('success', '✅ Data Riwayat Diklat berhasil ditambahkan.');
     }
 
     /**
@@ -60,7 +86,32 @@ class DiklatController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $rd = RiwayatDiklat::findOrFail($id);
+        // 🔍 Validasi data edit
+        $request->validate([
+            'nm_diklat' => 'required|string|max:255',
+            'jpl' => 'required|string',
+            'tgl_mulai' => 'required|date',
+            'tgl_selesai' => 'required|date',
+            'no_sertifikat' => 'required|string|max:100|unique:riwayat_diklat,no_sertifikat,' . $id,
+            'tgl_sertifikat' => 'required|date',
+            'penyelenggara' => 'required|string|max:255',
+        ], [
+            'no_sertifikat.unique' => 'Nomor sertifikat sudah digunakan / Nomor sertifikat harus berbeda dengan yang lain.',
+        ]);
+
+        // ✅ Update data
+        $rd->update([
+            'nm_diklat' => $request->nm_diklat,
+            'jpl' => $request->jpl,
+            'tgl_mulai' => $request->tgl_mulai,
+            'tgl_selesai' => $request->tgl_selesai,
+            'no_sertifikat' => $request->no_sertifikat,
+            'tgl_sertifikat' => $request->tgl_sertifikat,
+            'penyelenggara' => $request->penyelenggara,
+        ]);
+
+        return redirect()->route('backend.diklat.show', $request->pegawai_id) ->with('success', '✅ Data Riwayat Diklat berhasil diperbarui.');
     }
 
     /**
@@ -68,6 +119,9 @@ class DiklatController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $riwayat_diklat = RiwayatDiklat::findOrFail($id);
+        $riwayat_diklat->delete(); // ✅ Hapus data riwayat diklat (soft delete)
+
+        return redirect()->back()->with('success', '✅ Data Riwayat Diklat berhasil dihapus.');
     }
 }

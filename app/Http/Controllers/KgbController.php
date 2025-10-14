@@ -31,7 +31,31 @@ class KgbController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // 🔍 Validasi field wajib diisi
+        $request->validate([
+            'pejabat_penetap' => 'required|string|max:255',
+            'no_sk' => 'required|string|max:100|unique:riwayat_kgb,no_sk',
+            'tgl_sk' => 'required|date',
+            'tgl_tmt' => 'required|date',
+            'jml_gaji' => 'required|string|max:20',
+            'ket' => 'nullable|string|max:255',
+        ], [
+            'no_sk.unique' => 'Nomor SK sudah digunakan / Nomor SK harus berbeda dengan yang lain.',
+        ]);
+
+        // ✅ Simpan riwayat kgb
+        RiwayatKgb::create([
+            'pegawai_id' => $request->pegawai_id,
+            'pejabat_penetap' => $request->pejabat_penetap,
+            'no_sk' => $request->no_sk,
+            'tgl_sk' => $request->tgl_sk,
+            'tgl_tmt' => $request->tgl_tmt,
+            'jml_gaji' => $request->jml_gaji,
+            'ket' => $request->ket,
+        ]);
+
+        return redirect()->route('backend.kgb.show', $request->pegawai_id)
+            ->with('success', '✅ Data Riwayat KGB berhasil ditambahkan.');
     }
 
     /**
@@ -60,7 +84,30 @@ class KgbController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $kgb = RiwayatKgb::findOrFail($id);
+        // 🔍 Validasi data edit
+        $request->validate([
+            'pejabat_penetap' => 'required|string|max:255',
+            'no_sk' => 'required|string|max:100|unique:riwayat_kgb,no_sk,' . $id,
+            'tgl_sk' => 'required|date',
+            'tgl_tmt' => 'required|date',
+            'jml_gaji' => 'required|string|max:20',
+            'ket' => 'nullable|string|max:255',
+        ], [
+            'no_sk.unique' => 'Nomor SK sudah digunakan / Nomor SK harus berbeda dengan yang lain.',
+        ]);
+
+        // ✅ Update data
+        $kgb->update([
+            'pejabat_penetap' => $request->pejabat_penetap,
+            'no_sk' => $request->no_sk,
+            'tgl_sk' => $request->tgl_sk,
+            'tgl_tmt' => $request->tgl_tmt,
+            'jml_gaji' => $request->jml_gaji,
+            'ket' => $request->ket,
+        ]);
+
+        return redirect()->route('backend.kgb.show', $request->pegawai_id) ->with('success', '✅ Data Riwayat KGB berhasil diperbarui.');
     }
 
     /**
@@ -68,6 +115,9 @@ class KgbController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $riwayat_kgb = RiwayatKgb::findOrFail($id);
+        $riwayat_kgb->delete(); // ✅ Hapus data riwayat kgb (soft delete)
+
+        return redirect()->back()->with('success', '✅ Data Riwayat KGB berhasil dihapus.');
     }
 }

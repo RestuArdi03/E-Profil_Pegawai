@@ -310,9 +310,9 @@
                         <label for="edit_no_karis_karsu" class="block text-sm font-medium text-gray-700">No Karis/Karsu</label>
                         <input type="text" name="no_karis_karsu" id="edit_no_karis_karsu" value="{{ old('no_karis_karsu', $pegawai->no_karis_karsu) }}"
                             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:outline-none text-sm" required>
-                            @error('no_karis_karsu')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
+                        @error('no_karis_karsu')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label for="edit_almt_rumah" class="block text-sm font-medium text-gray-700">Alamat Rumah</label>
