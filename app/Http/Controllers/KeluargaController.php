@@ -32,7 +32,39 @@ class KeluargaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // 🔍 Validasi field wajib diisi
+        $request->validate([
+            'pegawai_id' => 'required|exists:pegawai,id',
+            'nama' => 'required|string|max:255',
+            'nik' => 'required|string|max:100|unique:data_keluarga,nik',
+            'tmpt_lahir' => 'required|string|max:100',
+            'tgl_lahir' => 'required|date',
+            'jenis_kelamin' => 'required|string|max:50',
+            'status_keluarga' => 'required|string|max:50',
+            'pendidikan' => 'required|string|max:50',
+            'pekerjaan' => 'nullable|string|max:100',
+            'nip' => 'nullable|string|max:100|unique:data_keluarga,nip',
+        ], [
+            'nik.unique' => 'NIK sudah digunakan / NIK harus berbeda dengan yang lain.',
+            'nip.unique' => 'NIP sudah digunakan / NIP harus berbeda dengan yang lain.',
+        ]);
+
+        // ✅ Simpan data keluarga
+        DataKeluarga::create([
+            'pegawai_id' => $request->pegawai_id,
+            'nama' => $request->nama,
+            'nik' => $request->nik,
+            'tmpt_lahir' => $request->tmpt_lahir,
+            'tgl_lahir' => $request->tgl_lahir,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'status_keluarga' => $request->status_keluarga,
+            'pendidikan' => $request->pendidikan,
+            'pekerjaan' => $request->pekerjaan,
+            'nip' => $request->nip,
+        ]);
+
+        return redirect()->route('backend.keluarga.show', $request->pegawai_id)
+            ->with('success', '✅ Data Keluarga berhasil ditambahkan.');
     }
 
     /**
@@ -61,7 +93,37 @@ class KeluargaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $keluarga = DataKeluarga::findOrFail($id);
+        // 🔍 Validasi data edit
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'nik' => 'required|string|max:100|unique:data_keluarga,nik,' . $id,
+            'tmpt_lahir' => 'required|string|max:100',
+            'tgl_lahir' => 'required|date',
+            'jenis_kelamin' => 'required|string|max:50',
+            'status_keluarga' => 'required|string|max:50',
+            'pendidikan' => 'required|string|max:50',
+            'pekerjaan' => 'nullable|string|max:100',
+            'nip' => 'nullable|string|max:100|unique:data_keluarga,nip,' . $id
+        ], [
+            'nik.unique' => 'NIK sudah digunakan / NIK harus berbeda dengan yang lain.',
+            'nip.unique' => 'NIP sudah digunakan / NIP harus berbeda dengan yang lain.',
+        ]);
+
+        // ✅ Update data
+        $keluarga->update([
+            'nama' => $request->nama,
+            'nik' => $request->nik,
+            'tmpt_lahir' => $request->tmpt_lahir,
+            'tgl_lahir' => $request->tgl_lahir,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'status_keluarga' => $request->status_keluarga,
+            'pendidikan' => $request->pendidikan,
+            'pekerjaan' => $request->pekerjaan,
+            'nip' => $request->nip,
+        ]);
+
+        return redirect()->route('backend.keluarga.show', $request->pegawai_id) ->with('success', '✅ Data Keluarga berhasil diperbarui.');
     }
 
     /**
@@ -69,6 +131,9 @@ class KeluargaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $data_keluarga = DataKeluarga::findOrFail($id);
+        $data_keluarga->delete(); // ✅ Hapus data keluarga (soft delete)
+
+        return redirect()->back()->with('success', '✅ Data Keluarga berhasil dihapus.');
     }
 }

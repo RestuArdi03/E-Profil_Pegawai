@@ -15,7 +15,7 @@ use App\Models\RiwayatSlks;
 use App\Models\RiwayatOrganisasi;
 use App\Models\NilaiPrestasiKerja; 
 use App\Models\RiwayatAsesmen;
-use App\Models\Kesejahteraan;
+use App\Models\RiwayatKesejahteraan;
 use App\Models\DataKeluarga;
 use App\Models\Dokumen;
 use App\Models\RiwayatGaji;
@@ -143,9 +143,9 @@ class FBerandaController extends Controller
         );
 
         $updates = $updates->merge(
-            Kesejahteraan::where('pegawai_id', $pegawaiId)->latest()->take(5)->get()->map(function ($item) {
+            RiwayatKesejahteraan::where('pegawai_id', $pegawaiId)->latest()->take(5)->get()->map(function ($item) {
                 return [
-                    'nama' => 'Kesejahteraan',
+                    'nama' => 'Riwayat Kesejahteraan',
                     'created_at' => $item->created_at,
                 ];
             })
@@ -185,7 +185,7 @@ class FBerandaController extends Controller
             'organisasiCount' => RiwayatOrganisasi::where('pegawai_id', auth()->user()->pegawai_id)->count(),
             'prestasiCount' => NilaiPrestasiKerja::where('pegawai_id', auth()->user()->pegawai_id)->count(),
             'asesmenCount' => RiwayatAsesmen::where('pegawai_id', auth()->user()->pegawai_id)->count(),
-            'kesejahteraanCount' => Kesejahteraan::where('pegawai_id', auth()->user()->pegawai_id)->count(),
+            'kesejahteraanCount' => RiwayatKesejahteraan::where('pegawai_id', auth()->user()->pegawai_id)->count(),
             'keluargaCount' => DataKeluarga::where('pegawai_id', auth()->user()->pegawai_id)->count(),
             'dokumenCount' => Dokumen::where('pegawai_id', auth()->user()->pegawai_id)->count()
         ], compact('latestUpdates'));

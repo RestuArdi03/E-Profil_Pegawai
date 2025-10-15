@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('metode_asesmen');
             $table->string('gambaran_potensi');
             $table->string('gambaran_kompetensi');
-            $table->string('saran_pengembangan');
+            $table->string('saran_pengembangan')->nullable();
 
             $table->unsignedBigInteger('pegawai_id');
             $table->foreign('pegawai_id')->references('id')->on('pegawai')->onDelete('cascade');

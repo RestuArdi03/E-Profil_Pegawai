@@ -159,27 +159,27 @@
 
                                 <div class="mb-3">
                                     <label for="tambah_nm_diklat" class="block text-sm font-medium  text-gray-700" style="margin-top: -25px;">Nama Diklat</label>
-                                    <input type="text" name="nm_diklat" id="tambah_nm_diklat" class="w-full border rounded-md text-sm" required value="{{ old('nm_diklat') }}">
+                                    <input type="text" name="nm_diklat" id="tambah_nm_diklat" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('nm_diklat') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_jpl" class="block text-sm font-medium text-gray-700">JPL</label>
-                                    <input type="number" name="jpl" id="tambah_jpl" class="w-full border rounded-md text-sm" required value="{{ old('jpl') }}">
+                                    <input type="number" name="jpl" id="tambah_jpl" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('jpl') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_tgl_mulai" class="block text-sm font-medium text-gray-700">Tanggal Mulai</label>
-                                    <input type="date" name="tgl_mulai" id="tambah_tgl_mulai" class="w-full border rounded-md text-sm" required value="{{ old('tgl_mulai') }}">
+                                    <input type="date" name="tgl_mulai" id="tambah_tgl_mulai" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('tgl_mulai') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_tgl_selesai" class="block text-sm font-medium text-gray-700">Tahun Lulus</label>
-                                    <input type="date" name="tgl_selesai" id="tambah_tgl_selesai" class="w-full border rounded-md text-sm" min="1950" max="{{ date('Y') }}" required value="{{ old('tgl_selesai') }}">
+                                    <input type="date" name="tgl_selesai" id="tambah_tgl_selesai" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" min="1950" max="{{ date('Y') }}" required value="{{ old('tgl_selesai') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_no_sertifikat" class="block text-sm font-medium text-gray-700">No Sertifikat</label>
-                                    <input type="text" name="no_sertifikat" id="tambah_no_sertifikat" class="w-full border rounded-md text-sm" required value="{{ old('no_sertifikat') }}">
+                                    <input type="text" name="no_sertifikat" id="tambah_no_sertifikat" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('no_sertifikat') }}">
                                     @error('no_sertifikat')
                                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                     @enderror
@@ -187,16 +187,16 @@
 
                                 <div class="mb-3">
                                     <label for="tambah_tgl_sertifikat" class="block text-sm font-medium text-gray-700">Tanggal Sertifikat</label>
-                                    <input type="date" name="tgl_sertifikat" id="tambah_tgl_sertifikat" class="w-full border rounded-md text-sm" required value="{{ old('tgl_sertifikat') }}">
+                                    <input type="date" name="tgl_sertifikat" id="tambah_tgl_sertifikat" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('tgl_sertifikat') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_penyelenggara" class="block text-sm font-medium text-gray-700">Penyelenggara</label>
-                                    <input type="text" name="penyelenggara" id="tambah_penyelenggara" class="w-full border rounded-md text-sm" required value="{{ old('penyelenggara') }}">
+                                    <input type="text" name="penyelenggara" id="tambah_penyelenggara" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('penyelenggara') }}">
                                 </div>
                             </form>
                         </div>
-                        <div class="flex justify-end gap-2 p-6" style="margin-top: -25px;">
+                        <div class="flex justify-end gap-2 p-6">
                             <button type="button" onclick="closeTambahModalDiklat()" class="px-3 py-1.5 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">Batal</button>
                             <button type="submit" form="tambahFormDiklat" class="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Simpan</button>
                         </div>
@@ -231,27 +231,27 @@
 
                                     <div class="mb-3">
                                         <label for="edit_nm_diklat" class="block text-sm font-medium  text-gray-700" style="margin-top: -25px;">Nama Diklat</label>
-                                        <input type="text" name="nm_diklat" id="edit_nm_diklat" class="w-full border rounded-md text-sm" required value="{{ old('nm_diklat', $rd->nm_diklat) }}">
+                                        <input type="text" name="nm_diklat" id="edit_nm_diklat" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('nm_diklat', $rd->nm_diklat) }}">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_jpl" class="block text-sm font-medium text-gray-700">JPL</label>
-                                        <input type="number" name="jpl" id="edit_jpl" class="w-full border rounded-md text-sm" required value="{{ old('jpl', $rd->jpl) }}">
+                                        <input type="number" name="jpl" id="edit_jpl" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('jpl', $rd->jpl) }}">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_tgl_mulai" class="block text-sm font-medium text-gray-700">Tanggal Mulai</label>
-                                        <input type="date" name="tgl_mulai" id="edit_tgl_mulai" class="w-full border rounded-md text-sm" required value="{{ old('tgl_mulai', $rd->tgl_mulai) }}">
+                                        <input type="date" name="tgl_mulai" id="edit_tgl_mulai" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('tgl_mulai', $rd->tgl_mulai) }}">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_tgl_selesai" class="block text-sm font-medium text-gray-700">Tanggal Selesai</label>
-                                        <input type="date" name="tgl_selesai" id="edit_tgl_selesai" class="w-full border rounded-md text-sm" required value="{{ old('tgl_selesai', $rd->tgl_selesai) }}">
+                                        <input type="date" name="tgl_selesai" id="edit_tgl_selesai" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('tgl_selesai', $rd->tgl_selesai) }}">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_no_sertifikat" class="block text-sm font-medium text-gray-700">No Sertifikat</label>
-                                        <input type="text" name="no_sertifikat" id="edit_no_sertifikat" class="w-full border rounded-md text-sm" required value="{{ old('no_sertifikat', $rd->no_sertifikat) }}">
+                                        <input type="text" name="no_sertifikat" id="edit_no_sertifikat" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('no_sertifikat', $rd->no_sertifikat) }}">
                                         @error('no_sertifikat')
                                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                         @enderror
@@ -259,17 +259,17 @@
 
                                     <div class="mb-3">
                                         <label for="edit_tgl_sertifikat" class="block text-sm font-medium text-gray-700">Tanggal Sertifikat</label>
-                                        <input type="date" name="tgl_sertifikat" id="edit_tgl_sertifikat" class="w-full border rounded-md text-sm" required value="{{ old('tgl_sertifikat', $rd->tgl_sertifikat) }}">
+                                        <input type="date" name="tgl_sertifikat" id="edit_tgl_sertifikat" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('tgl_sertifikat', $rd->tgl_sertifikat) }}">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_penyelenggara" class="block text-sm font-medium text-gray-700">Penyelenggara</label>
-                                        <input type="text" name="penyelenggara" id="edit_penyelenggara" class="w-full border rounded-md text-sm" required value="{{ old('penyelenggara', $rd->penyelenggara) }}">
+                                        <input type="text" name="penyelenggara" id="edit_penyelenggara" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('penyelenggara', $rd->penyelenggara) }}">
                                     </div>
                                     
                                 </form>
                             </div>
-                            <div class="flex justify-end gap-2 p-6" style="margin-top: -25px;">
+                            <div class="flex justify-end gap-2 p-6">
                                 <button type="button" onclick="closeEditModalDiklat()" class="px-3 py-1.5 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">Batal</button>
                                 <button type="submit" form="editFormDiklat" class="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Simpan</button>
                             </div>

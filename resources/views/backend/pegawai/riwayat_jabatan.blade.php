@@ -164,12 +164,12 @@
 
                                 <div class="mb-3" style="margin-top: -25px;">
                                     <label for="tambah_jabatan" class="block text-sm font-medium text-gray-700">Jabatan</label>
-                                    <input type="text" name="jabatan" id="tambah_jabatan" class="w-full border rounded-md text-sm" required value="{{ old('jabatan') }}">
+                                    <input type="text" name="jabatan" id="tambah_jabatan" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('jabatan') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label class="block text-sm font-medium">Eselon</label>
-                                    <select name="eselon_id" id="eselon_id" class="w-full border rounded-md text-sm" required>
+                                    <select name="eselon_id" id="eselon_id" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required>
                                         <option value="">-- Pilih eselon --</option>
                                         @foreach ($eselon as $sln)
                                             <option value="{{ $sln->id }}"
@@ -182,7 +182,7 @@
 
                                 <div class="mb-3">
                                     <label class="block text-sm font-medium">Jenis Jabatan</label>
-                                    <select name="jenis_jabatan_id" id="jenis_jabatan_id" class="w-full border rounded-md text-sm" required>
+                                    <select name="jenis_jabatan_id" id="jenis_jabatan_id" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required>
                                         <option value="">-- Pilih jenis jabatan --</option>
                                         @foreach ($jenis_jabatan as $jbtn)
                                             <option value="{{ $jbtn->id }}"
@@ -195,12 +195,12 @@
 
                                 <div class="mb-3">
                                     <label for="tambah_tmt" class="block text-sm font-medium text-gray-700">TMT</label>
-                                    <input type="date" name="tmt" id="tambah_tmt" class="w-full border rounded-md text-sm" required value="{{ old('tmt') }}">
+                                    <input type="date" name="tmt" id="tambah_tmt" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('tmt') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_no_sk" class="block text-sm font-medium text-gray-700">No SK</label>
-                                    <input type="text" name="no_sk" id="tambah_no_sk" class="w-full border rounded-md text-sm" required value="{{ old('no_sk') }}">
+                                    <input type="text" name="no_sk" id="tambah_no_sk" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('no_sk') }}">
                                     @error('no_sk')
                                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                     @enderror
@@ -208,17 +208,17 @@
 
                                 <div class="mb-3">
                                     <label for="tambah_tgl_sk" class="block text-sm font-medium text-gray-700">Tanggal SK</label>
-                                    <input type="date" name="tgl_sk" id="tambah_tgl_sk" class="w-full border rounded-md text-sm" required value="{{ old('tgl_sk') }}">
+                                    <input type="date" name="tgl_sk" id="tambah_tgl_sk" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('tgl_sk') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_pejabat_penetap" class="block text-sm font-medium text-gray-700">Pejabat Penetap</label>
-                                    <input type="text" name="pejabat_penetap" id="tambah_pejabat_penetap" class="w-full border rounded-md text-sm" required value="{{ old('pejabat_penetap') }}">
+                                    <input type="text" name="pejabat_penetap" id="tambah_pejabat_penetap" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('pejabat_penetap') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_jenis_mutasi" class="block text-sm font-medium text-gray-700">Jenis Mutasi</label>
-                                    <input type="text" name="jenis_mutasi" id="tambah_jenis_mutasi" class="w-full border rounded-md text-sm" required value="{{ old('jenis_mutasi') }}">
+                                    <input type="text" name="jenis_mutasi" id="tambah_jenis_mutasi" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('jenis_mutasi') }}">
                                 </div>
                             </form>
                         </div>
@@ -256,12 +256,12 @@
 
                                     <div class="mb-3" style="margin-top: -25px;">
                                         <label for="edit_jabatan" class="block text-sm font-medium text-gray-700">Jabatan</label>
-                                        <input type="text" name="jabatan" id="edit_jabatan" class="w-full border rounded-md text-sm" required value="{{ old('jabatan', $rj->jabatan) }}">
+                                        <input type="text" name="jabatan" id="edit_jabatan" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('jabatan', $rj->jabatan) }}">
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="block text-sm font-medium">Eselon</label>
-                                        <select name="eselon_id" id="edit_eselon_id" class="w-full border rounded-md text-sm" required>
+                                        <select name="eselon_id" id="edit_eselon_id" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required>
                                             <option value="">-- Pilih eselon --</option>
                                             @foreach ($eselon as $sln)
                                                 <option value="{{ $sln->id }}"
@@ -274,7 +274,7 @@
 
                                     <div class="mb-3">
                                         <label class="block text-sm font-medium">Jenis Jabatan</label>
-                                        <select name="jenis_jabatan_id" id="edit_jenis_jabatan_id" class="w-full border rounded-md text-sm" required>
+                                        <select name="jenis_jabatan_id" id="edit_jenis_jabatan_id" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required>
                                             <option value="">-- Pilih jenis jabatan --</option>
                                             @foreach ($jenis_jabatan as $jbtn)
                                                 <option value="{{ $jbtn->id }}"
@@ -287,12 +287,12 @@
 
                                     <div class="mb-3">
                                         <label for="edit_tmt" class="block text-sm font-medium text-gray-700">TMT</label>
-                                        <input type="date" name="tmt" id="edit_tmt" class="w-full border rounded-md text-sm" required value="{{ old('tmt', $rj->tmt) }}">
+                                        <input type="date" name="tmt" id="edit_tmt" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('tmt', $rj->tmt) }}">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_no_sk" class="block text-sm font-medium text-gray-700">No SK</label>
-                                        <input type="text" name="no_sk" id="edit_no_sk" class="w-full border rounded-md text-sm" required value="{{ old('no_sk', $rj->no_sk) }}">
+                                        <input type="text" name="no_sk" id="edit_no_sk" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('no_sk', $rj->no_sk) }}">
                                         @error('no_sk')
                                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                         @enderror
@@ -300,17 +300,17 @@
 
                                     <div class="mb-3">
                                         <label for="edit_tgl_sk" class="block text-sm font-medium text-gray-700">Tanggal SK</label>
-                                        <input type="date" name="tgl_sk" id="edit_tgl_sk" class="w-full border rounded-md text-sm" required value="{{ old('tgl_sk', $rj->tgl_sk) }}">
+                                        <input type="date" name="tgl_sk" id="edit_tgl_sk" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('tgl_sk', $rj->tgl_sk) }}">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_pejabat_penetap" class="block text-sm font-medium text-gray-700">Pejabat Penetap</label>
-                                        <input type="text" name="pejabat_penetap" id="edit_pejabat_penetap" class="w-full border rounded-md text-sm" required value="{{ old('pejabat_penetap', $rj->pejabat_penetap) }}">
+                                        <input type="text" name="pejabat_penetap" id="edit_pejabat_penetap" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('pejabat_penetap', $rj->pejabat_penetap) }}">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_jenis_mutasi" class="block text-sm font-medium text-gray-700">Jenis Mutasi</label>
-                                        <input type="text" name="jenis_mutasi" id="edit_jenis_mutasi" class="w-full border rounded-md text-sm" required value="{{ old('jenis_mutasi', $rj->jenis_mutasi) }}">
+                                        <input type="text" name="jenis_mutasi" id="edit_jenis_mutasi" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('jenis_mutasi', $rj->jenis_mutasi) }}">
                                     </div>
                                 </form>
                             </div>

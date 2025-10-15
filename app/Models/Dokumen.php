@@ -11,6 +11,13 @@ class Dokumen extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $fillable = [
+        'pegawai_id',
+        'nm_dokumen',
+        'folder_id',
+        'file_path',
+    ];
+
     protected $table = 'dokumen';
     protected $dates = ['deleted_at'];
 

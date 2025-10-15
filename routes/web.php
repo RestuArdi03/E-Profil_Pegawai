@@ -131,22 +131,43 @@ Route::prefix('/admin')->name('backend.')->middleware(['auth', 'is_admin'])->gro
     
     // ROUTE SLKS
     Route::get('/riwayat_slks/{pegawai}', [SlksController::class, 'show'])->name('slks.show');
-
+    Route::delete('/riwayat_slks/{id}', [SlksController::class, 'destroy'])->name('slks.destroy');
+    Route::resource('riwayat_slks', SlksController::class);
+    Route::post('/riwayat_slks/store', [SlksController::class, 'store'])->name('slks.store');
+    
     // ROUTE ORGANISASI
     Route::get('/riwayat_organisasi/{pegawai}', [OrganisasiController::class, 'show'])->name('organisasi.show');
-
+    Route::delete('/riwayat_organisasi/{id}', [OrganisasiController::class, 'destroy'])->name('organisasi.destroy');
+    Route::resource('riwayat_organisasi', OrganisasiController::class);
+    Route::post('/riwayat_organisasi/store', [OrganisasiController::class, 'store'])->name('organisasi.store');
+    
     // ROUTE NILAI PRESTASI KERJA
     Route::get('/nilai_prestasi_kerja/{pegawai}', [PrestasiKerjaController::class, 'show'])->name('prestasiKerja.show');
-
+    Route::delete('/nilai_prestasi_kerja/{id}', [PrestasiKerjaController::class, 'destroy'])->name('prestasiKerja.destroy');
+    Route::resource('nilai_prestasi_kerja', PrestasiKerjaController::class);
+    Route::post('/nilai_prestasi_kerja/store', [PrestasiKerjaController::class, 'store'])->name('prestasiKerja.store');
+    
     // ROUTE ASESMEN
     Route::get('/riwayat_asesmen/{pegawai}', [AsesmenController::class, 'show'])->name('asesmen.show');
-
+    Route::delete('/riwayat_asesmen/{id}', [AsesmenController::class, 'destroy'])->name('asesmen.destroy');
+    Route::resource('riwayat_asesmen', AsesmenController::class);
+    Route::post('/riwayat_asesmen/store', [AsesmenController::class, 'store'])->name('asesmen.store');
+    
     // ROUTE KESEJAHTERAAN
     Route::get('/riwayat_kesejahteraan/{pegawai}', [KesejahteraanController::class, 'show'])->name('kesejahteraan.show');
-
+    Route::delete('/riwayat_kesejahteraan/{id}', [KesejahteraanController::class, 'destroy'])->name('kesejahteraan.destroy');
+    Route::resource('riwayat_kesejahteraan', KesejahteraanController::class);
+    Route::post('/riwayat_kesejahteraan/store', [KesejahteraanController::class, 'store'])->name('kesejahteraan.store');
+    
     // ROUTE KELUARGA
     Route::get('/data_keluarga/{pegawai}', [KeluargaController::class, 'show'])->name('keluarga.show');
-
+    Route::delete('/data_keluarga/{id}', [KeluargaController::class, 'destroy'])->name('keluarga.destroy');
+    Route::resource('data_keluarga', KeluargaController::class);
+    Route::post('/data_keluarga/store', [KeluargaController::class, 'store'])->name('keluarga.store');
+    
     // ROUTE DOKUMEN
     Route::get('/dokumen/{pegawai}', [DokumenController::class, 'show'])->name('dokumen.show');
+    Route::delete('/dokumen/{id}', [DokumenController::class, 'destroy'])->name('dokumen.destroy');
+    Route::resource('dokumen', DokumenController::class);
+    Route::post('/dokumen/store', [DokumenController::class, 'store'])->name('dokumen.store');
 });

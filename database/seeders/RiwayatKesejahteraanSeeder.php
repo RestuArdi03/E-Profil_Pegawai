@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 
-class KesejahteraanSeeder extends Seeder
+class RiwayatKesejahteraanSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,7 +15,7 @@ class KesejahteraanSeeder extends Seeder
     public function run(): void
     {
         $pegawaiId = DB::table('pegawai')->first()->id;
-        DB::table('kesejahteraan')->insert([
+        DB::table('riwayat_kesejahteraan')->insert([
             'npwp' => 2023123455667,
             'no_bpjs' => 5112345678372,
             'no_taspen' => 850987655,

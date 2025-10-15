@@ -11,6 +11,16 @@ class RiwayatAsesmen extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $fillable = [
+        'pegawai_id',
+        'tgl_asesmen',
+        'tujuan_asesmen',
+        'metode_asesmen',
+        'gambaran_potensi',
+        'gambaran_kompetensi',
+        'saran_pengembangan',
+    ];
+
     protected $table = 'riwayat_asesmen';
     protected $dates = ['deleted_at'];
 

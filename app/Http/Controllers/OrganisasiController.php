@@ -31,7 +31,31 @@ class OrganisasiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // 🔍 Validasi field wajib diisi
+        $request->validate([
+            'organisasi' => 'required|string|max:255',
+            'jabatan' => 'required|string|max:255',
+            'masa_jabatan' => 'required|string|max:255',
+            'no_sk' => 'required|string|max:100|unique:riwayat_organisasi,no_sk',
+            'tgl_sk' => 'required|date',
+            'pejabat_penetap' => 'required|string|max:255',
+        ], [
+            'no_sk.unique' => 'Nomor SK sudah digunakan / Nomor SK harus berbeda dengan yang lain.',
+        ]);
+
+        // ✅ Simpan riwayat organisasi
+        RiwayatOrganisasi::create([
+            'pegawai_id' => $request->pegawai_id,
+            'organisasi' => $request->organisasi,
+            'jabatan' => $request->jabatan,
+            'masa_jabatan' => $request->masa_jabatan,
+            'no_sk' => $request->no_sk,
+            'tgl_sk' => $request->tgl_sk,
+            'pejabat_penetap' => $request->pejabat_penetap,
+        ]);
+
+        return redirect()->route('backend.organisasi.show', $request->pegawai_id)
+            ->with('success', '✅ Data Riwayat Organisasi berhasil ditambahkan.');
     }
 
     /**
@@ -60,7 +84,30 @@ class OrganisasiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $org = RiwayatOrganisasi::findOrFail($id);
+        // 🔍 Validasi data edit
+        $request->validate([
+            'organisasi' => 'required|string|max:255',
+            'jabatan' => 'required|string|max:255',
+            'masa_jabatan' => 'required|string|max:255',
+            'no_sk' => 'required|string|max:100|unique:riwayat_organisasi,no_sk,' . $id,
+            'tgl_sk' => 'required|date',
+            'pejabat_penetap' => 'required|string|max:255',
+        ], [
+            'no_sk.unique' => 'Nomor SK sudah digunakan / Nomor SK harus berbeda dengan yang lain.',
+        ]);
+
+        // ✅ Update data
+        $org->update([
+            'organisasi' => $request->organisasi,
+            'jabatan' => $request->jabatan,
+            'masa_jabatan' => $request->masa_jabatan,
+            'no_sk' => $request->no_sk,
+            'tgl_sk' => $request->tgl_sk,
+            'pejabat_penetap' => $request->pejabat_penetap,
+        ]);
+
+        return redirect()->route('backend.organisasi.show', $request->pegawai_id) ->with('success', '✅ Data Riwayat Organisasi berhasil diperbarui.');
     }
 
     /**
@@ -68,6 +115,9 @@ class OrganisasiController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $riwayat_organisasi = RiwayatOrganisasi::findOrFail($id);
+        $riwayat_organisasi->delete(); // ✅ Hapus data riwayat organisasi (soft delete)
+
+        return redirect()->back()->with('success', '✅ Data Riwayat Organisasi berhasil dihapus.');
     }
 }

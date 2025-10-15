@@ -31,7 +31,29 @@ class PrestasiKerjaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // 🔍 Validasi field wajib diisi
+        $request->validate([
+            'tahun' => 'required|digits:4|integer|min:1950|max:' . date('Y'),
+            'skp' => 'required|string|max:100',
+            'nilai_prestasi_kerja' => 'required|string|max:255',
+            'nilai_perilaku_kerja' => 'required|string|max:255',
+            'klasifikasi_nilai' => 'required|string|max:100',
+            'pejabat_penilai' => 'required|string|max:50',
+        ]);
+
+        // ✅ Simpan nilai prestasi kerja
+        NilaiPrestasiKerja::create([
+            'pegawai_id' => $request->pegawai_id,
+            'tahun' => $request->tahun,
+            'skp' => $request->skp,
+            'nilai_prestasi_kerja' => $request->nilai_prestasi_kerja,
+            'nilai_perilaku_kerja' => $request->nilai_perilaku_kerja,
+            'klasifikasi_nilai' => $request->klasifikasi_nilai,
+            'pejabat_penilai' => $request->pejabat_penilai,
+        ]);
+
+        return redirect()->route('backend.prestasiKerja.show', $request->pegawai_id)
+            ->with('success', '✅ Data Nilai Prestasi Kerja berhasil ditambahkan.');
     }
 
     /**
@@ -60,7 +82,28 @@ class PrestasiKerjaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $nilai = NilaiPrestasiKerja::findOrFail($id);
+        // 🔍 Validasi data edit
+        $request->validate([
+            'tahun' => 'required|digits:4|integer|min:1950|max:' . date('Y'),
+            'skp' => 'required|string|max:100',
+            'nilai_prestasi_kerja' => 'required|string|max:255',
+            'nilai_perilaku_kerja' => 'required|string|max:255',
+            'klasifikasi_nilai' => 'required|string|max:100',
+            'pejabat_penilai' => 'required|string|max:50',
+        ]);
+
+        // ✅ Update data
+        $nilai->update([
+            'tahun' => $request->tahun,
+            'skp' => $request->skp,
+            'nilai_prestasi_kerja' => $request->nilai_prestasi_kerja,
+            'nilai_perilaku_kerja' => $request->nilai_perilaku_kerja,
+            'klasifikasi_nilai' => $request->klasifikasi_nilai,
+            'pejabat_penilai' => $request->pejabat_penilai,
+        ]);
+
+        return redirect()->route('backend.prestasiKerja.show', $request->pegawai_id) ->with('success', '✅ Data Nilairestasi Kerja berhasil diperbarui.');
     }
 
     /**
@@ -68,6 +111,9 @@ class PrestasiKerjaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $nilai_prestasi_kerja = NilaiPrestasiKerja::findOrFail($id);
+        $nilai_prestasi_kerja->delete(); // ✅ Hapus data nilai prestasi kerja (soft delete)
+
+        return redirect()->back()->with('success', '✅ Data NIlai Prestasi Kerja berhasil dihapus.');
     }
 }

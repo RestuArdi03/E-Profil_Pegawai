@@ -11,6 +11,16 @@ class RiwayatOrganisasi extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $fillable = [
+        'pegawai_id',
+        'organisasi',
+        'jabatan',
+        'masa_jabatan',
+        'no_sk',
+        'tgl_sk',
+        'pejabat_penetap',
+    ];
+
     protected $table = 'riwayat_organisasi';
     protected $dates = ['deleted_at'];
 

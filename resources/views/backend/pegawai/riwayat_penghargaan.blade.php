@@ -141,17 +141,17 @@
 
                                 <div class="mb-3">
                                     <label for="tambah_nm_penghargaan" class="block text-sm font-medium text-gray-700" style="margin-top: -25px;">Nama Penghargaan</label>
-                                    <input type="text" name="nm_penghargaan" id="tambah_nm_penghargaan" class="w-full border rounded-md text-sm" required value="{{ old('nm_penghargaan') }}">
+                                    <input type="text" name="nm_penghargaan" id="tambah_nm_penghargaan" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('nm_penghargaan') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_no_urut" class="block text-sm font-medium text-gray-700">No Urut</label>
-                                    <input type="text" name="no_urut" id="tambah_no_urut" class="w-full border rounded-md text-sm" required value="{{ old('no_urut') }}">
+                                    <input type="text" name="no_urut" id="tambah_no_urut" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('no_urut') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_no_sertifikat" class="block text-sm font-medium text-gray-700">No Sertifikat</label>
-                                    <input type="text" name="no_sertifikat" id="tambah_no_sertifikat" class="w-full border rounded-md text-sm" required value="{{ old('no_sertifikat') }}">
+                                    <input type="text" name="no_sertifikat" id="tambah_no_sertifikat" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('no_sertifikat') }}">
                                     @error('no_sertifikat')
                                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                     @enderror
@@ -159,17 +159,17 @@
 
                                 <div class="mb-3">
                                     <label for="tambah_tgl_sertifikat" class="block text-sm font-medium text-gray-700">Tanggal Sertifikat</label>
-                                    <input type="date" name="tgl_sertifikat" id="tambah_tgl_sertifikat" class="w-full border rounded-md text-sm" required value="{{ old('tgl_sertifikat') }}">
+                                    <input type="date" name="tgl_sertifikat" id="tambah_tgl_sertifikat" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('tgl_sertifikat') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_pejabat_penetap" class="block text-sm font-medium text-gray-700">Pejabat Penetap</label>
-                                    <input type="text" name="pejabat_penetap" id="tambah_pejabat_penetap" class="w-full border rounded-md text-sm" required value="{{ old('pejabat_penetap') }}">
+                                    <input type="text" name="pejabat_penetap" id="tambah_pejabat_penetap" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('pejabat_penetap') }}">
                                 </div>
                                 
                                 <div class="mb-3">
                                     <label for="tambah_link" class="block text-sm font-medium text-gray-700">Link</label>
-                                    <input type="text" name="link" id="tambah_link" class="w-full border rounded-md text-sm" required value="{{ old('link') }}">
+                                    <input type="text" name="link" id="tambah_link" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('link') }}">
                                 </div>
                             </form>
                         </div>
@@ -208,17 +208,17 @@
 
                                     <div class="mb-3">
                                         <label for="edit_nm_penghargaan" class="block text-sm font-medium text-gray-700" style="margin-top: -25px;">Nama Penghargaan</label>
-                                        <input type="text" name="nm_penghargaan" id="edit_nm_penghargaan" class="w-full border rounded-md text-sm" required value="{{ old('nm_penghargaan', $rph->nm_penghargaan) }}">
+                                        <input type="text" name="nm_penghargaan" id="edit_nm_penghargaan" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('nm_penghargaan', $rph->nm_penghargaan) }}">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_no_urut" class="block text-sm font-medium text-gray-700">No Urut</label>
-                                        <input type="text" name="no_urut" id="edit_no_urut" class="w-full border rounded-md text-sm" required value="{{ old('no_urut', $rph->no_urut) }}">
+                                        <input type="text" name="no_urut" id="edit_no_urut" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('no_urut', $rph->no_urut) }}">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_no_sertifikat" class="block text-sm font-medium text-gray-700">No Sertifikat</label>
-                                        <input type="text" name="no_sertifikat" id="edit_no_sertifikat" class="w-full border rounded-md text-sm" required value="{{ old('no_sertifikat', $rph->no_sertifikat) }}">
+                                        <input type="text" name="no_sertifikat" id="edit_no_sertifikat" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('no_sertifikat', $rph->no_sertifikat) }}">
                                         @error('no_sertifikat')
                                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                         @enderror
@@ -226,17 +226,17 @@
 
                                     <div class="mb-3">
                                         <label for="edit_tgl_sertifikat" class="block text-sm font-medium text-gray-700">tgl_sertifikat</label>
-                                        <input type="date" name="tgl_sertifikat" id="edit_tgl_sertifikat" class="w-full border rounded-md text-sm" required value="{{ old('tgl_sertifikat', $rph->tgl_sertifikat) }}">
+                                        <input type="date" name="tgl_sertifikat" id="edit_tgl_sertifikat" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('tgl_sertifikat', $rph->tgl_sertifikat) }}">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_pejabat_penetap" class="block text-sm font-medium text-gray-700">Pejabat Penetap</label>
-                                        <input type="text" name="pejabat_penetap" id="edit_pejabat_penetap" class="w-full border rounded-md text-sm" required value="{{ old('pejabat_penetap', $rph->pejabat_penetap) }}">
+                                        <input type="text" name="pejabat_penetap" id="edit_pejabat_penetap" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('pejabat_penetap', $rph->pejabat_penetap) }}">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_link" class="block text-sm font-medium text-gray-700">Link</label>
-                                        <input type="text" name="link" id="edit_link" class="w-full border rounded-md text-sm" required value="{{ old('link', $rph->link) }}">
+                                        <input type="text" name="link" id="edit_link" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('link', $rph->link) }}">
                                     </div>
                                 </form>
                             </div>

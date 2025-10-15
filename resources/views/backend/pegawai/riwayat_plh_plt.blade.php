@@ -139,27 +139,27 @@
 
                                 <div class="mb-3">
                                     <label for="tambah_no_sprint" class="block text-sm font-medium text-gray-700" style="margin-top: -25px;">No Sprint</label>
-                                    <input type="text" name="no_sprint" id="tambah_no_sprint" class="w-full border rounded-md text-sm" required value="{{ old('no_sprint') }}">
+                                    <input type="text" name="no_sprint" id="tambah_no_sprint" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('no_sprint') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_tgl_sprint" class="block text-sm font-medium text-gray-700">Tanggal Sprint</label>
-                                    <input type="date" name="tgl_sprint" id="tambah_tgl_sprint" class="w-full border rounded-md text-sm" required value="{{ old('tgl_sprint') }}">
+                                    <input type="date" name="tgl_sprint" id="tambah_tgl_sprint" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('tgl_sprint') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_tgl_mulai" class="block text-sm font-medium text-gray-700">Tanggal Mulai</label>
-                                    <input type="date" name="tgl_mulai" id="tambah_tgl_mulai" class="w-full border rounded-md text-sm" required value="{{ old('tgl_mulai') }}">
+                                    <input type="date" name="tgl_mulai" id="tambah_tgl_mulai" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('tgl_mulai') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_tgl_selesai" class="block text-sm font-medium text-gray-700">Tanggal Selesai</label>
-                                    <input type="date" name="tgl_selesai" id="tambah_tgl_selesai" class="w-full border rounded-md text-sm" required value="{{ old('tgl_selesai') }}">
+                                    <input type="date" name="tgl_selesai" id="tambah_tgl_selesai" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('tgl_selesai') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_jabatan_plh_plt" class="block text-sm font-medium text-gray-700">Jabatan PLH/PLT</label>
-                                    <input type="text" name="jabatan_plh_plt" id="tambah_jabatan_plh_plt" class="w-full border rounded-md text-sm" required value="{{ old('jabatan_plh_plt') }}">
+                                    <input type="text" name="jabatan_plh_plt" id="tambah_jabatan_plh_plt" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('jabatan_plh_plt') }}">
                                 </div>
                             </form>
                         </div>
@@ -199,28 +199,28 @@
 
                                     <div class="mb-3">
                                         <label for="edit_no_sprint" class="block text-sm font-medium text-gray-700" style="margin-top: -25px;">No Sprint</label>
-                                        <input type="text" name="no_sprint" id="edit_no_sprint" class="w-full border rounded-md text-sm" required value="{{ old('no_sprint', $rpp->no_sprint) }}">
+                                        <input type="text" name="no_sprint" id="edit_no_sprint" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('no_sprint', $rpp->no_sprint) }}">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_tgl_sprint" class="block text-sm font-medium text-gray-700">Tanggal Sprint</label>
-                                        <input type="date" name="tgl_sprint" id="edit_tgl_sprint" class="w-full border rounded-md text-sm" required value="{{ old('tgl_sprint', $rpp->tgl_sprint) }}">
+                                        <input type="date" name="tgl_sprint" id="edit_tgl_sprint" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('tgl_sprint', $rpp->tgl_sprint) }}">
 
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_tgl_mulai" class="block text-sm font-medium text-gray-700">Tanggal Mulai</label>
-                                        <input type="date" name="tgl_mulai" id="edit_tgl_mulai" class="w-full border rounded-md text-sm" required value="{{ old('tgl_mulai', $rpp->tgl_mulai) }}">
+                                        <input type="date" name="tgl_mulai" id="edit_tgl_mulai" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('tgl_mulai', $rpp->tgl_mulai) }}">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_tgl_selesai" class="block text-sm font-medium text-gray-700">Tanggal Selesai</label>
-                                        <input type="date" name="tgl_selesai" id="edit_tgl_selesai" class="w-full border rounded-md text-sm" required value="{{ old('tgl_selesai', $rpp->tgl_selesai) }}">
+                                        <input type="date" name="tgl_selesai" id="edit_tgl_selesai" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('tgl_selesai', $rpp->tgl_selesai) }}">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_jabatan_plh_plt" class="block text-sm font-medium text-gray-700">Jabatan plh_plt</label>
-                                        <input type="text" name="jabatan_plh_plt" id="edit_jabatan_plh_plt" class="w-full border rounded-md text-sm" required value="{{ old('jabatan_plh_plt', $rpp->jabatan_plh_plt) }}">
+                                        <input type="text" name="jabatan_plh_plt" id="edit_jabatan_plh_plt" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('jabatan_plh_plt', $rpp->jabatan_plh_plt) }}">
                                     </div>
                                 </form>
                             </div>

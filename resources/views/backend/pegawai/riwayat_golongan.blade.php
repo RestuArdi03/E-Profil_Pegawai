@@ -144,7 +144,7 @@
 
                                 <div class="mb-3">
                                     <label class="block text-sm font-medium" style="margin-top: -25px;">Golru</label>
-                                    <select name="golongan_id" id="golongan_id" class="w-full border rounded-md text-sm" required value>
+                                    <select name="golongan_id" id="golongan_id" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value>
                                         <option value="">-- Pilih golru --</option>
                                         @foreach ($golongan as $g)
                                             <option value="{{ $g->id }}" {{ old('golongan_id') == $g->id ? 'selected' : '' }}>
@@ -156,12 +156,12 @@
 
                                 <div class="mb-3">
                                     <label for="tambah_tmt_golongan" class="block text-sm font-medium text-gray-700">TMT Golongan</label>
-                                    <input type="date" name="tmt_golongan" id="tambah_tmt_golongan" class="w-full border rounded-md text-sm" required value="{{ old('tmt_golongan') }}">
+                                    <input type="date" name="tmt_golongan" id="tambah_tmt_golongan" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('tmt_golongan') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_no_sk" class="block text-sm font-medium text-gray-700">No SK</label>
-                                    <input type="text" name="no_sk" id="tambah_no_sk" class="w-full border rounded-md text-sm" required value="{{ old('no_sk') }}">
+                                    <input type="text" name="no_sk" id="tambah_no_sk" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('no_sk') }}">
                                 </div>
                                 @error('no_sk')
                                     <p class="text-red-500 text-sm" style="margin-top: -10px; margin-bottom: 10px;">{{ $message }}</p>
@@ -169,12 +169,12 @@
 
                                 <div class="mb-3">
                                     <label for="tambah_tgl_sk" class="block text-sm font-medium text-gray-700">Tanggal SK</label>
-                                    <input type="date" name="tgl_sk" id="tambah_tgl_sk" class="w-full border rounded-md text-sm" required value="{{ old('tgl_sk') }}">
+                                    <input type="date" name="tgl_sk" id="tambah_tgl_sk" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('tgl_sk') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_pejabat" class="block text-sm font-medium text-gray-700">Pejabat</label>
-                                    <input type="text" name="pejabat" id="tambah_pejabat" class="w-full border rounded-md text-sm" required value="{{ old('pejabat') }}">
+                                    <input type="text" name="pejabat" id="tambah_pejabat" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('pejabat') }}">
                                 </div>
                             </form>
                         </div>
@@ -214,7 +214,7 @@
 
                                     <div class="mb-3">
                                         <label class="block text-sm font-medium" style="margin-top: -25px;">Golru</label>
-                                        <select name="golongan_id" id="edit_golongan_id" class="w-full border rounded-md text-sm" required>
+                                        <select name="golongan_id" id="edit_golongan_id" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required>
                                             <option value="">-- Pilih golru --</option>
                                             @foreach ($golongan as $g)
                                                 <option value="{{ $g->id }}" {{ old('golongan_id') == $g->id ? 'selected' : '' }}>
@@ -226,12 +226,12 @@
 
                                     <div class="mb-3">
                                         <label for="edit_tmt_golongan" class="block text-sm font-medium text-gray-700">TMT Golongan</label>
-                                        <input type="date" name="tmt_golongan" id="edit_tmt_golongan" class="w-full border rounded-md text-sm" required value="{{ old('tmt_golongan', $gol->tmt_golongan) }}">
+                                        <input type="date" name="tmt_golongan" id="edit_tmt_golongan" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('tmt_golongan', $gol->tmt_golongan) }}">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_no_sk" class="block text-sm font-medium text-gray-700">No SK</label>
-                                        <input type="text" name="no_sk" id="edit_no_sk" class="w-full border rounded-md text-sm" required value="{{ old('no_sk', $gol->no_sk) }}">
+                                        <input type="text" name="no_sk" id="edit_no_sk" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('no_sk', $gol->no_sk) }}">
                                         @error('no_sk')
                                             <p class="text-red-500 text-sm" style="margin-top: -10px; margin-bottom: 10px;">{{ $message }}</p>
                                         @enderror
@@ -239,12 +239,12 @@
 
                                     <div class="mb-3">
                                         <label for="edit_tgl_sk" class="block text-sm font-medium text-gray-700">Tanggal SK</label>
-                                        <input type="date" name="tgl_sk" id="edit_tgl_sk" class="w-full border rounded-md text-sm" required value="{{ old('tgl_sk', $gol->tgl_sk) }}">
+                                        <input type="date" name="tgl_sk" id="edit_tgl_sk" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('tgl_sk', $gol->tgl_sk) }}">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_pejabat" class="block text-sm font-medium text-gray-700">Pejabat</label>
-                                        <input type="text" name="pejabat" id="edit_pejabat" class="w-full border rounded-md text-sm" required value="{{ old('pejabat', $gol->pejabat) }}">
+                                        <input type="text" name="pejabat" id="edit_pejabat" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('pejabat', $gol->pejabat) }}">
                                     </div>
                                 </form>
                             </div>

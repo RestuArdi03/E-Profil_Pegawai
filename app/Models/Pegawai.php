@@ -98,7 +98,7 @@ class Pegawai extends Model
 
     public function riwayatKesejahteraan()
     {
-        return $this->hasMany(Kesejahteraan::class);
+        return $this->hasMany(RiwayatKesejahteraan::class);
     }
 
     public function dataKeluarga()

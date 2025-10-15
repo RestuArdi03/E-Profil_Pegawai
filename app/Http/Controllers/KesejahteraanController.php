@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Kesejahteraan;
+use App\Models\RiwayatKesejahteraan;
 use App\Models\Pegawai;
 
 class KesejahteraanController extends Controller
@@ -14,7 +14,7 @@ class KesejahteraanController extends Controller
     public function index()
     {
         $pegawaiId = auth()->user()->pegawai_id;
-        $kesejahteraan = Kesejahteraan::with('pegawai')->where('pegawai_id', $pegawaiId)->get();
+        $kesejahteraan = RiwayatKesejahteraan::with('pegawai')->where('pegawai_id', $pegawaiId)->get();
         return view('frontend.kesejahteraan', compact('kesejahteraan'));
         
     }
@@ -32,7 +32,32 @@ class KesejahteraanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // 🔍 Validasi field wajib diisi
+        $request->validate([
+            'pegawai_id' => 'required|exists:pegawai,id',
+            'npwp' => 'required|string|max:100|unique:riwayat_kesejahteraan,npwp',
+            'no_bpjs' => 'required|string|max:100|unique:riwayat_kesejahteraan,no_bpjs',
+            'no_taspen' => 'required|string|max:100|unique:riwayat_kesejahteraan,no_taspen',
+            'kepemilikan_rumah' => 'required|string|max:100',
+            'kartu_pegawai_elektronik' => 'required|string|max:100',
+        ], [
+            'no_taspen.unique' => 'NPWP sudah digunakan / NPWP harus berbeda dengan yang lain.',
+            'no_taspen.unique' => 'Nomor BPJS sudah digunakan / Nomor BPJS harus berbeda dengan yang lain.',
+            'no_taspen.unique' => 'Nomor Taspen sudah digunakan / Nomor Taspen harus berbeda dengan yang lain.',
+        ]);
+
+        // ✅ Simpan riwayat kesejahteraan
+        RiwayatKesejahteraan::create([
+            'pegawai_id' => $request->pegawai_id,
+            'npwp' => $request->npwp,
+            'no_bpjs' => $request->no_bpjs,
+            'no_taspen' => $request->no_taspen,
+            'kepemilikan_rumah' => $request->kepemilikan_rumah,
+            'kartu_pegawai_elektronik' => $request->kartu_pegawai_elektronik,
+        ]);
+
+        return redirect()->route('backend.kesejahteraan.show', $request->pegawai_id)
+            ->with('success', '✅ Data Riwayat Kesejahteraan berhasil ditambahkan.');
     }
 
     /**
@@ -61,7 +86,30 @@ class KesejahteraanController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = RiwayatKesejahteraan::findOrFail($id);
+        // 🔍 Validasi data edit
+        $request->validate([
+            'npwp' => 'required|string|max:100|unique:riwayat_kesejahteraan,npwp,' . $id,
+            'no_bpjs' => 'required|string|max:100|unique:riwayat_kesejahteraan,no_bpjs,' . $id,
+            'no_taspen' => 'required|string|max:100|unique:riwayat_kesejahteraan,no_taspen,' . $id,
+            'kepemilikan_rumah' => 'required|string|max:100',
+            'kartu_pegawai_elektronik' => 'required|string|max:100',
+        ], [
+            'no_taspen.unique' => 'NPWP sudah digunakan / NPWP harus berbeda dengan yang lain.',
+            'no_taspen.unique' => 'Nomor BPJS sudah digunakan / Nomor BPJS harus berbeda dengan yang lain.',
+            'no_taspen.unique' => 'Nomor Taspen sudah digunakan / Nomor Taspen harus berbeda dengan yang lain.',
+        ]);
+
+        // ✅ Update data
+        $data->update([
+            'npwp' => $request->npwp,
+            'no_bpjs' => $request->no_bpjs,
+            'no_taspen' => $request->no_taspen,
+            'kepemilikan_rumah' => $request->kepemilikan_rumah,
+            'kartu_pegawai_elektronik' => $request->kartu_pegawai_elektronik,
+        ]);
+
+        return redirect()->route('backend.kesejahteraan.show', $request->pegawai_id) ->with('success', '✅ Data Riwayat Kesejahteraan berhasil diperbarui.');
     }
 
     /**
@@ -69,6 +117,9 @@ class KesejahteraanController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $riwayat_kesejahteraan = RiwayatKesejahteraan::findOrFail($id);
+        $riwayat_kesejahteraan->delete(); // ✅ Hapus data riwayat kesejahteraan (soft delete)
+
+        return redirect()->back()->with('success', '✅ Data Riwayat Kesejahteraan berhasil dihapus.');
     }
 }

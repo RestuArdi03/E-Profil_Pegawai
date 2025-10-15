@@ -11,6 +11,16 @@ class NilaiPrestasiKerja extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $fillable = [
+        'pegawai_id',
+        'tahun',
+        'skp',
+        'nilai_prestasi_kerja',
+        'nilai_perilaku_kerja',
+        'klasifikasi_nilai',
+        'pejabat_penilai'
+    ];
+
     protected $table = 'nilai_prestasi_kerja';
     protected $dates = ['deleted_at'];
 

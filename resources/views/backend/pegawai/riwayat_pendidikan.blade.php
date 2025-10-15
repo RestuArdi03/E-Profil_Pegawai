@@ -164,7 +164,7 @@
 
                                 <div class="mb-3">
                                     <label class="block text-sm font-medium" style="margin-top: -25px;">Strata dan Jurusan</label>
-                                    <select name="strata_id" id="strata_id" class="w-full border rounded-md text-sm" required>
+                                    <select name="strata_id" id="strata_id" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required>
                                         <option value="">-- Pilih strata dan jurusan --</option>
                                         @foreach ($strata as $s)
                                             <option value="{{ $s->id }}" {{ old('strata_id') == $s->id ? 'selected' : '' }}>
@@ -176,12 +176,12 @@
 
                                 <div class="mb-3">
                                     <label for="tambah_nm_sekolah_pt" class="block text-sm font-medium text-gray-700">Nama Sekolah/PT</label>
-                                    <input type="text" name="nm_sekolah_pt" id="tambah_nm_sekolah_pt" class="w-full border rounded-md text-sm" required value="{{ old('nm_sekolah_pt') }}">
+                                    <input type="text" name="nm_sekolah_pt" id="tambah_nm_sekolah_pt" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('nm_sekolah_pt') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_no_ijazah" class="block text-sm font-medium text-gray-700">No Ijazah</label>
-                                    <input type="text" name="no_ijazah" id="tambah_no_ijazah" class="w-full border rounded-md text-sm" required value="{{ old('no_ijazah') }}">
+                                    <input type="text" name="no_ijazah" id="tambah_no_ijazah" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('no_ijazah') }}">
                                     @error('no_ijazah')
                                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                     @enderror
@@ -189,21 +189,21 @@
 
                                 <div class="mb-3">
                                     <label for="tambah_thn_lulus" class="block text-sm font-medium text-gray-700">Tahun Lulus</label>
-                                    <input type="number" name="thn_lulus" id="tambah_thn_lulus" class="w-full border rounded-md text-sm" min="1950" max="{{ date('Y') }}" required value="{{ old('thn_lulus') }}">
+                                    <input type="number" name="thn_lulus" id="tambah_thn_lulus" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" min="1950" max="{{ date('Y') }}" required value="{{ old('thn_lulus') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_pimpinan" class="block text-sm font-medium text-gray-700">Pimpinan</label>
-                                    <input type="text" name="pimpinan" id="tambah_pimpinan" class="w-full border rounded-md text-sm" required value="{{ old('pimpinan') }}">
+                                    <input type="text" name="pimpinan" id="tambah_pimpinan" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('pimpinan') }}">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_kode_pendidikan" class="block text-sm font-medium text-gray-700">Kode Pendidikan</label>
-                                    <input type="text" name="kode_pendidikan" id="tambah_kode_pendidikan" class="w-full border rounded-md text-sm" required value="{{ old('kode_pendidikan') }}">
+                                    <input type="text" name="kode_pendidikan" id="tambah_kode_pendidikan" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('kode_pendidikan') }}">
                                 </div>
                             </form>
                         </div>
-                        <div class="flex justify-end gap-2 p-6">
+                        <div class="flex justify-end gap-2 p-6" style="margin-top: -25px">
                             <button type="button" onclick="closeTambahModalPendidikan()" class="px-3 py-1.5 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">Batal</button>
                             <button type="submit" form="tambahFormPendidikan" class="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Simpan</button>
                         </div>
@@ -238,7 +238,7 @@
 
                                     <div class="mb-3">
                                         <label class="block text-sm font-medium" style="margin-top: -25px;">Strata dan Jurusan</label>
-                                        <select name="strata_id" id="edit_strata_id" class="w-full border rounded-md text-sm" required>
+                                        <select name="strata_id" id="edit_strata_id" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required>
                                             <option value="">-- Pilih strata dan jurusan --</option>
                                             @foreach ($strata as $s)
                                                 <option value="{{ $s->id }}"
@@ -251,12 +251,12 @@
 
                                     <div class="mb-3">
                                         <label for="edit_nm_sekolah_pt" class="block text-sm font-medium text-gray-700">Nama Sekolah/PT</label>
-                                        <input type="text" name="nm_sekolah_pt" id="edit_nm_sekolah_pt" class="w-full border rounded-md text-sm" required value="{{ old('nm_sekolah_pt', $rp->nm_sekolah_pt) }}">
+                                        <input type="text" name="nm_sekolah_pt" id="edit_nm_sekolah_pt" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('nm_sekolah_pt', $rp->nm_sekolah_pt) }}">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_no_ijazah" class="block text-sm font-medium text-gray-700">No Ijazah</label>
-                                        <input type="text" name="no_ijazah" id="edit_no_ijazah" class="w-full border rounded-md text-sm" required value="{{ old('no_ijazah', $rp->no_ijazah) }}">
+                                        <input type="text" name="no_ijazah" id="edit_no_ijazah" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('no_ijazah', $rp->no_ijazah) }}">
                                         @error('no_ijazah')
                                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                         @enderror
@@ -264,21 +264,21 @@
 
                                     <div class="mb-3">
                                         <label for="edit_thn_lulus" class="block text-sm font-medium text-gray-700">Tahun Lulus</label>
-                                        <input type="number" name="thn_lulus" id="edit_thn_lulus" class="w-full border rounded-md text-sm" required value="{{ old('thn_lulus', $rp->thn_lulus) }}" min="1950" max="{{ date('Y') }}">
+                                        <input type="number" name="thn_lulus" id="edit_thn_lulus" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('thn_lulus', $rp->thn_lulus) }}" min="1950" max="{{ date('Y') }}">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_pimpinan" class="block text-sm font-medium text-gray-700">Pimpinan</label>
-                                        <input type="text" name="pimpinan" id="edit_pimpinan" class="w-full border rounded-md text-sm" required value="{{ old('pimpinan', $rp->pimpinan) }}">
+                                        <input type="text" name="pimpinan" id="edit_pimpinan" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('pimpinan', $rp->pimpinan) }}">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_kode_pendidikan" class="block text-sm font-medium text-gray-700">Kode Pendidikan</label>
-                                        <input type="text" name="kode_pendidikan" id="edit_kode_pendidikan" class="w-full border rounded-md text-sm" required value="{{ old('kode_pendidikan', $rp->kode_pendidikan) }}">
+                                        <input type="text" name="kode_pendidikan" id="edit_kode_pendidikan" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('kode_pendidikan', $rp->kode_pendidikan) }}">
                                     </div>
                                 </form>
                             </div>
-                            <div class="flex justify-end gap-2 p-6">
+                            <div class="flex justify-end gap-2 p-6" style="margin-top: -25px">
                                 <button type="button" onclick="closeEditModalPendidikan()" class="px-3 py-1.5 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">Batal</button>
                                 <button type="submit" form="editFormPendidikan" class="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Simpan</button>
                             </div>

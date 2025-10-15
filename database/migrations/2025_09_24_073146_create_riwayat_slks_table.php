@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('slks');
-            $table->string('no_kepres');
+            $table->string('no_kepres')->nullable();
             $table->date('tgl_kepres');
             $table->string('status');
             $table->unsignedBigInteger('pegawai_id');

@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('jenis_kelamin');
             $table->string('status_keluarga');
             $table->string('pendidikan');
-            $table->string('pekerjaan');
-            $table->string('nip');
+            $table->string('pekerjaan')->nullable();
+            $table->string('nip')->nullable();
 
             $table->unsignedBigInteger('pegawai_id');
             $table->foreign('pegawai_id')->references('id')->on('pegawai')->onDelete('cascade');

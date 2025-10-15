@@ -1,25 +1,13 @@
-<?
-$rph = RiwayatPenghargaan::findOrFail($id);
-        // 🔍 Validasi data edit
-        $request->validate([
-            'nm_penghargaan' => 'required|string|max:255',
-            'no_urut' => 'required|string|max:25',
-            'no_sertifikat' => 'required|string|max:100|unique:riwayat_penghargaan,no_sertifikat',
-            'tgl_sertifikat' => 'required|date',
-            'pejabat_penetap' => 'required|string|max:255',
-            'link' => 'required|string|max:255',
-        ],[
-            'no_sertifikat.unique' => 'Nomor sertifikat sudah digunakan / Nomor sertifikat harus berbeda dengan yang lain.',
-        ]);
-
-        // ✅ Update data
-        $rph->update([
-            'nm_penghargaan' => $request->nm_penghargaan,
-            'no_urut' => $request->no_urut,
-            'no_sertifikat' => $request->no_sertifikat,
-            'tgl_sertifikat' => $request->tgl_sertifikat,
-            'pejabat_penetap' => $request->pejabat_penetap,
-            'link' => $request->link,
-        ]);
-
-        return redirect()->route('backend.penghargaan.show', $request->pegawai_id) ->with('success', '✅ Data Riwayat Penghargaan berhasil diperbarui.');
+<div class="mb-3">
+                        <label for="tambah_file_path" class="block text-sm font-medium text-gray-700">Upload Dokumen</label>
+                        <div class= "w-full flex items-center border border-gray-300 rounded-md shadow-sm px-3 bg-white text-sm text-gray-900 mt-1">
+                            <button type="button" id="custom-upload" class="text-green-700 rounded-md bg-green-50">Pilih File</button>
+                            <hr style="border: 1px solid #ccc; height: 40px; margin-right: 10px; margin-left: 10px;" >
+                            <span id="file-name">{{ $dokumen->file_path ?? 'Tidak ada file yang dipilih' }}</span>
+                        </div>
+                        <input type="file" name="file_path" id="tambah_file_path" class="hidden" required accept=".pdf,.doc,.docx,.jpg,.png">
+                        />
+                        @error('file_path')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
