@@ -80,7 +80,7 @@
                         @forelse($pegawai->riwayatGolongan as $gol)
                             <tr>
                                 <td class="border px-6 py-3 text-sm text-gray-800">{{ $loop->iteration }}</td>
-                                <td class="border px-6 py-3 text-sm text-gray-800">{{ $gol->golongan->golru }}</td>
+                                <td class="border px-6 py-3 text-sm text-gray-800">{{ $gol->golongan->golru ?? '-' }}</td>
                                 <td class="border px-6 py-3 text-sm text-gray-800">{{ $gol->tmt_golongan }}</td>
                                 <td class="border px-6 py-3 text-sm text-gray-800">{{ $gol->no_sk }}</td>
                                 <td class="border px-6 py-3 text-sm text-gray-800">{{ $gol->tgl_sk }}</td>

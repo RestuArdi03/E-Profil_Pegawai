@@ -209,6 +209,39 @@
                     </li>
 
                     <li class="menu-item">
+                        <a class="group flex items-center gap-x-4 rounded-md px-3 py-2 text-sm font-medium text-default-700 transition-all hover:bg-default-900/5"
+                            href="{{ route('backend.daftar_user') }}">
+                            <i class="material-icons">account_box</i>
+                            Daftar User
+                        </a>
+                    </li>
+
+                    <li class="menu-item">
+                        <a class="group flex items-center gap-x-4 rounded-md px-3 py-2 text-sm font-medium text-default-700 transition-all hover:bg-default-900/5"
+                            href="{{ route('backend.daftar_golongan') }}">
+                            <i class="material-icons">group_work
+                            </i>
+                            Daftar Golongan
+                        </a>
+                    </li>
+
+                    <li class="menu-item">
+                        <a class="group flex items-center gap-x-4 rounded-md px-3 py-2 text-sm font-medium text-default-700 transition-all hover:bg-default-900/5"
+                            href="{{ route('backend.daftar_strata') }}">
+                            <i class="material-icons">cast_for_education</i>
+                            Daftar Strata
+                        </a>
+                    </li>
+
+                    <li class="menu-item">
+                        <a class="group flex items-center gap-x-4 rounded-md px-3 py-2 text-sm font-medium text-default-700 transition-all hover:bg-default-900/5"
+                            href="{{ route('backend.daftar_agama') }}">
+                            <i class="material-icons">diversity_2</i>
+                            Daftar Agama
+                        </a>
+                    </li>
+
+                    <li class="menu-item">
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit"

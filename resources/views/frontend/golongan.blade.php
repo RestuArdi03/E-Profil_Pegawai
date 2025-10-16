@@ -61,7 +61,7 @@
                             @endphp
                             <tr>
                                 <td class="border px-6 py-3 text-sm text-gray-800">{{ $loop->iteration }}</td>
-                                <td class="border px-6 py-3 text-sm text-gray-800">{{ $rg->golongan->golru }}</td>
+                                <td class="border px-6 py-3 text-sm text-gray-800">{{ $rg->golongan->golru ?? '-' }}</td>
                                 <td class="border px-6 py-3 text-sm text-gray-800">{{ $rg->tmt_golongan }}</td>
                                 <td class="border px-6 py-3 text-sm text-gray-800">{{ $rg->no_sk }}</td>
                                 <td class="border px-6 py-3 text-sm text-gray-800">{{ $rg->tgl_sk }}</td>

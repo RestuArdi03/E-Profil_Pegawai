@@ -21,6 +21,10 @@ use App\Http\Controllers\KesejahteraanController;
 use App\Http\Controllers\KeluargaController;
 use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\DaftarPegawaiController;
+use App\Http\Controllers\DaftarUserController;
+use App\Http\Controllers\DaftarGolonganController;
+use App\Http\Controllers\DaftarStrataController;
+use App\Http\Controllers\DaftarAgamaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -170,4 +174,29 @@ Route::prefix('/admin')->name('backend.')->middleware(['auth', 'is_admin'])->gro
     Route::delete('/dokumen/{id}', [DokumenController::class, 'destroy'])->name('dokumen.destroy');
     Route::resource('dokumen', DokumenController::class);
     Route::post('/dokumen/store', [DokumenController::class, 'store'])->name('dokumen.store');
+
+    // ROUTE DAFTAR INSTANSI
+    //
+
+    // ROUTE DAFTAR USER
+    Route::get('/daftar-user', [DaftarUserController::class, 'index'])->name('daftar_user');
+    Route::post('/daftar-user/store', [DaftarUserController::class, 'store'])->name('user.store');
+    Route::delete('/daftar-user/{id}', [DaftarUserController::class, 'destroy'])->name('user.destroy');
+
+    // ROUTE DAFTAR GOLONGAN
+    Route::get('/daftar-golongan', [DaftarGolonganController::class, 'index'])->name('daftar_golongan');
+    Route::post('/daftar-golongan/store', [DaftarGolonganController::class, 'store'])->name('golru.store');
+    Route::delete('/daftar-golongan/{id}', [DaftarGolonganController::class, 'destroy'])->name('golru.destroy');
+
+    // ROUTE DAFTAR STRATA
+    Route::get('/daftar-strata', [DaftarStrataController::class, 'index'])->name('daftar_strata');
+    Route::post('/daftar-strata/store', [DaftarStrataController::class, 'store'])->name('strata.store');
+    Route::delete('/daftar-strata/{id}', [DaftarStrataController::class, 'destroy'])->name('strata.destroy');
+
+    // ROUTE DAFTAR AGAMA
+    Route::get('/daftar-agama', [DaftarAgamaController::class, 'index'])->name('daftar_agama');
+    Route::post('/daftar-agama/store', [DaftarAgamaController::class, 'store'])->name('agama.store');
+    Route::put('/daftar-agama/{id}', [DaftarAgamaController::class, 'update'])->name('agama.update');
+    Route::delete('/daftar-agama/{id}', [DaftarAgamaController::class, 'destroy'])->name('agama.destroy');
+
 });
