@@ -78,36 +78,8 @@
                 <form id="tambahForm" method="POST" action="{{ route('backend.daftar_pegawai.store') }}" enctype="multipart/form-data" class="space-y-4">
                     @csrf
 
-                    {{-- TAMBAH AKUN UNTUK PEGAWAI (tabel users) --}}
-                    <div class="mb-3" style="margin-top: -25px;">
-                        <label for="tambah_email" class="block text-sm font-medium text-gray-700">Email</label>
-                        <input type="email" name="email" id="tambah_email" value="{{ old('email') }}"
-                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-green-200 focus:outline-none text-sm" required>
-                    </div>
                     <div class="mb-3">
-                        <label for="tambah_username" class="block text-sm font-medium text-gray-700">Username</label>
-                        <input type="text" name="username" id="tambah_username" value="{{ old('username') }}"
-                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-green-200 focus:outline-none text-sm" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="tambah_password" class="block text-sm font-medium text-gray-700">Password</label>
-                        <input type="password" name="password" id="tambah_password"
-                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-green-200 focus:outline-none text-sm" required>
-                        @error('password')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-
-                    </div>
-                    <div class="mb-3">
-                        <label for="tambah_password_confirmation" class="block text-sm font-medium text-gray-700">Konfirmasi Password</label>
-                        <input type="password" name="password_confirmation" id="tambah_password_confirmation"
-                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-green-200 focus:outline-none text-sm" required>
-                    </div>
-
-                    {{-- TAMBAH PEGAWAI (tabel pegawai)--}}
-                    <div class="mb-3">
-                        <label for="tambah_foto" class="block text-sm font-medium text-gray-700">Foto Pegawai</label>
-
+                        <label for="tambah_foto" class="block text-sm font-medium text-gray-700" style="margin-top: -45px;">Foto Pegawai</label>
                         <div class= "w-full flex items-center border border-gray-300 rounded-md shadow-sm px-3 bg-white text-sm text-gray-900">
                             <button type="button" id="custom-upload" class="text-green-700 rounded-md bg-green-50">Pilih File</button>
                             <hr style="border: 1px solid #ccc; height: 40px; margin-right: 10px; margin-left: 10px;" >
@@ -115,6 +87,7 @@
                         </div>
                         <input type="file" name="foto" id="tambah_foto" class="hidden"/>
                     </div>
+
                     <div class="mb-3">
                         <label for="tambah_nama" class="block text-sm font-medium text-gray-700">Nama</label>
                         <input type="text" name="nama" id="tambah_nama" value="{{ old('nama') }}"

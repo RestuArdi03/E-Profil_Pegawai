@@ -65,7 +65,7 @@ class DaftarAgamaController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-        'nm_agama' => 'required|string|max:100',
+        'nm_agama' => 'required|string|max:50',
         ]);
 
         $agama = Agama::findOrFail($id);

@@ -56,20 +56,8 @@ class DaftarPegawaiController extends Controller
     public function store(Request $request)
     {
         // === VALIDASI DATA ===
-    $validated = $request->validate([
+        $validated = $request->validate([
 
-        // VALIDASI UNTUK AKUN USER
-        'username' => 'required|unique:users,username',
-        'email' => 'required|email|unique:users,email',
-        'password' => [
-            'required',
-            'min:8',
-            'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/',
-            'confirmed'        
-        ],
-        'password_confirmation' => 'required',
-        
-        // VALIDASI UNTUK DATA PEGAWAI
         'nama' => 'required|string|max:255',
         'nip' => 'required|string|max:50|unique:pegawai,nip',
         'no_kk' => 'required|string|max:50',
@@ -87,12 +75,6 @@ class DaftarPegawaiController extends Controller
         'unit_kerja_id' => 'required|exists:unit_kerja,id',
         'satuan_kerja_id' => 'required|exists:satuan_kerja,id',
         'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-    ],[
-        'username.unique' => 'Username sudah digunakan oleh pengguna lain.',
-        'email.unique' => 'Email sudah terdaftar.',
-        'password.min' => 'Password minimal 8 karakter.',
-        'password.regex' => 'Password harus mengandung huruf besar, huruf kecil, angka, dan simbol.',
-        'password.confirmed' => 'Konfirmasi password tidak cocok.',
     ]);
 
     // === SIMPAN FOTO JIKA ADA ===
@@ -126,15 +108,6 @@ class DaftarPegawaiController extends Controller
             'unit_kerja_id' => $validated['unit_kerja_id'],
             'satuan_kerja_id' => $validated['satuan_kerja_id'],
             'foto' => $validated['foto'] ?? null,
-        ]);
-
-        // Simpan akun user
-        User::create([
-            'username' => $validated['username'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-            'role' => 0, // default pegawai
-            'pegawai_id' => $pegawai->id,
         ]);
     });
 

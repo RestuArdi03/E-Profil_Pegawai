@@ -11,11 +11,12 @@ class Strata extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $fillable = [
+        'nm_strata',
+        'jurusan',
+    ];
+
     protected $table = 'strata';
     protected $dates = ['deleted_at'];
 
-    protected $fillable = [
-        'nama_strata',
-        'jurusan',
-    ];
 }

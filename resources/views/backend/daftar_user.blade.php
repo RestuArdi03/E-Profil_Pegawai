@@ -16,67 +16,280 @@
 
 
     <div class="mb-4">
-        
-    </div>
-
-    <div class="overflow-x-auto">
-        <div class="min-w-full inline-block align-middle">
-            <div class="overflow-hidden">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-blue-600">
-                        <tr>
-                            <th class="border border-gray-200 px-6 py-3 text-sm text-default-100" style="width: 50px;">No</th>
-                            <th class="border border-gray-200 px-6 py-3 text-sm text-default-100">Username</th>
-                            <th class="border border-gray-200 px-6 py-3 text-sm text-default-100">Email</th>
-                            <th class="border border-gray-200 px-6 py-3 text-sm text-default-100">Nama Pegawai</th>
-                            <th class="border border-gray-200 px-6 py-3 text-sm text-default-100">Kode Role</th>
-                            <th class="border border-gray-200 px-6 py-3 text-sm text-default-100" style="width: 250px;">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach ($users as $u)
+        <div class="overflow-x-auto">
+            <div class="min-w-full inline-block align-middle">
+                <div class="overflow-hidden">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-blue-600">
                             <tr>
-                                <td class="border px-6 py-3 text-sm text-gray-800">{{ $loop->iteration }}</td>
-                                <td class="border px-6 py-3 text-sm text-gray-800">{{ $u->username }}</td>
-                                <td class="border px-6 py-3 text-sm text-gray-800">{{ $u->email }}</td>
-                                <td class="border px-6 py-3 text-sm text-gray-800">{{ optional($u->pegawai)->nama ?? '-' }}</td>
-                                <td class="border px-6 py-3 text-sm text-gray-800">{{ $u->role }}</td>
-                                <td class="border text-sm px-6 py-3 text-gray-800 text-center align-middle">
-                                    <div class="flex flex-nowrap items-center gap-2 overflow-auto justify-center">
-                                        {{-- Tombol Edit --}}
-                                        <button type="button"
-                                            onclick="openEditModalAgama(
-                                                {{ $u->id }},
-                                                '{{ addslashes(e($u->username)) }}'
-                                                '{{ addslashes(e($u->email)) }}'
-                                                '{{ addslashes(e($u->role)) }}'
-                                            )"
-                                            class="px-3 py-1 text-sm text-white bg-yellow-500 rounded hover:bg-yellow-600 flex flex-nowrap items-center gap-2 overflow-auto">
-                                            <span class="material-icons" style="margin-right: 3px; margin-left: -3px; font-size: 12px;">edit</span>
-                                            Edit
-                                        </button>
-
-                                        {{-- Tombol Delete --}}
-                                        <form action="{{ route('backend.user.destroy', $u->id) }}" method="POST" class="inline-block"
-                                            onsubmit="return confirm('Yakin ingin menghapus data ini?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                class="flex flex-nowrap items-center gap-2 overflow-auto px-3 py-1 text-sm text-white bg-red-600 rounded hover:bg-red-700">
-                                                <span class="material-icons" style="margin-right: 3px; margin-left: -3px; font-size: 12px;">delete</span>
-                                                Delete
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
+                                <th class="border border-gray-200 px-6 py-3 text-sm text-default-100" style="width: 50px;">No</th>
+                                <th class="border border-gray-200 px-6 py-3 text-sm text-default-100">Username</th>
+                                <th class="border border-gray-200 px-6 py-3 text-sm text-default-100">Email</th>
+                                <th class="border border-gray-200 px-6 py-3 text-sm text-default-100">Nama Pegawai</th>
+                                <th class="border border-gray-200 px-6 py-3 text-sm text-default-100">Kode Role</th>
+                                <th class="border border-gray-200 px-6 py-3 text-sm text-default-100" style="width: 250px;">Aksi</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            @foreach ($users as $u)
+                                <tr>
+                                    <td class="border px-6 py-3 text-sm text-gray-800">{{ $loop->iteration }}</td>
+                                    <td class="border px-6 py-3 text-sm text-gray-800">{{ $u->username }}</td>
+                                    <td class="border px-6 py-3 text-sm text-gray-800">{{ $u->email }}</td>
+                                    <td class="border px-6 py-3 text-sm text-gray-800">{{ optional($u->pegawai)->nama ?? '-' }}</td>
+                                    <td class="border px-6 py-3 text-sm text-gray-800">{{ $u->role }}</td>
+                                    <td class="border text-sm px-6 py-3 text-gray-800 text-center align-middle">
+                                        <div class="flex flex-nowrap items-center gap-2 overflow-auto justify-center">
+                                            {{-- Tombol Edit --}}
+                                            <button type="button"
+                                                onclick="openEditModalUser(
+                                                    {{ $u->id }},
+                                                    '{{ addslashes(e($u->username)) }}',
+                                                    '{{ addslashes(e($u->email)) }}',
+                                                    '{{ $u->pegawai_id }}',
+                                                    '{{ $u->role }}'
+                                                )"
+                                                class="px-3 py-1 text-sm text-white bg-yellow-500 rounded hover:bg-yellow-600 flex flex-nowrap items-center gap-2 overflow-auto">
+                                                <span class="material-icons" style="margin-right: 3px; margin-left: -3px; font-size: 12px;">edit</span>
+                                                Edit
+                                            </button>
+
+                                            {{-- Tombol Delete --}}
+                                            <form action="{{ route('backend.user.destroy', $u->id) }}" method="POST" class="inline-block"
+                                                onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="flex flex-nowrap items-center gap-2 overflow-auto px-3 py-1 text-sm text-white bg-red-600 rounded hover:bg-red-700">
+                                                    <span class="material-icons" style="margin-right: 3px; margin-left: -3px; font-size: 12px;">delete</span>
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                {{-- MODAL TAMBAH DATA DAFTAR USER --}}
+                    <div id="tambahModalUser" class="fixed inset-0 z-50 p-4 hidden flex justify-center items-center bg-black/50">
+                        <div class="bg-white rounded-lg shadow-lg w-full max-w-xl border border-green-300 outline outline-green-600 outline-offset-4" style="max-width: 800px; max-height: 800px;">
+                            <div class="p-6">
+                                <h2 class="text-base font-semibold">Tambah Daftar User</h2>
+                            </div>
+
+                            <div class="form_edit p-6 overflow-y-auto">
+                                <form id="tambahFormUser" method="POST" action="{{ route('backend.user.store') }}">
+                                    @csrf
+
+                                    <input type="hidden" name="id" id="tambah_id_user">
+                                    <input type="hidden" name="mode" value="tambah">
+
+                                    <div class="mb-3">
+                                        <label for="tambah_username" class="block text-sm font-medium text-gray-700" style="margin-top: -25px;">Username</label>
+                                        <input type="text" name="username" id="tambah_username" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('username') }}">
+                                        @error('username')
+                                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="tambah_email" class="block text-sm font-medium text-gray-700">Email</label>
+                                        <input type="text" name="email" id="tambah_email" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('email') }}">
+                                        @error('email')
+                                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="tambah_password" class="block text-sm font-medium text-gray-700">Password</label>
+                                        <input type="password" name="password" id="tambah_password" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required>
+                                        @error('password')
+                                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="tambah_password_confirmation" class="block text-sm font-medium text-gray-700">Konfirmasi Password</label>
+                                        <input type="password" name="password_confirmation" id="tambah_password_confirmation"
+                                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-green-200 focus:outline-none text-sm" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="block text-sm font-medium">Nama Pegawai</label>
+                                        <select name="pegawai_id" id="pegawai_id" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required>
+                                            <option value="">-- Pilih Pegawai --</option>
+                                            @foreach ($pegawaiBelumDipakai as $pgw)
+                                                <option value="{{ $pgw->id }}" {{ old('pegawai_id') == $pgw->id ? 'selected' : '' }}>
+                                                {{ $pgw->nama }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="tambah_role" class="block text-sm font-medium text-gray-700">Kode Role</label>
+                                        <select name="role" id="tambah_role" required
+                                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:outline-none text-sm">
+                                            <option value="">Pilih Role</option>
+                                            <option value="0" {{ old('role') == '0' ? 'selected' : '' }}>0 - Pegawai</option>
+                                            <option value="1" {{ old('role') == '1' ? 'selected' : '' }}>1 - Admin</option>
+                                            <option value="2" {{ old('role') == '2' ? 'selected' : '' }}>2</option>
+                                            <option value="3" {{ old('role') == '3' ? 'selected' : '' }}>3</option>
+                                            <option value="4" {{ old('role') == '4' ? 'selected' : '' }}>4</option>
+                                            <option value="5" {{ old('role') == '5' ? 'selected' : '' }}>5</option>
+                                            <option value="6" {{ old('role') == '6' ? 'selected' : '' }}>6</option>
+                                        </select>
+                                    </div>
+
+                                </form>
+                            </div>
+                            <div class="flex justify-end gap-2 p-6" style="margin-top: -25px">
+                                <button type="button" onclick="closeTambahModalUser()" class="px-3 py-1.5 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">Batal</button>
+                                <button type="submit" form="tambahFormUser" class="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Simpan</button>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- MEMUNCULKAN KEMBALI MODAL TAMBAH DATA DAFTAR USER JIKA ADA ERROR--}}
+                    @if ($errors->any() && old('mode') === 'tambah')
+                        <script>
+                            window.addEventListener('DOMContentLoaded', () => {
+                                document.getElementById('tambahModalUser').classList.remove('hidden');
+                            });
+                        </script>
+                    @endif
+
+                    {{-- MODUL EDIT DATA DAFTAR USER --}}
+                    @if(isset($u))
+                        <div id="editModalUser" class="fixed inset-0 z-50 p-4 hidden flex justify-center items-center bg-black/50">
+                            <div class="bg-white rounded-lg shadow-lg w-full max-w-xl border border-blue-300 outline outline-blue-600 outline-offset-4"
+                            style="max-width: 800px; max-height: 800px;">
+                                <div class="p-6">
+                                    <h2 class="text-base font-semibold">Edit Daftar User</h2>
+                                </div>
+
+                                <div class="form_edit p-6 overflow-y-auto">
+                                    <form id="editFormUser" method="POST">
+                                        @csrf
+                                        @method('PUT')
+
+                                        <input type="hidden" name="id" id="edit_id_user">
+                                        <input type="hidden" name="mode" value="edit">
+
+                                        <div class="mb-3">
+                                            <label for="edit_username" class="block text-sm font-medium text-gray-700" style="margin-top: -25px;">Username</label>
+                                            <input type="text" name="username" id="edit_username" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('username', $u->username) }}">
+                                            @error('username')
+                                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="edit_email" class="block text-sm font-medium text-gray-700">Email</label>
+                                            <input type="text" name="email" id="edit_email" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('email', $u->email) }}">
+                                            @error('email')
+                                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="block text-sm font-medium">Nama Pegawai</label>
+                                            <select name="pegawai_id" id="edit_pegawai_id" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required>
+                                                @foreach ($pegawai as $pgw)
+                                                    @if (!$pgw->user || ($pgw->id == $u->pegawai_id))
+                                                        <option value="{{ $pgw->id }}" {{ $pgw->id == $u->pegawai_id ? 'selected' : '' }}>
+                                                            {{ $pgw->nama }}
+                                                        </option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="edit_role" class="block text-sm font-medium text-gray-700">Status Perkawinan</label>
+                                            <select name="role" id="edit_role" required
+                                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:outline-none text-sm">
+                                                <option value="">Pilih Role</option>
+                                                <option value="0" {{ old('role') == '0' ? 'selected' : '' }}>0 - Pegawai</option>
+                                                <option value="1" {{ old('role') == '1' ? 'selected' : '' }}>1 - Admin</option>
+                                                <option value="2" {{ old('role') == '2' ? 'selected' : '' }}>2</option>
+                                                <option value="3" {{ old('role') == '3' ? 'selected' : '' }}>3</option>
+                                                <option value="4" {{ old('role') == '4' ? 'selected' : '' }}>4</option>
+                                                <option value="5" {{ old('role') == '5' ? 'selected' : '' }}>5</option>
+                                                <option value="6" {{ old('role') == '6' ? 'selected' : '' }}>6</option>
+                                            </select>
+                                        </div>
+
+                                    </form>
+                                </div>
+                                <div class="flex justify-end gap-2 p-6" style="margin-top: -25px">
+                                    <button type="button" onclick="closeEditModalUser()" class="px-3 py-1.5 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">Batal</button>
+                                    <button type="submit" form="editFormUser" class="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Simpan</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- MEMUNCULKAN KEMBALI MODAL EDIT DATA DAFTAR USER JIKA ADA ERROR --}}
+                        @if ($errors->any() && old('mode') === 'edit')
+                            <script>
+                                window.addEventListener('DOMContentLoaded', () => {
+                                    document.getElementById('editModalUser').classList.remove('hidden');
+                                });
+                            </script>
+                        @endif
+                    @endif
+
+                </div>
             </div>
         </div>
     </div>
 
-    
+    {{-- JAVASCRIPT UNTUK MODAL TAMBAH DATA DAFTAR USER--}}
+    <script>
+        console.log(document.getElementById('tambahFormUser').action);
+        function openTambahModalUser() {
+        document.getElementById('tambahModalUser').classList.remove('hidden');
+        }
+
+        function closeTambahModalUser() {
+            document.getElementById('tambahModalUser').classList.add('hidden');
+        }
+    </script>
+
+    {{-- JAVASCRIPT UNTUK MODAL EDIT DATA DAFTAR USER--}}
+    <script>
+        function openEditModalUser(id, username, email, pegawai_id, role) {
+            document.getElementById('edit_id_user').value = id;
+            document.getElementById('edit_username').value = username;
+            document.getElementById('edit_email').value = email;
+            document.getElementById('edit_pegawai_id').value = pegawai_id;
+            document.getElementById('edit_role').value = role;
+
+            const select = document.getElementById('edit_pegawai_id');
+            for (const option of select.options) {
+                option.hidden = false;
+
+                // Sembunyikan pegawai yang sudah dipakai, kecuali milik user ini
+                if (option.value !== pegawai_id && option.dataset.used === "true") {
+                    option.hidden = true;
+                }
+            }
+
+            // Prefill pegawai milik user
+            select.value = pegawai_id;
+                    
+            // 1. Ambil URL rute Laravel yang benar menggunakan helper route()
+            const updateUrl = "{{ route('backend.user.update', ':id') }}";
+            
+            // 2. Ganti placeholder ':id' dengan ID yang dikirim
+            document.getElementById('editFormUser').action = updateUrl.replace(':id', id);
+            
+            document.getElementById('editModalUser').classList.remove('hidden');
+        }
+
+        function closeEditModalUser() {
+            document.getElementById('editModalUser').classList.add('hidden');
+        }
+    </script>
 
 @endsection

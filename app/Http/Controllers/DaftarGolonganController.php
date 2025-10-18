@@ -29,7 +29,18 @@ class DaftarGolonganController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //🔍 Validasi field wajib diisi
+        $request->validate([
+            'golru' => 'required|string|max:50',
+        ]);
+
+        // ✅ Simpan data golongan
+        Golongan::create([
+            'golru' => $request->golru,
+        ]);
+
+        return redirect()->route('backend.daftar_golongan')
+            ->with('success', '✅ Data Golongan berhasil ditambahkan.');
     }
 
     /**
@@ -53,7 +64,15 @@ class DaftarGolonganController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+        'golru' => 'required|string|max:50',
+        ]);
+
+        $golongan = Golongan::findOrFail($id);
+        $golongan->golru = $request->golru;
+        $golongan->save();
+
+        return redirect()->route('backend.daftar_golongan')->with('success', '✅ Data Golongan berhasil diperbarui.');
     }
 
     /**
@@ -61,6 +80,9 @@ class DaftarGolonganController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $golongan = Golongan::findOrFail($id);
+        $golongan->delete(); // ✅ Hapus data golongan (soft delete)
+
+        return redirect()->back()->with('success', '✅ Data Golongan berhasil dihapus.');
     }
 }

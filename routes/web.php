@@ -181,16 +181,19 @@ Route::prefix('/admin')->name('backend.')->middleware(['auth', 'is_admin'])->gro
     // ROUTE DAFTAR USER
     Route::get('/daftar-user', [DaftarUserController::class, 'index'])->name('daftar_user');
     Route::post('/daftar-user/store', [DaftarUserController::class, 'store'])->name('user.store');
+    Route::put('/daftar-user/{id}', [DaftarUserController::class, 'update'])->name('user.update');
     Route::delete('/daftar-user/{id}', [DaftarUserController::class, 'destroy'])->name('user.destroy');
 
     // ROUTE DAFTAR GOLONGAN
     Route::get('/daftar-golongan', [DaftarGolonganController::class, 'index'])->name('daftar_golongan');
     Route::post('/daftar-golongan/store', [DaftarGolonganController::class, 'store'])->name('golru.store');
+    Route::put('/daftar-golongan/{id}', [DaftarGolonganController::class, 'update'])->name('golru.update');
     Route::delete('/daftar-golongan/{id}', [DaftarGolonganController::class, 'destroy'])->name('golru.destroy');
 
     // ROUTE DAFTAR STRATA
     Route::get('/daftar-strata', [DaftarStrataController::class, 'index'])->name('daftar_strata');
     Route::post('/daftar-strata/store', [DaftarStrataController::class, 'store'])->name('strata.store');
+    Route::put('/daftar-strata/{id}', [DaftarStrataController::class, 'update'])->name('strata.update');
     Route::delete('/daftar-strata/{id}', [DaftarStrataController::class, 'destroy'])->name('strata.destroy');
 
     // ROUTE DAFTAR AGAMA

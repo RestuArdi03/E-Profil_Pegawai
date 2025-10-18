@@ -29,7 +29,21 @@ class DaftarStrataController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        //🔍 Validasi field wajib diisi
+        $request->validate([
+            'nm_strata' => 'required|string|max:50',
+            'jurusan' => 'required|string|max:50',
+        ]);
+
+        // ✅ Simpan data strata
+        Strata::create([
+            'nm_strata' => $request->nm_strata,
+            'jurusan' => $request->jurusan,
+        ]);
+
+        return redirect()->route('backend.daftar_strata')
+            ->with('success', '✅ Data Strata berhasil ditambahkan.');
     }
 
     /**
@@ -53,7 +67,17 @@ class DaftarStrataController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+        'nm_strata' => 'required|string|max:50',
+        'jurusan' => 'required|string|max:50',
+        ]);
+
+        $strata = Strata::findOrFail($id);
+        $strata->nm_strata = $request->nm_strata;
+        $strata->jurusan = $request->jurusan;
+        $strata->save();
+
+        return redirect()->route('backend.daftar_strata')->with('success', '✅ Data Strata berhasil diperbarui.');
     }
 
     /**
@@ -61,6 +85,9 @@ class DaftarStrataController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $strata = Strata::findOrFail($id);
+        $strata->delete(); // ✅ Hapus data strata (soft delete)
+
+        return redirect()->back()->with('success', '✅ Data Strata berhasil dihapus.');
     }
 }
