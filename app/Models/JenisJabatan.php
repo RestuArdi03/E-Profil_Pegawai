@@ -10,8 +10,8 @@ class JenisJabatan extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
+    
+    protected $fillable = ['jenis_jabatan'];
     protected $table = 'jenis_jabatan';
     protected $dates = ['deleted_at'];
-    protected $fillable = ['jenis_jabatan'];
 }

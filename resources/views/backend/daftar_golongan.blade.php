@@ -27,7 +27,7 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach ($golongan as $g)
+                            @forelse ($golongan as $g)
                                 <tr>
                                     <td class="border px-6 py-3 text-sm text-gray-800">{{ $loop->iteration }}</td>
                                     <td class="border px-6 py-3 text-sm text-gray-800">{{ $g->golru }}</td>
@@ -58,7 +58,13 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                            <tr>
+                                <td colspan="3" class="text-center border border-gray px-6 py-3 text-sm text-default-800">
+                                    Belum ada data Golru.
+                                </td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
 

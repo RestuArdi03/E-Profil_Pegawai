@@ -11,8 +11,8 @@ class Eselon extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $fillable = ['nm_eselon'];
     protected $table = 'eselon';
     protected $dates = ['deleted_at'];
-    protected $fillable = ['nm_eselon'];
 
 }

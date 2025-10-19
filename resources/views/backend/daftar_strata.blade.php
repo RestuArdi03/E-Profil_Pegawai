@@ -28,7 +28,7 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach ($strata as $s)
+                            @forelse ($strata as $s)
                                 <tr>
                                     <td class="border px-6 py-3 text-sm text-gray-800">{{ $loop->iteration }}</td>
                                     <td class="border px-6 py-3 text-sm text-gray-800">{{ $s->nm_strata }}</td>
@@ -61,7 +61,13 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                            <tr>
+                                <td colspan="4" class="text-center border border-gray px-6 py-3 text-sm text-default-800">
+                                    Belum ada data Strata.
+                                </td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
 

@@ -31,7 +31,7 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach ($users as $u)
+                            @forelse ($users as $u)
                                 <tr>
                                     <td class="border px-6 py-3 text-sm text-gray-800">{{ $loop->iteration }}</td>
                                     <td class="border px-6 py-3 text-sm text-gray-800">{{ $u->username }}</td>
@@ -68,7 +68,13 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                            <tr>
+                                <td colspan="6" class="text-center border border-gray px-6 py-3 text-sm text-default-800">
+                                    Belum ada data User.
+                                </td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 {{-- MODAL TAMBAH DATA DAFTAR USER --}}

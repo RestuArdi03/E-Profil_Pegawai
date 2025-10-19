@@ -21,6 +21,8 @@ use App\Http\Controllers\KesejahteraanController;
 use App\Http\Controllers\KeluargaController;
 use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\DaftarPegawaiController;
+use App\Http\Controllers\DaftarJabatanController;
+use App\Http\Controllers\DaftarEselonController;
 use App\Http\Controllers\DaftarUserController;
 use App\Http\Controllers\DaftarGolonganController;
 use App\Http\Controllers\DaftarStrataController;
@@ -176,7 +178,18 @@ Route::prefix('/admin')->name('backend.')->middleware(['auth', 'is_admin'])->gro
     Route::post('/dokumen/store', [DokumenController::class, 'store'])->name('dokumen.store');
 
     // ROUTE DAFTAR INSTANSI
-    //
+
+    //ROUTE DAFTAR JABATAN
+    Route::get('/daftar-jabatan', [DaftarJabatanController::class, 'index'])->name('daftar_jabatan');
+    Route::post('/daftar-jabatan/store', [DaftarJabatanController::class, 'store'])->name('daftar_jabatan.store');
+    Route::put('/daftar-jabatan/{id}', [DaftarJabatanController::class, 'update'])->name('daftar_jabatan.update');
+    Route::delete('/daftar-jabatan/{id}', [DaftarJabatanController::class, 'destroy'])->name('daftar_jabatan.destroy');
+
+    // ROUTE DAFTAR ESELON
+    Route::get('/daftar-eselon', [DaftarEselonController::class, 'index'])->name('daftar_eselon');
+    Route::post('/daftar-eselon/store', [DaftarEselonController::class, 'store'])->name('eselon.store');
+    Route::put('/daftar-eselon/{id}', [DaftarEselonController::class, 'update'])->name('eselon.update');
+    Route::delete('/daftar-eselon/{id}', [DaftarEselonController::class, 'destroy'])->name('eselon.destroy');
 
     // ROUTE DAFTAR USER
     Route::get('/daftar-user', [DaftarUserController::class, 'index'])->name('daftar_user');
