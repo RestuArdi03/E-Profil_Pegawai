@@ -21,6 +21,9 @@ use App\Http\Controllers\KesejahteraanController;
 use App\Http\Controllers\KeluargaController;
 use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\DaftarPegawaiController;
+use App\Http\Controllers\DaftarInstansiController;
+use App\Http\Controllers\DaftarUnitKerjaController;
+use App\Http\Controllers\DaftarSatuanKerjaController;
 use App\Http\Controllers\DaftarJabatanController;
 use App\Http\Controllers\DaftarEselonController;
 use App\Http\Controllers\DaftarUserController;
@@ -178,6 +181,22 @@ Route::prefix('/admin')->name('backend.')->middleware(['auth', 'is_admin'])->gro
     Route::post('/dokumen/store', [DokumenController::class, 'store'])->name('dokumen.store');
 
     // ROUTE DAFTAR INSTANSI
+    Route::get('/daftar-instansi', [DaftarInstansiController::class, 'index'])->name('daftar_instansi');
+    Route::post('/daftar-instansi/store', [DaftarInstansiController::class, 'store'])->name('instansi.store');
+    Route::put('/daftar-instansi/{id}', [DaftarInstansiController::class, 'update'])->name('instansi.update');
+    Route::delete('/daftar-instansi/{id}', [DaftarInstansiController::class, 'destroy'])->name('instansi.destroy');
+
+    // ROUTE DAFTAR UNIT KERJA
+    Route::get('/daftar-unit-kerja/{instansi_id}', [DaftarUnitKerjaController::class, 'indexByInstansi'])->name('unit_kerja.by_instansi');
+    Route::post('/daftar-unit-kerja/store', [DaftarUnitKerjaController::class, 'store'])->name('unitKerja.store');
+    Route::put('/daftar-unit-kerja/{id}', [DaftarUnitKerjaController::class, 'update'])->name('unitKerja.update');
+    Route::delete('/daftar-unit-kerja/{id}', [DaftarUnitKerjaController::class, 'destroy'])->name('unitKerja.destroy');
+
+    // ROUTE DAFTAR SATUAN KERJA
+    Route::get('/daftar-satuan-kerja/{unit_kerja_id}', [DaftarSatuanKerjaController::class, 'indexByUnitKerja'])->name('satuan_kerja.by_unit_kerja');
+    Route::post('/daftar-satuan-kerja/store', [DaftarSatuanKerjaController::class, 'store'])->name('satuanKerja.store');
+    Route::put('/daftar-satuan-kerja/{id}', [DaftarSatuanKerjaController::class, 'update'])->name('satuanKerja.update');
+    Route::delete('/daftar-satuan-kerja/{id}', [DaftarSatuanKerjaController::class, 'destroy'])->name('satuanKerja.destroy');
 
     //ROUTE DAFTAR JABATAN
     Route::get('/daftar-jabatan', [DaftarJabatanController::class, 'index'])->name('daftar_jabatan');

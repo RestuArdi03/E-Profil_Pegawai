@@ -31,7 +31,9 @@ class DaftarJabatanController extends Controller
     {
         //🔍 Validasi field wajib diisi
         $request->validate([
-            'jenis_jabatan' => 'required|string|max:50',
+            'jenis_jabatan' => 'required|string|unique:jenis_jabatan,jenis_jabatan|max:50',
+        ],[
+            'jenis_jabatan.unique' => 'Jenis jabatan sudah terdaftar',
         ]);
 
         // ✅ Simpan data jabatan
@@ -65,7 +67,9 @@ class DaftarJabatanController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-        'jenis_jabatan' => 'required|string|max:50',
+        'jenis_jabatan' => 'required|string|unique:jenis_jabatan,jenis_jabatan|max:50,' . $id,
+        ],[
+            'jenis_jabatan.unique' => 'Jenis jabatan sudah terdaftar',
         ]);
 
         $jenis_jabatan = JenisJabatan::findOrFail($id);

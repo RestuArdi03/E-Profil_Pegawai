@@ -201,14 +201,27 @@
                                         <div class="mb-3">
                                             <label class="block text-sm font-medium">Nama Pegawai</label>
                                             <select name="pegawai_id" id="edit_pegawai_id" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required>
-                                                @foreach ($pegawai as $pgw)
-                                                    @if (!$pgw->user || ($pgw->id == $u->pegawai_id))
-                                                        <option value="{{ $pgw->id }}" {{ $pgw->id == $u->pegawai_id ? 'selected' : '' }}>
+                                                <option value="">-- Pilih Nama Pegawai --</option>
+                                                    @foreach ($pegawai as $pgw)
+                                                        {{-- PENTING: Gunakan session() atau old() sebagai fallback utama untuk seleksi --}}
+                                                        @php
+                                                            $isSelected = old('pegawai_id', $u->pegawai_id ?? null) == $pgw->id;
+                                                        @endphp
+                                                        
+                                                        <option 
+                                                            value="{{ $pgw->id }}" 
+                                                            {{-- SUNTIKKAN STATUS TERPAKAI (TRUE/FALSE) --}}
+                                                            data-used="{{ $pgw->user ? 'true' : 'false' }}"
+                                                            {{ $isSelected ? 'selected' : '' }}
+                                                        >
                                                             {{ $pgw->nama }}
                                                         </option>
-                                                    @endif
-                                                @endforeach
+                                                    @endforeach
                                             </select>
+                                            {{-- Tambahkan error display --}}
+                                            @error('pegawai_id')
+                                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                            @enderror
                                         </div>
 
                                         <div class="mb-3">
@@ -262,34 +275,42 @@
         }
     </script>
 
-    {{-- JAVASCRIPT UNTUK MODAL EDIT DATA DAFTAR USER--}}
+    {{-- JAVASCRIPT UNTUK MODAL EDIT DATA DAFTAR USER --}}
     <script>
+        // Fungsi utama yang dipanggil dari tombol Edit
         function openEditModalUser(id, username, email, pegawai_id, role) {
+            
+            // Mengisi data dasar
             document.getElementById('edit_id_user').value = id;
             document.getElementById('edit_username').value = username;
             document.getElementById('edit_email').value = email;
-            document.getElementById('edit_pegawai_id').value = pegawai_id;
             document.getElementById('edit_role').value = role;
 
             const select = document.getElementById('edit_pegawai_id');
-            for (const option of select.options) {
-                option.hidden = false;
+            
+            // Konversi ID pegawai ke string untuk perbandingan yang konsisten
+            const currentPegawaiId = pegawai_id.toString(); 
 
-                // Sembunyikan pegawai yang sudah dipakai, kecuali milik user ini
-                if (option.value !== pegawai_id && option.dataset.used === "true") {
+            // 1. Jalankan Logika Filtering
+            for (const option of select.options) {
+                // Selalu tampilkan opsi yang sebelumnya disembunyikan
+                option.hidden = false; 
+                
+                // Logika Sembunyi: Jika sudah terpakai OLEH USER LAIN
+                if (option.dataset.used === "true" && option.value !== currentPegawaiId) {
                     option.hidden = true;
                 }
             }
-
-            // Prefill pegawai milik user
-            select.value = pegawai_id;
-                    
-            // 1. Ambil URL rute Laravel yang benar menggunakan helper route()
-            const updateUrl = "{{ route('backend.user.update', ':id') }}";
             
-            // 2. Ganti placeholder ':id' dengan ID yang dikirim
+            // 2. Prefill: Set nilai yang sudah tersimpan (atau nilai yang dikirim dari tombol)
+            // Nilai ini penting agar opsi yang seharusnya terseleksi (terutama yang tersembunyi) tetap terseleksi
+            select.value = pegawai_id;
+
+            // 3. Set Action URL Form
+            const updateUrl = "{{ route('backend.user.update', ':id') }}";
             document.getElementById('editFormUser').action = updateUrl.replace(':id', id);
             
+            // Tampilkan Modal
             document.getElementById('editModalUser').classList.remove('hidden');
         }
 

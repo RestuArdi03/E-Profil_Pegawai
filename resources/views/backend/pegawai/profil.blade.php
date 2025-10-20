@@ -53,7 +53,7 @@
                         NIP: {{ $pegawai->nip ?? '-' }}
                     </p>
                     <p class="text-gray-600 text-sm">
-                        Jabatan: {{ $jabatanTerbaru ?? 'Staff' }}
+                        Jabatan: {{ $jabatanTerbaru ?? '-' }}
                     </p>
                 </div>
             </div>
@@ -196,7 +196,7 @@
                                 Unit Kerja
                             </td>
                             <td class="border border-gray-200 px-6 py-3 whitespace-nowrap text-sm text-default-800">
-                                 {{ optional($pegawai->instansi->latestUnitKerja)->nm_unit_kerja ?? '-' }}
+                                 {{ $pegawai->unit_kerja->nm_unit_kerja ?? '-' }}
                             </td>
                         </tr>
                         <tr>
@@ -204,7 +204,7 @@
                                 Satuan Kerja
                             </td>
                             <td class="border border-gray-200 px-6 py-3 whitespace-nowrap text-sm text-default-800">
-                                {{ optional(optional($pegawai->instansi->latestUnitKerja)->latestSatuanKerja)->nm_satuan_kerja ?? '-' }}
+                                {{ $pegawai->satuan_kerja->nm_satuan_kerja ?? '-'}}
                             </td>
                         </tr>
                     </tbody>

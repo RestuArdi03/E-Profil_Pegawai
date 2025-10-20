@@ -31,7 +31,9 @@ class DaftarEselonController extends Controller
     {
         //🔍 Validasi field wajib diisi
         $request->validate([
-            'nm_eselon' => 'required|string|max:50',
+            'nm_eselon' => 'required|string|unique:eselon,nm_eselon|max:50',
+        ],[
+            'nm_eselon.unique' => 'Nama eselon sudah terdaftar',
         ]);
 
         // ✅ Simpan data agama
@@ -65,7 +67,9 @@ class DaftarEselonController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-        'nm_eselon' => 'required|string|max:50',
+        'nm_eselon' => 'required|string|unique:eselon,nm_eselon|max:50,' . $id,
+        ],[
+            'nm_eselon.unique' => 'Nama eselon sudah terdaftar',
         ]);
 
         $eselon = Eselon::findOrFail($id);

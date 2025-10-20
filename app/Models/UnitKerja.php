@@ -12,8 +12,8 @@ class UnitKerja extends Model
     use SoftDeletes;
 
     protected $table = 'unit_kerja';
+    protected $fillable = ['nm_unit_kerja', 'instansi_id'];
     protected $dates = ['deleted_at'];
-    protected $fillable = ['nm_unit_kerja'];
 
     public function instansi()
     {

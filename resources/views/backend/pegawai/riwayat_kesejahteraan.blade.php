@@ -35,7 +35,7 @@
                         NIP: {{ $pegawai->nip ?? '-' }}
                     </p>
                     <p class="text-gray-600 text-sm">
-                        Jabatan: {{ $jabatanTerbaru ?? 'Staff' }}
+                        Jabatan: {{ $jabatanTerbaru ?? '-' }}
                     </p>
                 </div>
             </div>

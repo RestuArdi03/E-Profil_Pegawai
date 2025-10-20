@@ -31,7 +31,9 @@ class DaftarGolonganController extends Controller
     {
         //🔍 Validasi field wajib diisi
         $request->validate([
-            'golru' => 'required|string|max:50',
+            'golru' => 'required|string|unique:golongan,golru|max:50',
+        ],[
+            'golru.unique' => 'Golru sudah terdaftar',
         ]);
 
         // ✅ Simpan data golongan
@@ -65,7 +67,9 @@ class DaftarGolonganController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-        'golru' => 'required|string|max:50',
+        'golru' => 'required|string|unique:golongan,golru|max:50,' . $id,
+        ],[
+            'golru.unique' => 'Golru sudah terdaftar',
         ]);
 
         $golongan = Golongan::findOrFail($id);

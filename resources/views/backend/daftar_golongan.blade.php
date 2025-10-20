@@ -85,6 +85,11 @@
                                     <div class="mb-3">
                                         <label for="tambah_golru" class="block text-sm font-medium text-gray-700" style="margin-top: -25px;">Golru</label>
                                         <input type="text" name="golru" id="tambah_golru" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('golru') }}">
+                                        @error('golru')
+                                            <div class="text-red-600 text-sm mt-1">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                     </div>
 
                                 </form>
@@ -124,6 +129,11 @@
                                         <div class="mb-3">
                                             <label for="edit_golru" class="block text-sm font-medium text-gray-700" style="margin-top: -25px;">Golru</label>
                                             <input type="text" name="golru" id="edit_golru" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('golru', $g->golru) }}">
+                                            @error('golru')
+                                                <div class="text-red-600 text-sm mt-1">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
 
                                     </form>

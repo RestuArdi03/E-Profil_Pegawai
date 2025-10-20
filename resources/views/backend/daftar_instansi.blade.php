@@ -1,7 +1,7 @@
 @extends('main.layout2')@section('content')
-    <h1 class="text-xl font-semibold mb-4">Daftar Jabatan
+    <h1 class="text-xl font-semibold mb-4">Daftar Instansi
         <button type="button"
-        onclick="openTambahModalJenisJabatan()"
+        onclick="openTambahModalInstansi()"
         class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md shadow-sm">
             <span class="material-icons" style="margin-right: 5px; margin-left: -5px;font-size: 16px;">add</span>
             Tambah Data
@@ -22,22 +22,29 @@
                         <thead class="bg-blue-600">
                             <tr>
                                 <th class="border border-gray-200 px-6 py-3 text-sm text-default-100" style="width: 50px;">No</th>
-                                <th class="border border-gray-200 px-6 py-3 text-sm text-default-100">Jenis Jabatan</th>
+                                <th class="border border-gray-200 px-6 py-3 text-sm text-default-100">Nama Instansi</th>
                                 <th class="border border-gray-200 px-6 py-3 text-sm text-default-100" style="width: 250px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            @forelse ($jenis_jabatan as $jabatan)
+                            @forelse ($instansi as $inst)
                                 <tr>
                                     <td class="border px-6 py-3 text-sm text-gray-800">{{ $loop->iteration }}</td>
-                                    <td class="border px-6 py-3 text-sm text-gray-800">{{ $jabatan->jenis_jabatan }}</td>
+                                    <td class="border px-6 py-3 text-sm text-gray-800">{{ $inst->nm_instansi }}</td>
                                     <td class="border text-sm px-6 py-3 text-gray-800 text-center align-middle">
                                         <div class="flex flex-nowrap items-center gap-2 overflow-auto justify-center">
+                                            {{-- Tombol Detail --}}
+                                            <button type="button"
+                                                onclick="window.location.href='{{ route('backend.unit_kerja.by_instansi', $inst->id) }}'"
+                                                class="px-3 py-1 text-sm text-white bg-blue-600 rounded hover:bg-blue-700 flex flex-nowrap items-center gap-2 overflow-auto">
+                                                <span class="material-icons" style="font-size: 12px;">zoom_in</span> Detail
+                                            </button>
+
                                             {{-- Tombol Edit --}}
                                             <button type="button"
-                                                onclick="openEditModalJenisJabatan(
-                                                    {{ $jabatan->id }},
-                                                    '{{ addslashes(e($jabatan->jenis_jabatan)) }}'
+                                                onclick="openEditModalInstansi(
+                                                    {{ $inst->id }},
+                                                    '{{ addslashes(e($inst->nm_instansi)) }}'
                                                 )"
                                                 class="px-3 py-1 text-sm text-white bg-yellow-500 rounded hover:bg-yellow-600 flex flex-nowrap items-center gap-2 overflow-auto">
                                                 <span class="material-icons" style="margin-right: 3px; margin-left: -3px; font-size: 12px;">edit</span>
@@ -45,7 +52,7 @@
                                             </button>
 
                                             {{-- Tombol Delete --}}
-                                            <form action="{{ route('backend.daftar_jabatan.destroy', $jabatan->id) }}" method="POST" class="inline-block"
+                                            <form action="{{ route('backend.instansi.destroy', $inst->id) }}" method="POST" class="inline-block"
                                                 onsubmit="return confirm('Yakin ingin menghapus data ini?')">
                                                 @csrf
                                                 @method('DELETE')
@@ -61,30 +68,30 @@
                             @empty
                                 <tr>
                                     <td colspan="3" class="text-center border border-gray px-6 py-3 text-sm text-default-800">
-                                        Belum ada data Jenis Jabatan.
+                                        Belum ada data Instansi.
                                     </td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
-                    {{-- MODAL TAMBAH DATA DAFTAR JABATAN --}}
-                    <div id="tambahModalJenisJabatan" class="fixed inset-0 z-50 p-4 hidden flex justify-center items-center bg-black/50">
+                    {{-- MODAL TAMBAH DATA DAFTAR INSTANSI --}}
+                    <div id="tambahModalInstansi" class="fixed inset-0 z-50 p-4 hidden flex justify-center items-center bg-black/50">
                         <div class="bg-white rounded-lg shadow-lg w-full max-w-xl border border-green-300 outline outline-green-600 outline-offset-4" style="max-width: 800px; max-height: 800px;">
                             <div class="p-6">
-                                <h2 class="text-base font-semibold">Tambah Daftar Jabatan</h2>
+                                <h2 class="text-base font-semibold">Tambah Daftar Instansi</h2>
                             </div>
 
                             <div class="form_edit p-6 overflow-y-auto">
-                                <form id="tambahFormJenisJabatan" method="POST" action="{{ route('backend.daftar_jabatan.store') }}">
+                                <form id="tambahFormInstansi" method="POST" action="{{ route('backend.instansi.store') }}">
                                     @csrf
 
-                                    <input type="hidden" name="id" id="tambah_id_jenis_jabatan">
+                                    <input type="hidden" name="id" id="tambah_id_instansi">
                                     <input type="hidden" name="mode" value="tambah">
 
                                     <div class="mb-3">
-                                        <label for="tambah_jenis_jabatan" class="block text-sm font-medium text-gray-700" style="margin-top: -25px;">Jenis Jabatan</label>
-                                        <input type="text" name="jenis_jabatan" id="tambah_jenis_jabatan" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('jenis_jabatan') }}">
-                                        @error('jenis_jabatan')
+                                        <label for="tambah_nm_instansi" class="block text-sm font-medium text-gray-700" style="margin-top: -25px;">Nama Instansi</label>
+                                        <input type="text" name="nm_instansi" id="tambah_nm_instansi" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('nm_instansi') }}">
+                                        @error('nm_instansi')
                                             <div class="text-red-600 text-sm mt-1">
                                                 {{ $message }}
                                             </div>
@@ -94,41 +101,41 @@
                                 </form>
                             </div>
                             <div class="flex justify-end gap-2 p-6" style="margin-top: -25px">
-                                <button type="button" onclick="closeTambahModalJenisJabatan()" class="px-3 py-1.5 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">Batal</button>
-                                <button type="submit" form="tambahFormJenisJabatan" class="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Simpan</button>
+                                <button type="button" onclick="closeTambahModalInstansi()" class="px-3 py-1.5 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">Batal</button>
+                                <button type="submit" form="tambahFormInstansi" class="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Simpan</button>
                             </div>
                         </div>
                     </div>
-                    {{-- MEMUNCULKAN KEMBALI MODAL TAMBAH DATA DAFTAR JABATAN JIKA ADA ERROR--}}
+                    {{-- MEMUNCULKAN KEMBALI MODAL TAMBAH DATA DAFTAR INSTANSI JIKA ADA ERROR--}}
                     @if ($errors->any() && old('mode') === 'tambah')
                         <script>
                             window.addEventListener('DOMContentLoaded', () => {
-                                document.getElementById('tambahModalJenisJabatan').classList.remove('hidden');
+                                document.getElementById('tambahModalInstansi').classList.remove('hidden');
                             });
                         </script>
                     @endif
 
-                    {{-- MODUL EDIT DATA DAFTAR JABATAN --}}
-                    @if(isset($jabatan))
-                        <div id="editModalJenisJabatan" class="fixed inset-0 z-50 p-4 hidden flex justify-center items-center bg-black/50">
+                    {{-- MODUL EDIT DATA DAFTAR INSTANSI --}}
+                    @if(isset($inst))
+                        <div id="editModalInstansi" class="fixed inset-0 z-50 p-4 hidden flex justify-center items-center bg-black/50">
                             <div class="bg-white rounded-lg shadow-lg w-full max-w-xl border border-blue-300 outline outline-blue-600 outline-offset-4"
                             style="max-width: 800px; max-height: 800px;">
                                 <div class="p-6">
-                                    <h2 class="text-base font-semibold">Edit Daftar Jabatan</h2>
+                                    <h2 class="text-base font-semibold">Edit Daftar Instansi</h2>
                                 </div>
 
                                 <div class="form_edit p-6 overflow-y-auto">
-                                    <form id="editFormJenisJabatan" method="POST">
+                                    <form id="editFormInstansi" method="POST">
                                         @csrf
                                         @method('PUT')
 
-                                        <input type="hidden" name="id" id="edit_id_jenis_jabatan">
+                                        <input type="hidden" name="id" id="edit_id_instansi">
                                         <input type="hidden" name="mode" value="edit">
 
                                         <div class="mb-3">
-                                            <label for="edit_jenis_jabatan" class="block text-sm font-medium text-gray-700" style="margin-top: -25px;">Jenis Jabatan</label>
-                                            <input type="text" name="jenis_jabatan" id="edit_jenis_jabatan" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('jenis_jabatan', $jabatan->jenis_jabatan) }}">
-                                            @error('jenis_jabatan')
+                                            <label for="edit_nm_instansi" class="block text-sm font-medium text-gray-700" style="margin-top: -25px;">Nama Instansi</label>
+                                            <input type="text" name="nm_instansi" id="edit_nm_instansi" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('nm_instansi', $inst->nm_instansi) }}">
+                                            @error('nm_instansi')
                                                 <div class="text-red-600 text-sm mt-1">
                                                     {{ $message }}
                                                 </div>
@@ -138,17 +145,17 @@
                                     </form>
                                 </div>
                                 <div class="flex justify-end gap-2 p-6" style="margin-top: -25px">
-                                    <button type="button" onclick="closeEditModalJenisJabatan()" class="px-3 py-1.5 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">Batal</button>
-                                    <button type="submit" form="editFormJenisJabatan" class="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Simpan</button>
+                                    <button type="button" onclick="closeEditModalInstansi()" class="px-3 py-1.5 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">Batal</button>
+                                    <button type="submit" form="editFormInstansi" class="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Simpan</button>
                                 </div>
                             </div>
                         </div>
 
-                        {{-- MEMUNCULKAN KEMBALI MODAL EDIT DATA DAFTAR JABATAN JIKA ADA ERROR --}}
+                        {{-- MEMUNCULKAN KEMBALI MODAL EDIT DATA DAFTAR INSTANSI JIKA ADA ERROR --}}
                         @if ($errors->any() && old('mode') === 'edit')
                             <script>
                                 window.addEventListener('DOMContentLoaded', () => {
-                                    document.getElementById('editModalJenisJabatan').classList.remove('hidden');
+                                    document.getElementById('editModalInstansi').classList.remove('hidden');
                                 });
                             </script>
                         @endif
@@ -159,35 +166,35 @@
         </div>
     </div>
 
-    {{-- JAVASCRIPT UNTUK MODAL TAMBAH DATA DAFTAR JABATAN--}}
+    {{-- JAVASCRIPT UNTUK MODAL TAMBAH DATA DAFTAR INSTANSI--}}
     <script>
-        console.log(document.getElementById('tambahFormJenisJabatan').action);
-        function openTambahModalJenisJabatan() {
-        document.getElementById('tambahModalJenisJabatan').classList.remove('hidden');
+        console.log(document.getElementById('tambahFormInstansi').action);
+        function openTambahModalInstansi() {
+        document.getElementById('tambahModalInstansi').classList.remove('hidden');
         }
 
-        function closeTambahModalJenisJabatan() {
-            document.getElementById('tambahModalJenisJabatan').classList.add('hidden');
+        function closeTambahModalInstansi() {
+            document.getElementById('tambahModalInstansi').classList.add('hidden');
         }
     </script>
 
-    {{-- JAVASCRIPT UNTUK MODAL EDIT DATA DAFTAR JABATAN--}}
+    {{-- JAVASCRIPT UNTUK MODAL EDIT DATA DAFTAR INSTANSI--}}
     <script>
-        function openEditModalJenisJabatan(id, jenis_jabatan) {
-            document.getElementById('edit_id_jenis_jabatan').value = id;
-            document.getElementById('edit_jenis_jabatan').value = jenis_jabatan;
+        function openEditModalInstansi(id, nm_instansi) {
+            document.getElementById('edit_id_instansi').value = id;
+            document.getElementById('edit_nm_instansi').value = nm_instansi;
             
             // 1. Ambil URL rute Laravel yang benar menggunakan helper route()
-            const updateUrl = "{{ route('backend.daftar_jabatan.update', ':id') }}";
+            const updateUrl = "{{ route('backend.instansi.update', ':id') }}";
             
             // 2. Ganti placeholder ':id' dengan ID yang dikirim
-            document.getElementById('editFormJenisJabatan').action = updateUrl.replace(':id', id);
+            document.getElementById('editFormInstansi').action = updateUrl.replace(':id', id);
             
-            document.getElementById('editModalJenisJabatan').classList.remove('hidden');
+            document.getElementById('editModalInstansi').classList.remove('hidden');
         }
 
-        function closeEditModalJenisJabatan() {
-            document.getElementById('editModalJenisJabatan').classList.add('hidden');
+        function closeEditModalInstansi() {
+            document.getElementById('editModalInstansi').classList.add('hidden');
         }
     </script>
 

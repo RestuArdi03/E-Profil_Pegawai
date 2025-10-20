@@ -13,7 +13,7 @@ class SatuanKerja extends Model
 
     protected $table = 'satuan_kerja';
     protected $dates = ['deleted_at'];
-    protected $fillable = ['nm_satuan_kerja'];
+    protected $fillable = ['nm_satuan_kerja', 'unit_kerja_id'];
     
     public function unit_kerja()
     {

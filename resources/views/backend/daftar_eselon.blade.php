@@ -84,6 +84,11 @@
                                     <div class="mb-3">
                                         <label for="tambah_nm_eselon" class="block text-sm font-medium text-gray-700" style="margin-top: -25px;">Nama Eselon</label>
                                         <input type="text" name="nm_eselon" id="tambah_nm_eselon" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('nm_eselon') }}">
+                                        @error('nm_eselon')
+                                            <div class="text-red-600 text-sm mt-1">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                     </div>
 
                                 </form>
@@ -123,6 +128,11 @@
                                         <div class="mb-3">
                                             <label for="edit_nm_eselon" class="block text-sm font-medium text-gray-700" style="margin-top: -25px;">Nama Eselon</label>
                                             <input type="text" name="nm_eselon" id="edit_nm_eselon" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('nm_eselon', $esln->nm_eselon) }}">
+                                            @error('nm_eselon')
+                                                <div class="text-red-600 text-sm mt-1">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
 
                                     </form>
