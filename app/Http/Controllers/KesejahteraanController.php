@@ -15,7 +15,7 @@ class KesejahteraanController extends Controller
     {
         $pegawaiId = auth()->user()->pegawai_id;
         $riwayat_kesejahteraan = RiwayatKesejahteraan::with('pegawai')->where('pegawai_id', $pegawaiId)->get();
-        return view('frontend.kesejahteraan', compact('kesejahteraan'));
+        return view('frontend.kesejahteraan', compact('riwayat_kesejahteraan'));
         
     }
 

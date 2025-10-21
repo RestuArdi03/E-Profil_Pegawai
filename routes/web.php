@@ -30,6 +30,7 @@ use App\Http\Controllers\DaftarUserController;
 use App\Http\Controllers\DaftarGolonganController;
 use App\Http\Controllers\DaftarStrataController;
 use App\Http\Controllers\DaftarAgamaController;
+use App\Http\Controllers\DaftarFolderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -233,5 +234,11 @@ Route::prefix('/admin')->name('backend.')->middleware(['auth', 'is_admin'])->gro
     Route::post('/daftar-agama/store', [DaftarAgamaController::class, 'store'])->name('agama.store');
     Route::put('/daftar-agama/{id}', [DaftarAgamaController::class, 'update'])->name('agama.update');
     Route::delete('/daftar-agama/{id}', [DaftarAgamaController::class, 'destroy'])->name('agama.destroy');
+
+    // ROUTE DAFTAR FOLDER
+    Route::get('/daftar-folder', [DaftarFolderController::class, 'index'])->name('daftar_folder');
+    Route::post('/daftar-folder/store', [DaftarFolderController::class, 'store'])->name('folder.store');
+    Route::put('/daftar-folder/{id}', [DaftarFolderController::class, 'update'])->name('folder.update');
+    Route::delete('/daftar-folder/{id}', [DaftarFolderController::class, 'destroy'])->name('folder.destroy');
 
 });
