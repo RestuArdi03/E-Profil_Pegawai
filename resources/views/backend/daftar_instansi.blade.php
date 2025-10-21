@@ -8,6 +8,48 @@
         </button>
     </h1>
 
+    {{-- FITUR SORT BY --}}
+    @php
+        // Tentukan URL dasar untuk memudahkan pembuatan link filter
+        $currentRoute = route('backend.daftar_instansi');
+        $currentSortBy = $sortBy ?? 'created_at';
+        $currentDirection = $sortDirection ?? 'desc';
+    @endphp
+
+    <div class="mb-4 flex justify-end items-center gap-2">
+        <label for="sort_filter" class="text-sm font-medium text-gray-700">Urutkan Berdasarkan:</label>
+        
+        <select id="sort_filter" onchange="window.location.href = this.value"
+                class="mt-1 block border border-gray-300 rounded-md text-sm py-2 px-3" style="width: 200px;">
+            
+            <option value="{{ $currentRoute }}?sort_by=created_at&direction=desc" 
+                {{ $currentSortBy == 'created_at' && $currentDirection == 'desc' ? 'selected' : '' }}>
+                Terbaru
+            </option>
+            
+            <option value="{{ $currentRoute }}?sort_by=created_at&direction=asc" 
+                {{ $currentSortBy == 'created_at' && $currentDirection == 'asc' ? 'selected' : '' }}>
+                Terlama
+            </option>
+
+            <option value="{{ $currentRoute }}?sort_by=nm_instansi&direction=asc" 
+                {{ $currentSortBy == 'nm_instansi' && $currentDirection == 'asc' ? 'selected' : '' }}>
+                Nama Instansi (A-Z)
+            </option>
+            
+            <option value="{{ $currentRoute }}?sort_by=nm_instansi&direction=desc" 
+                {{ $currentSortBy == 'nm_instansi' && $currentDirection == 'desc' ? 'selected' : '' }}>
+                Nama Instansi (Z-A)
+            </option>
+            
+            <option value="{{ $currentRoute }}?sort_by=updated_at&direction=desc" 
+                {{ $currentSortBy == 'updated_at' && $currentDirection == 'desc' ? 'selected' : '' }}>
+                Terakhir Diedit
+            </option>
+
+        </select>
+    </div>
+
     @if (session('success'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
             {{ session('success') }}
@@ -29,7 +71,7 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                             @forelse ($instansi as $inst)
                                 <tr>
-                                    <td class="border px-6 py-3 text-sm text-gray-800">{{ $loop->iteration }}</td>
+                                    <td class="border px-6 py-3 text-sm text-gray-800">{{ $instansi->firstItem() + $loop->iteration - 1 }}</td>
                                     <td class="border px-6 py-3 text-sm text-gray-800">{{ $inst->nm_instansi }}</td>
                                     <td class="border text-sm px-6 py-3 text-gray-800 text-center align-middle">
                                         <div class="flex flex-nowrap items-center gap-2 overflow-auto justify-center">
@@ -161,6 +203,10 @@
                         @endif
                     @endif
 
+                </div>
+                {{-- TAMBAHKAN NAVIGASI PAGINATION DI SINI --}}
+                <div class="mt-4 flex justify-end p-4">
+                    {{ $instansi->links('pagination::tailwind') }}
                 </div>
             </div>
         </div>

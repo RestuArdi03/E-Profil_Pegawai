@@ -72,11 +72,41 @@ class GolonganController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
-        $pegawai = Pegawai::with('riwayatGolongan')->findOrFail($id);
+        // 1. Amankan dan Ambil Data Pegawai
+        session(['pegawai_id' => $id]);
+        $pegawai = Pegawai::findOrFail($id);
+
+        // 2. Logika Sorting dan Filtering
+        $sortBy = $request->get('sort_by', 'created_at'); 
+        $sortDirection = $request->get('direction', 'desc');
+        $allowedColumns = ['created_at', 'updated_at', 'tmt_golongan'];
+
+        if (!in_array($sortBy, $allowedColumns)) {
+            $sortBy = 'created_at';
+        }
+        
+        $sortDirection = (strtolower($sortDirection) == 'asc') ? 'asc' : 'desc';
+
+        // 3. Eksekusi Query dengan Filter, Pagination, dan Sorting
+        $riwayat_golongan = RiwayatGolongan::with('golongan')
+                                        ->where('pegawai_id', $id)
+                                        ->orderBy($sortBy, $sortDirection)
+                                        ->paginate(10)
+                                        ->withQueryString();
+
+        // 4. Ambil data tambahan (Master Golongan untuk dropdown modal)
         $golongan = Golongan::all();
-        return view('backend.pegawai.riwayat_golongan', compact('pegawai', 'golongan'));
+
+        // Kembalikan view dengan semua variabel yang dibutuhkan untuk sorting/filtering
+        return view('backend.pegawai.riwayat_golongan', compact(
+            'pegawai', 
+            'riwayat_golongan', 
+            'golongan', 
+            'sortBy', 
+            'sortDirection'
+        ));
     }
 
     /**

@@ -11,19 +11,41 @@ class DaftarSatuanKerjaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function indexByUnitKerja(string $unit_kerja_id)
+    public function indexByUnitKerja(Request $request, string $unit_kerja_id)
     {
-        // 1. Ambil data Unit Kerja untuk ditampilkan di header
-        $unitKerja = UnitKerja::findOrFail($unit_kerja_id);
+        // 1. Amankan ID dan Simpan ke Session
 
-        // 2. Ambil semua Satuan Kerja yang terkait
-        $satuanKerja = SatuanKerja::where('unit_kerja_id', $unit_kerja_id)->get();
+        // Ambil data Unit Kerja parent (findOrFail akan mengamankan dari ID palsu)
+        $unitKerja = UnitKerja::findOrFail($unit_kerja_id); 
 
-        // BARIS KRUSIAL: Menyimpan ID unit kerja yang sedang dilihat ke session
-        session(['unit_kerja_id' => $unit_kerja_id]);
+        // Menyimpan ID Unit Kerja yang sedang dilihat ke session 
+        // (berguna untuk form Tambah/Edit Satuan Kerja)
+        session(['unit_kerja_id' => $unit_kerja_id]); 
+
+
+        // --- 2. Logika Sorting dan Filtering ---
         
-        // 3. Kirim data ke view
-        return view('backend.daftar_satuan_kerja', compact('unitKerja', 'satuanKerja'));
+        $sortBy = $request->get('sort_by', 'created_at'); 
+        $sortDirection = $request->get('direction', 'desc');
+
+        // Kolom yang diizinkan untuk diurutkan di tabel satuan_kerja
+        $allowedColumns = ['created_at', 'updated_at', 'nm_satuan_kerja']; // <-- PERUBAHAN KOLOM
+        
+        // Fallback keamanan
+        if (!in_array($sortBy, $allowedColumns)) {
+            $sortBy = 'created_at';
+        }
+
+
+        // --- 3. Eksekusi Query dengan Filter dan Pagination ---
+        $satuanKerja = SatuanKerja::where('unit_kerja_id', $unit_kerja_id) // <-- Filter berdasarkan Unit Kerja ID
+                                ->orderBy($sortBy, $sortDirection)
+                                ->paginate(10)
+                                ->withQueryString(); // <-- Pertahankan parameter filter
+        
+        
+        // --- 4. Kembalikan View ---
+        return view('backend.daftar_satuan_kerja', compact('unitKerja', 'satuanKerja', 'sortBy', 'sortDirection'));
     }
 
     /**

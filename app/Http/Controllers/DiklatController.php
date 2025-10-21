@@ -63,14 +63,33 @@ class DiklatController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
+        // 1. Amankan dan Ambil Data Pegawai
         session(['pegawai_id' => $id]);
+        $pegawai = Pegawai::findOrFail($id);
 
-        $pegawai = Pegawai::with('riwayatDiklat')->findOrFail($id);
-        $riwayat_diklat = $pegawai->riwayatDiklat;
+        // 2. Logika Sorting dan Filtering
+        $sortBy = $request->get('sort_by', 'created_at'); // Default: created_at
+        $sortDirection = $request->get('direction', 'desc');
 
-        return view('backend.pegawai.riwayat_diklat', compact('pegawai', 'riwayat_diklat'));
+        // Tentukan kolom yang diizinkan: hanya created_at dan updated_at
+        $allowedColumns = ['created_at', 'updated_at']; // <-- HANYA INI YANG DIIZINKAN
+        
+        if (!in_array($sortBy, $allowedColumns)) {
+            $sortBy = 'created_at'; // Fallback ke created_at
+        }
+
+        // Pastikan arah pengurutan selalu 'asc' atau 'desc'
+        $sortDirection = (strtolower($sortDirection) == 'asc') ? 'asc' : 'desc';
+
+        // 3. Eksekusi Query dengan Filter, Pagination, dan Sorting
+        $riwayat_diklat = RiwayatDiklat::where('pegawai_id', $id)
+                                ->orderBy($sortBy, $sortDirection)
+                                ->paginate(10)
+                                ->withQueryString();
+
+        return view('backend.pegawai.riwayat_diklat', compact('pegawai', 'riwayat_diklat', 'sortBy', 'sortDirection'));
     }
 
     /**

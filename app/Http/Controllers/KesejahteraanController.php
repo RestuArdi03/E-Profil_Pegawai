@@ -14,7 +14,7 @@ class KesejahteraanController extends Controller
     public function index()
     {
         $pegawaiId = auth()->user()->pegawai_id;
-        $kesejahteraan = RiwayatKesejahteraan::with('pegawai')->where('pegawai_id', $pegawaiId)->get();
+        $riwayat_kesejahteraan = RiwayatKesejahteraan::with('pegawai')->where('pegawai_id', $pegawaiId)->get();
         return view('frontend.kesejahteraan', compact('kesejahteraan'));
         
     }
@@ -63,14 +63,35 @@ class KesejahteraanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
-        session(['pegawai_id' => $id]);
+        // Amankan ID Pegawai di session
+        session(['pegawai_id' => $id]); 
 
-        $pegawai = Pegawai::with('riwayatKesejahteraan')->findOrFail($id);
-        $kesejahteraan = $pegawai->riwayatKesejahteraan;
+        // 1. Ambil data satu Pegawai (Wajib untuk Header Profil)
+        $pegawai = Pegawai::findOrFail($id);
+        
+        // --- 2. Logika Sorting (Tetap sama) ---
+        $sortBy = $request->get('sort_by', 'created_at'); 
+        $sortDirection = $request->get('direction', 'desc');
 
-        return view('backend.pegawai.riwayat_kesejahteraan', compact('pegawai', 'kesejahteraan'));
+        // Kolom yang diizinkan untuk diurutkan di tabel
+        $allowedColumns = ['created_at', 'updated_at'];
+        
+        if (!in_array($sortBy, $allowedColumns)) {
+            $sortBy = 'created_at';
+        }
+        $sortDirection = (strtolower($sortDirection) == 'asc') ? 'asc' : 'desc';
+
+        // --- 3. Eksekusi Query ---
+        
+        $riwayat_kesejahteraan = RiwayatKesejahteraan::where('pegawai_id', $id)
+                                        ->orderBy($sortBy, $sortDirection)
+                                        ->paginate(10)
+                                        ->withQueryString();
+
+        // --- 4. Kembalikan View ---
+        return view('backend.pegawai.riwayat_kesejahteraan', compact('pegawai', 'riwayat_kesejahteraan', 'sortBy', 'sortDirection'));
     }
 
     /**

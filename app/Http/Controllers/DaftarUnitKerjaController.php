@@ -11,21 +11,44 @@ class DaftarUnitKerjaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function indexByInstansi(string $instansi_id)
+    public function indexByInstansi(Request $request, string $instansi_id) // <-- Terima Request & ID
     {
-        // Cek apakah ada old instansi_id yang dikirim setelah gagal validasi
+        // --- 1. Amankan ID dan Simpan ke Session ---
+        
+        // Prioritaskan old('instansi_id') jika ada, lalu ID dari URL
         $id = old('instansi_id', $instansi_id); 
         
-        // Ambil data Instansi (gunakan find() atau first() untuk menghindari 404 jika ID palsu)
+        // Ambil data Instansi (Gunakan findOrFail karena ID Instansi wajib ada)
         $instansi = Instansi::findOrFail($id); 
 
         // BARIS KRUSIAL: Menyimpan ID Instansi yang sedang dilihat ke session
-        session(['instansi_id' => $instansi_id]);
+        session(['instansi_id' => $instansi_id]); 
 
-        // Ambil Unit Kerja berdasarkan ID yang benar
-        $unitKerja = UnitKerja::where('instansi_id', $id)->get();
+
+        // --- 2. Logika Sorting dan Filtering (Diambil dari Index Golongan) ---
         
-        return view('backend.daftar_unit_kerja', compact('instansi', 'unitKerja'));
+        $sortBy = $request->get('sort_by', 'created_at'); 
+        $sortDirection = $request->get('direction', 'desc');
+
+        // Tentukan kolom yang diizinkan untuk diurutkan di tabel unit_kerja
+        $allowedColumns = ['created_at', 'updated_at', 'nm_unit_kerja']; // <-- Sesuaikan kolom Unit Kerja
+        
+        if (!in_array($sortBy, $allowedColumns)) {
+            $sortBy = 'created_at';
+        }
+
+
+        // --- 3. Eksekusi Query dengan Filter dan Pagination ---
+        
+        $unitKerja = UnitKerja::where('instansi_id', $id) // <-- Filter berdasarkan Instansi ID
+                            ->orderBy($sortBy, $sortDirection)
+                            ->paginate(10)
+                            ->withQueryString(); // <-- Pertahankan parameter filter saat navigasi
+        
+        // Ganti variabel $unitKerja yang lama dengan hasil pagination
+        
+        // --- 4. Kembalikan View ---
+        return view('backend.daftar_unit_kerja', compact('instansi', 'unitKerja', 'sortBy', 'sortDirection'));
     }
 
     /**

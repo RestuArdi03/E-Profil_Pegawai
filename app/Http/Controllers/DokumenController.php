@@ -52,16 +52,41 @@ class DokumenController extends Controller
         return redirect()->route('backend.dokumen.show', $request->pegawai_id)->with('success', '✅ Dokumen berhasil disimpan!');
     }
 
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
+        // 1. Amankan dan Ambil Data Pegawai
         session(['pegawai_id' => $id]);
-
         $pegawai = Pegawai::findOrFail($id);
-        $dokumen = Dokumen::with('folder')->where('pegawai_id', $id)->get();
 
+        // 2. Logika Sorting dan Filtering
+        $sortBy = $request->get('sort_by', 'created_at'); 
+        $sortDirection = $request->get('direction', 'desc');
+        $allowedColumns = ['created_at', 'updated_at'];
+        
+        if (!in_array($sortBy, $allowedColumns)) {
+            $sortBy = 'created_at';
+        }
+
+        $sortDirection = (strtolower($sortDirection) == 'asc') ? 'asc' : 'desc';
+
+        // 3. Eksekusi Query dengan Filter, Pagination, dan Sorting
+        $dokumen = Dokumen::with('folder')
+                            ->where('pegawai_id', $id)
+                            ->orderBy($sortBy, $sortDirection)
+                            ->paginate(10)
+                            ->withQueryString();
+
+        // 4. Ambil data tambahan
         $folder = Folder::all();
 
-        return view('backend.pegawai.dokumen', compact('pegawai', 'dokumen', 'folder'));
+        // 5. Kirim semua variabel yang diperlukan ke view
+        return view('backend.pegawai.dokumen', compact(
+            'pegawai', 
+            'dokumen', 
+            'folder', 
+            'sortBy',
+            'sortDirection'
+        ));
     }
 
     public function update(Request $request, string $id)

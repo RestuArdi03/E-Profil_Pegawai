@@ -70,19 +70,38 @@ class JabatanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
+        // 1. Amankan dan Ambil Data Pegawai
         session(['pegawai_id' => $id]);
-
         $pegawai = Pegawai::findOrFail($id);
+
+        // 2. Logika Sorting dan Filtering
+        $sortBy = $request->get('sort_by', 'created_at'); // Default: created_at
+        $sortDirection = $request->get('direction', 'desc');
+
+        // Tentukan kolom yang diizinkan: hanya created_at dan updated_at
+        $allowedColumns = ['created_at', 'updated_at']; // <-- HANYA INI YANG DIIZINKAN
+        
+        if (!in_array($sortBy, $allowedColumns)) {
+            $sortBy = 'created_at'; // Fallback ke created_at
+        }
+
+        // Pastikan arah pengurutan selalu 'asc' atau 'desc'
+        $sortDirection = (strtolower($sortDirection) == 'asc') ? 'asc' : 'desc';
+
+        // 3. Eksekusi Query dengan Filter, Pagination, dan Sorting
         $riwayat_jabatan = RiwayatJabatan::with('eselon', 'jenis_jabatan')
                                 ->where('pegawai_id', $id)
-                                ->get();
+                                ->orderBy($sortBy, $sortDirection)
+                                ->paginate(10)
+                                ->withQueryString();
 
+        // 4. Ambil data tambahan
         $eselon = Eselon::all();
         $jenis_jabatan = JenisJabatan::all();
 
-        return view('backend.pegawai.riwayat_jabatan', compact('pegawai', 'riwayat_jabatan', 'eselon', 'jenis_jabatan'));
+        return view('backend.pegawai.riwayat_jabatan', compact('pegawai', 'riwayat_jabatan', 'eselon', 'jenis_jabatan', 'sortBy', 'sortDirection'));
     }
 
     /**

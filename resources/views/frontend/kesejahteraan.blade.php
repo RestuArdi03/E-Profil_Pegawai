@@ -48,7 +48,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        @forelse ($kesejahteraan as $data)
+                        @forelse ($riwayat_kesejahteraan as $data)
                             <tr>
                                 <td class="border px-6 py-3 text-sm text-gray-800">{{ $loop->iteration }}</td>
                                 <td class="border px-6 py-3 text-sm text-gray-800">{{ $data->npwp }}</td>

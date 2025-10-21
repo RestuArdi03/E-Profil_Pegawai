@@ -61,14 +61,35 @@ class OrganisasiController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
-        session(['pegawai_id' => $id]);
+        // Amankan ID Pegawai di session
+        session(['pegawai_id' => $id]); 
 
-        $pegawai = Pegawai::with('riwayatOrganisasi')->findOrFail($id);
-        $riwayat_organisasi = $pegawai->riwayatOrganisasi;
+        // 1. Ambil data satu Pegawai (Wajib untuk Header Profil)
+        $pegawai = Pegawai::findOrFail($id);
+        
+        // --- 2. Logika Sorting (Tetap sama) ---
+        $sortBy = $request->get('sort_by', 'created_at'); 
+        $sortDirection = $request->get('direction', 'desc');
 
-        return view('backend.pegawai.riwayat_organisasi', compact('pegawai', 'riwayat_organisasi'));
+        // Kolom yang diizinkan untuk diurutkan di tabel
+        $allowedColumns = ['created_at', 'updated_at'];
+        
+        if (!in_array($sortBy, $allowedColumns)) {
+            $sortBy = 'created_at';
+        }
+        $sortDirection = (strtolower($sortDirection) == 'asc') ? 'asc' : 'desc';
+
+        // --- 3. Eksekusi Query ---
+        
+        $riwayat_organisasi = RiwayatOrganisasi::where('pegawai_id', $id)
+                                        ->orderBy($sortBy, $sortDirection)
+                                        ->paginate(10)
+                                        ->withQueryString();
+
+        // --- 4. Kembalikan View ---
+        return view('backend.pegawai.riwayat_organisasi', compact('pegawai', 'riwayat_organisasi', 'sortBy', 'sortDirection'));
     }
 
     /**

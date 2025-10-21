@@ -10,10 +10,25 @@ class DaftarJabatanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request) // <-- Terima objek Request
     {
-        $jenis_jabatan = JenisJabatan::all();
-        return view('backend.daftar_jabatan', compact('jenis_jabatan'));
+        // Tentukan kolom pengurutan berdasarkan input pengguna (default: created_at)
+        $sortBy = $request->get('sort_by', 'created_at'); 
+        
+        // Tentukan arah pengurutan (default: descending)
+        $sortDirection = $request->get('direction', 'desc');
+
+        // Pastikan input valid (opsional, tetapi disarankan)
+        $allowedColumns = ['created_at', 'updated_at', 'jenis_jabatan'];
+        if (!in_array($sortBy, $allowedColumns)) {
+            $sortBy = 'created_at';
+        }
+        
+        $jenis_jabatan = JenisJabatan::orderBy($sortBy, $sortDirection)
+                            ->paginate(10)
+                            ->withQueryString(); // <-- Wajib untuk mempertahankan filter saat navigasi
+
+        return view('backend.daftar_jabatan', compact('jenis_jabatan', 'sortBy', 'sortDirection'));
     }
 
     /**

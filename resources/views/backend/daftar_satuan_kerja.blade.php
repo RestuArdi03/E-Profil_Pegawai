@@ -9,6 +9,54 @@
         </button>
     </h1>
 
+    {{-- FITUR SORT BY --}}
+    @php
+        // Ambil ID Unit Kerja dari variabel $unitKerja yang dikirim oleh controller
+        // Menggunakan Safe Operator (?->) dan null coalescing (??) untuk keamanan
+        $unitKerjaId = $unitKerja->id ?? 0;
+        
+        // Gunakan rute SATUAN KERJA, memasukkan ID Unit Kerja saat ini
+        $currentRoute = route('backend.satuan_kerja.by_unit_kerja', ['unit_kerja_id' => $unitKerjaId]);
+        
+        // Sesuaikan nilai default pengurutan untuk Satuan Kerja
+        $currentSortBy = $sortBy ?? 'created_at';
+        $currentDirection = $sortDirection ?? 'desc';
+    @endphp
+
+    <div class="mb-4 flex justify-end items-center gap-2">
+        <label for="sort_filter" class="text-sm font-medium text-gray-700">Urutkan Berdasarkan:</label>
+        
+        <select id="sort_filter" onchange="window.location.href = this.value"
+                class="mt-1 block border border-gray-300 rounded-md text-sm py-2 px-3" style="width: 250px;">
+            
+            <option value="{{ $currentRoute }}?sort_by=created_at&direction=desc" 
+                {{ $currentSortBy == 'created_at' && $currentDirection == 'desc' ? 'selected' : '' }}>
+                Terbaru
+            </option>
+            
+            <option value="{{ $currentRoute }}?sort_by=created_at&direction=asc" 
+                {{ $currentSortBy == 'created_at' && $currentDirection == 'asc' ? 'selected' : '' }}>
+                Terlama
+            </option>
+
+            <option value="{{ $currentRoute }}?sort_by=nm_satuan_kerja&direction=asc" 
+                {{ $currentSortBy == 'nm_satuan_kerja' && $currentDirection == 'asc' ? 'selected' : '' }}>
+                Nama Satuan Kerja(A-Z)
+            </option>
+            
+            <option value="{{ $currentRoute }}?sort_by=nm_satuan_kerja&direction=desc" 
+                {{ $currentSortBy == 'nm_satuan_kerja' && $currentDirection == 'desc' ? 'selected' : '' }}>
+                Nama Satuan Kerja (Z-A)
+            </option>
+            
+            <option value="{{ $currentRoute }}?sort_by=updated_at&direction=desc" 
+                {{ $currentSortBy == 'updated_at' && $currentDirection == 'desc' ? 'selected' : '' }}>
+                Terakhir Diedit
+            </option>
+
+        </select>
+    </div>
+
     @if (session('success'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
             {{ session('success') }}
@@ -30,7 +78,7 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                             @forelse ($satuanKerja as $sk)
                                 <tr>
-                                    <td class="border px-6 py-3 text-sm text-gray-800">{{ $loop->iteration }}</td>
+                                    <td class="border px-6 py-3 text-sm text-gray-800">{{ $satuanKerja->firstItem() + $loop->iteration - 1 }}</td>
                                     <td class="border px-6 py-3 text-sm text-gray-800">{{ $sk->nm_satuan_kerja }}</td>
                                     <td class="border text-sm px-6 py-3 text-gray-800 text-center align-middle">
                                         <div class="flex flex-nowrap items-center gap-2 overflow-auto justify-center">
@@ -154,6 +202,11 @@
                     @endif
 
                 </div>
+                {{-- TAMBAHKAN NAVIGASI PAGINATION DI SINI --}}
+                <div class="mt-4 flex justify-end p-4">
+                    {{ $satuanKerja->links('pagination::tailwind') }}
+                </div>
+
             </div>
         </div>
     </div>

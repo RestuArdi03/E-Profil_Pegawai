@@ -63,19 +63,39 @@ class PendidikanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id) // <-- Terima Request, ubah $id menjadi $pegawai_id
     {
+        // 1. Amankan dan Ambil Data Pegawai
         session(['pegawai_id' => $id]);
-
         $pegawai = Pegawai::findOrFail($id);
-        $riwayat_pendidikan = RiwayatPendidikan::with('strata')
-                                ->where('pegawai_id', $id)
-                                ->orderByDesc('thn_lulus') // opsional
-                                ->get();
 
+        // 2. Logika Sorting dan Filtering
+        $sortBy = $request->get('sort_by', 'created_at'); // Default: created_at
+        $sortDirection = $request->get('direction', 'desc');
+        
+        // Tentukan kolom yang diizinkan: hanya created_at dan updated_at
+        $allowedColumns = ['created_at', 'updated_at']; // <-- HANYA INI YANG DIIZINKAN
+        
+        if (!in_array($sortBy, $allowedColumns)) {
+            $sortBy = 'created_at'; // Fallback ke created_at
+        }
+
+        // Pastikan arah pengurutan selalu 'asc' atau 'desc'
+        $sortDirection = (strtolower($sortDirection) == 'asc') ? 'asc' : 'desc';
+        
+        // 3. Eksekusi Query dengan Filter, Pagination, dan Sorting
+        $riwayat_pendidikan = RiwayatPendidikan::with('strata')
+                                                ->where('pegawai_id', $id) // Filter berdasarkan ID Pegawai
+                                                ->orderBy($sortBy, $sortDirection) // Terapkan sorting
+                                                ->paginate(10) // Terapkan pagination
+                                                ->withQueryString(); // Pertahankan parameter filter
+
+        // 4. Ambil data tambahan (strata)
         $strata = Strata::all();
 
-        return view('backend.pegawai.riwayat_pendidikan', compact('pegawai', 'riwayat_pendidikan', 'strata'));
+        // 5. Kembalikan View (Kirim variabel sorting/filtering)
+        return view('backend.pegawai.riwayat_pendidikan', compact('pegawai', 'riwayat_pendidikan', 'strata', 'sortBy', 'sortDirection'
+        ));
     }
 
     /**

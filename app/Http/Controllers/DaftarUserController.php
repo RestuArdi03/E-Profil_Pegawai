@@ -12,9 +12,24 @@ class DaftarUserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
+    public function index(Request $request)
+    {   
+        // Tentukan kolom pengurutan berdasarkan input pengguna (default: created_at)
+        $sortBy = $request->get('sort_by', 'created_at'); 
+        
+        // Tentukan arah pengurutan (default: descending)
+        $sortDirection = $request->get('direction', 'desc');
+
+        // Pastikan input valid (opsional, tetapi disarankan)
+        $allowedColumns = ['created_at', 'updated_at', 'username'];
+        if (!in_array($sortBy, $allowedColumns)) {
+            $sortBy = 'created_at';
+        }
+        
         $users = User::with('pegawai')->get();
+        $users = User::orderBy($sortBy, $sortDirection)
+                            ->paginate(10)
+                            ->withQueryString(); // <-- Wajib untuk mempertahankan filter saat navigasi
 
         // Ambil semua pegawai
         $pegawai = Pegawai::all();
