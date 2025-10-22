@@ -12,11 +12,42 @@ class PendidikanController extends Controller
     /**
      * Display a listing of the resourc.
      */
-    public function index()
+    public function index(Request $request)
     {
+        // 1. Ambil ID Pegawai dari user yang sedang login (HANYA INI YANG BERBEDA)
         $pegawaiId = auth()->user()->pegawai_id;
-        $riwayat_pendidikan = RiwayatPendidikan::with(['pegawai', 'strata'])->where('pegawai_id', $pegawaiId)->get();
-        return view('frontend.pendidikan', compact('riwayat_pendidikan'));
+
+        // 2. Logika Sorting dan Filtering
+        $sortBy = $request->get('sort_by', 'created_at');
+        $sortDirection = $request->get('direction', 'desc');
+
+        // Tentukan kolom yang diizinkan untuk diurutkan
+        $allowedColumns = ['created_at', 'updated_at']; 
+        
+        if (!in_array($sortBy, $allowedColumns)) {
+            $sortBy = 'created_at';
+        }
+
+        // Pastikan arah pengurutan selalu 'asc' atau 'desc'
+        $sortDirection = (strtolower($sortDirection) == 'asc') ? 'asc' : 'desc';
+
+        // 3. Eksekusi Query dengan Filter, Pagination, dan Sorting
+        $riwayat_pendidikan = RiwayatPendidikan::with('strata')
+                                                ->where('pegawai_id', $pegawaiId) // Filter berdasarkan ID User yang login
+                                                ->orderBy($sortBy, $sortDirection) // Terapkan sorting
+                                                ->paginate(10) // Terapkan pagination
+                                                ->withQueryString(); // Pertahankan parameter filter
+
+        // 4. Ambil data tambahan
+        $strata = Strata::all(); 
+
+        // 5. Kembalikan View (Kirim variabel sorting/filtering)
+        return view('frontend.pendidikan', compact(
+            'riwayat_pendidikan', 
+            'strata', 
+            'sortBy', 
+            'sortDirection'
+        ));
     }
 
     /**

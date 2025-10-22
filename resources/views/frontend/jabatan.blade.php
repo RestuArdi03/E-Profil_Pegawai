@@ -31,6 +31,41 @@
             </div>
         </div>
     </div>
+
+    {{-- FITUR SORT BY --}}
+    @php
+        // Ambil ID Pegawai dari objek $pegawai yang sudah dimuat di controller
+        $pegawaiId = $pegawai->id; 
+        
+        $currentRoute = route('frontend.jabatan', $pegawaiId); 
+
+        $currentSortBy = $sortBy ?? 'created_at';
+        $currentDirection = $sortDirection ?? 'desc';
+    @endphp
+
+    <div class="mb-4 flex justify-end items-center gap-2">
+        <label for="sort_filter" class="text-sm font-medium text-gray-700">Urutkan Berdasarkan:</label>
+        
+        <select id="sort_filter" onchange="window.location.href = this.value"
+                class="mt-1 block border border-gray-300 rounded-md text-sm py-2 px-3" style="width: 200px;">
+            
+            <option value="{{ $currentRoute }}?sort_by=created_at&direction=desc" 
+                {{ $currentSortBy == 'created_at' && $currentDirection == 'desc' ? 'selected' : '' }}>
+                Terbaru
+            </option>
+            
+            <option value="{{ $currentRoute }}?sort_by=created_at&direction=asc" 
+                {{ $currentSortBy == 'created_at' && $currentDirection == 'asc' ? 'selected' : '' }}>
+                Terlama
+            </option>
+            
+            <option value="{{ $currentRoute }}?sort_by=updated_at&direction=desc" 
+                {{ $currentSortBy == 'updated_at' && $currentDirection == 'desc' ? 'selected' : '' }}>
+                Terakhir Diedit
+            </option>
+
+        </select>
+    </div>
     
     <div>
         <div class="overflow-x-auto">
@@ -54,7 +89,7 @@
                             @forelse ($riwayat_jabatan as $rj)
                                 <tr class="odd:bg-white even:bg-gray-100">
                                     <td class="border border-gray px-6 py-3 text-sm text-gray-800">
-                                        {{ $loop->iteration }}
+                                        {{ $riwayat_jabatan->firstItem() + $loop->iteration - 1 }}
                                     </td>
                                     <td class="border border-gray px-6 py-3 text-sm text-gray-800">
                                         {{ $rj->jabatan ?? '-' }}
@@ -91,6 +126,11 @@
                         </tbody>
                     </table>
                 </div>
+                {{-- TAMBAHKAN NAVIGASI PAGINATION DI SINI --}}
+                <div class="mt-4 flex justify-end p-4">
+                    {{ $riwayat_jabatan->links('pagination::tailwind') }}
+                </div>
+
             </div>
         </div>
     </div>

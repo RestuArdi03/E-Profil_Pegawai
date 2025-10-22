@@ -11,11 +11,37 @@ class KgbController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        // 1. Ambil ID Pegawai dari user yang sedang login (HANYA INI YANG BERBEDA)
         $pegawaiId = auth()->user()->pegawai_id;
-        $riwayat_kgb = RiwayatKgb::with('pegawai')->where('pegawai_id', $pegawaiId)->get();
-        return view('frontend.kgb', compact('riwayat_kgb')); // ✅ ini benar
+
+        // 2. Logika Sorting dan Filtering
+        $sortBy = $request->get('sort_by', 'created_at');
+        $sortDirection = $request->get('direction', 'desc');
+
+        // Tentukan kolom yang diizinkan untuk diurutkan
+        $allowedColumns = ['created_at', 'updated_at']; 
+        
+        if (!in_array($sortBy, $allowedColumns)) {
+            $sortBy = 'created_at';
+        }
+
+        // Pastikan arah pengurutan selalu 'asc' atau 'desc'
+        $sortDirection = (strtolower($sortDirection) == 'asc') ? 'asc' : 'desc';
+
+        // 3. Eksekusi Query dengan Filter, Pagination, dan Sorting
+        $riwayat_kgb = RiwayatKgb::where('pegawai_id', $pegawaiId) // Filter berdasarkan ID User yang login
+                                    ->orderBy($sortBy, $sortDirection) // Terapkan sorting
+                                    ->paginate(10) // Terapkan pagination
+                                    ->withQueryString(); // Pertahankan parameter filter
+
+        // 5. Kembalikan View (Kirim variabel sorting/filtering)
+        return view('frontend.kgb', compact(
+            'riwayat_kgb',  
+            'sortBy', 
+            'sortDirection'
+        ));
     }
 
     /**
