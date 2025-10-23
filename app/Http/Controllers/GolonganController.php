@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Models\RiwayatGolongan;
 use App\Models\Golongan;
 use App\Models\Pegawai;
@@ -158,7 +159,12 @@ class GolonganController extends Controller
         $request->validate([
             'golongan_id' => 'required',
             'tmt_golongan' => 'required|date',
-            'no_sk' => 'required|string|max:100',
+            'no_sk' => [
+                'required',
+                'string',
+                'max:100',
+                Rule::unique('riwayat_golongan', 'no_sk')->ignore($id), // <-- BENAR
+            ],
             'tgl_sk' => 'required|date',
             'pejabat' => 'required|string|max:100',
         ], [

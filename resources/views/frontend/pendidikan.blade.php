@@ -93,7 +93,8 @@
                         @forelse ($riwayat_pendidikan as $rp)
                             <tr class="odd:bg-white">
                                 <td class="border border-gray px-6 py-3 text-sm text-default-800">
-                                    {{ $riwayat_pendidikan->firstItem() + $loop->iteration - 1 }}</td>
+                                    {{ $riwayat_pendidikan->firstItem() + $loop->iteration - 1 }}
+                                </td>
                                 <td class="border border-gray px-6 py-3 text-sm text-default-800">
                                     {{ $rp->strata->nm_strata ?? '-' }}
                                 </td>

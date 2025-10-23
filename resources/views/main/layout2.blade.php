@@ -31,6 +31,13 @@
 
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .select2-results__options {
+            max-height: 160px !important;
+            overflow-y: auto !important;
+        }
+    </style>
 
 </head>
 
@@ -454,10 +461,12 @@
         </div>
     </div>
 
-    <!-- Plugin Js (Mandatory in All Pages) -->
+    <!-- Plugin Js (Mandatory in All Pages) -->\
     <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/libs/preline/preline.js') }}"></script>
     <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script src="{{ asset('assets/libs/lucide/umd/lucide.min.js') }}"></script>
     <script src="{{ asset('assets/libs/iconify-icon/iconify-icon.min.js') }}"></script>
     <script src="{{ asset('assets/libs/node-waves/waves.min.js') }}"></script>

@@ -42,3 +42,59 @@
     max-height: 500px;
   }
 }
+
+.select2-container.custom-select-full {
+    width: 100% !important; 
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    width: 100% !important;
+}
+
+.select2-container--default .select2-selection--single {
+    border-color: #d1d5db !important; /* Warna border-gray-300 */
+    height:37px !important;
+
+}
+
+/* Menargetkan panah Select2 di dalam container default */
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    /* Mengatur posisi vertikal panah */
+    /* Nilai 50% memposisikan titik tengah panah di tengah container */
+    top: 100%; 
+    left: 96%;
+    
+    /* Menggeser panah ke atas sebesar setengah tingginya sendiri */
+    transform: translateY(35%); 
+    
+    /* Memastikan panah memiliki ukuran yang wajar */
+    height: 100%; /* Memastikan tinggi arrow container sama dengan selection */
+    width: 20px; 
+    right: 5px; /* Sedikit menjauh dari border kanan */
+}
+
+.custom-select {
+    width: 300px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    appearance: none;
+    background-color: white;
+}
+
+.custom-select:focus option {
+    display: block;
+}
+
+select option {
+    padding: 6px;
+}
+
+select[size] {
+    overflow-y: auto;
+}
+
+option:hover {
+    background-color: #f0f0f0;
+}

@@ -190,7 +190,7 @@
                         </div>
 
                         <div class="form_edit p-6 overflow-y-auto">
-                            <form id="tambahFormPendidikan" method="POST" action="/admin/riwayat_pendidikan/store">
+                            <form id="tambahFormPendidikan" method="POST" action="/admin/riwayat_pendidikan/store" novalidate>
                                 @csrf
 
                                 <input type="hidden" name="pegawai_id" value="{{ $pegawai->id }}">
@@ -199,7 +199,7 @@
 
                                 <div class="mb-3">
                                     <label class="block text-sm font-medium" style="margin-top: -25px;">Strata dan Jurusan</label>
-                                    <select name="strata_id" id="strata_id" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required>
+                                    <select name="strata_id" id="tambah_strata_id" class="select2 mt-1 block w-full border border-gray-300 rounded-md text-sm" required>
                                         <option value="">-- Pilih strata dan jurusan --</option>
                                         @foreach ($strata as $s)
                                             <option value="{{ $s->id }}" {{ old('strata_id') == $s->id ? 'selected' : '' }}>
@@ -207,16 +207,28 @@
                                         </option>
                                         @endforeach
                                     </select>
+                                    {{-- WADAH PESAN ERROR KHUSUS CLIENT-SIDE --}}
+                                    <div id="strata_id_error" class="text-red-500 text-sm mt-1" style="display: none;">
+                                        Pilih Strata dalam daftar.
+                                    </div>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_nm_sekolah_pt" class="block text-sm font-medium text-gray-700">Nama Sekolah/PT</label>
                                     <input type="text" name="nm_sekolah_pt" id="tambah_nm_sekolah_pt" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('nm_sekolah_pt') }}">
+                                    {{-- WADAH PESAN ERROR KHUSUS CLIENT-SIDE --}}
+                                    <div id="nm_sekolah_pt_error" class="text-red-500 text-sm mt-1" style="display: none;">
+                                        Nama Sekolah/PT wajib diisi.
+                                    </div>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_no_ijazah" class="block text-sm font-medium text-gray-700">No Ijazah</label>
                                     <input type="text" name="no_ijazah" id="tambah_no_ijazah" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('no_ijazah') }}">
+                                    {{-- WADAH PESAN ERROR KHUSUS CLIENT-SIDE --}}
+                                    <div id="no_ijazah_error" class="text-red-500 text-sm mt-1" style="display: none;">
+                                        No Ijazah wajib diisi.
+                                    </div>
                                     @error('no_ijazah')
                                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                     @enderror
@@ -225,20 +237,32 @@
                                 <div class="mb-3">
                                     <label for="tambah_thn_lulus" class="block text-sm font-medium text-gray-700">Tahun Lulus</label>
                                     <input type="number" name="thn_lulus" id="tambah_thn_lulus" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" min="1950" max="{{ date('Y') }}" required value="{{ old('thn_lulus') }}">
+                                    {{-- WADAH PESAN ERROR KHUSUS CLIENT-SIDE --}}
+                                    <div id="thn_lulus_error" class="text-red-500 text-sm mt-1" style="display: none;">
+                                        Tahun Lulus wajib diisi.
+                                    </div>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_pimpinan" class="block text-sm font-medium text-gray-700">Pimpinan</label>
                                     <input type="text" name="pimpinan" id="tambah_pimpinan" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('pimpinan') }}">
+                                    {{-- WADAH PESAN ERROR KHUSUS CLIENT-SIDE --}}
+                                    <div id="pimpinan_error" class="text-red-500 text-sm mt-1" style="display: none;">
+                                        Nama Pimpinan wajib diisi.
+                                    </div>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="tambah_kode_pendidikan" class="block text-sm font-medium text-gray-700">Kode Pendidikan</label>
                                     <input type="text" name="kode_pendidikan" id="tambah_kode_pendidikan" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('kode_pendidikan') }}">
+                                    {{-- WADAH PESAN ERROR KHUSUS CLIENT-SIDE --}}
+                                    <div id="kode_pendidikan_error" class="text-red-500 text-sm mt-1" style="display: none;">
+                                        Kode Pendidikan wajib diisi.
+                                    </div>
                                 </div>
                             </form>
                         </div>
-                        <div class="flex justify-end gap-2 p-6" style="margin-top: -25px">
+                        <div class="flex justify-end gap-2 p-6">
                             <button type="button" onclick="closeTambahModalPendidikan()" class="px-3 py-1.5 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">Batal</button>
                             <button type="submit" form="tambahFormPendidikan" class="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Simpan</button>
                         </div>
@@ -263,7 +287,7 @@
                             </div>
 
                             <div class="form_edit p-6 overflow-y-auto">
-                                <form id="editFormPendidikan" method="POST" action="{{ route('backend.riwayat_pendidikan.update', $rp) }}">
+                                <form id="editFormPendidikan" method="POST" action="{{ route('backend.riwayat_pendidikan.update', $rp) }}" novalidate>
                                     @csrf
                                     @method('PUT')
 
@@ -282,16 +306,28 @@
                                                 </option>
                                             @endforeach
                                         </select>
+                                        {{-- WADAH PESAN ERROR KHUSUS CLIENT-SIDE --}}
+                                        <div id="edit_strata_id_error" class="text-red-500 text-sm mt-1" style="display: none;">
+                                            Pilih Strata dalam daftar.
+                                        </div>
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_nm_sekolah_pt" class="block text-sm font-medium text-gray-700">Nama Sekolah/PT</label>
                                         <input type="text" name="nm_sekolah_pt" id="edit_nm_sekolah_pt" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('nm_sekolah_pt', $rp->nm_sekolah_pt) }}">
+                                        {{-- WADAH PESAN ERROR KHUSUS CLIENT-SIDE --}}
+                                        <div id="edit_nm_sekolah_pt_error" class="text-red-500 text-sm mt-1" style="display: none;">
+                                            Nama Sekolah/PT wajib diisi.
+                                        </div>
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_no_ijazah" class="block text-sm font-medium text-gray-700">No Ijazah</label>
                                         <input type="text" name="no_ijazah" id="edit_no_ijazah" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('no_ijazah', $rp->no_ijazah) }}">
+                                        <div id="edit_no_ijazah_error" class="text-red-500 text-sm mt-1" style="display: none;">
+                                            No Ijazah wajib diisi.
+                                        </div>
+                                        {{-- WADAH PESAN ERROR KHUSUS CLIENT-SIDE --}}
                                         @error('no_ijazah')
                                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                         @enderror
@@ -300,16 +336,28 @@
                                     <div class="mb-3">
                                         <label for="edit_thn_lulus" class="block text-sm font-medium text-gray-700">Tahun Lulus</label>
                                         <input type="number" name="thn_lulus" id="edit_thn_lulus" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('thn_lulus', $rp->thn_lulus) }}" min="1950" max="{{ date('Y') }}">
+                                        {{-- WADAH PESAN ERROR KHUSUS CLIENT-SIDE --}}
+                                        <div id="edit_thn_lulus_error" class="text-red-500 text-sm mt-1" style="display: none;">
+                                            Tahun Lulus wajib diisi.
+                                        </div>
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_pimpinan" class="block text-sm font-medium text-gray-700">Pimpinan</label>
                                         <input type="text" name="pimpinan" id="edit_pimpinan" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('pimpinan', $rp->pimpinan) }}">
+                                        {{-- WADAH PESAN ERROR KHUSUS CLIENT-SIDE --}}
+                                        <div id="edit_pimpinan_error" class="text-red-500 text-sm mt-1" style="display: none;">
+                                            Nama Pimpinan wajib diisi.
+                                        </div>
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="edit_kode_pendidikan" class="block text-sm font-medium text-gray-700">Kode Pendidikan</label>
                                         <input type="text" name="kode_pendidikan" id="edit_kode_pendidikan" class="mt-1 block w-full border border-gray-300 rounded-md text-sm" required value="{{ old('kode_pendidikan', $rp->kode_pendidikan) }}">
+                                        {{-- WADAH PESAN ERROR KHUSUS CLIENT-SIDE --}}
+                                        <div id="edit_kode_pendidikan_error" class="text-red-500 text-sm mt-1" style="display: none;">
+                                            Kode Pendidikan wajib diisi.
+                                        </div>
                                     </div>
                                 </form>
                             </div>
@@ -341,10 +389,108 @@
 
     {{-- JAVASCRIPT UNTUK MODAL TAMBAH DATA RIWAYAT PENDIDIKAN--}}
     <script>
-        console.log(document.getElementById('tambahFormPendidikan').action);
-        function openTambahModalPendidikan() {
-        document.getElementById('tambahModalPendidikan').classList.remove('hidden');
+        // Fungsi inisialisasi yang lebih aman
+        function initSelect2(modalId, selectId) {
+            // Cek apakah Select2 sudah diinisialisasi
+            if ($(selectId).hasClass('select2-hidden-accessible')) {
+                return;
+            }
+
+            $(selectId).select2({ 
+                dropdownParent: $(modalId), 
+                placeholder: "-- Pilih strata dan jurusan --",
+                allowClear: false,
+                theme: 'default' 
+            });
+            
+            // --- TAMBAHKAN KELAS TAILWIND KE CONTAINER SELECT2 ---
+            // Menargetkan container yang baru dibuat oleh Select2
+            var container = $(selectId).next('.select2-container');
+            
+            // Tambahkan w-full dan styling lainnya ke container utama
+            container.addClass('w-full custom-select-full'); // <-- MEMBUAT LEBAR 100%
+
+            // Tambahkan styling border ke elemen seleksi di dalamnya
+            container.find('.select2-selection--single')
+                    .addClass('mt-1 block w-full order border-gray-300 rounded-md text-sm py-1'); 
+            
+            container.find('.select2-selection__rendered')
+                    .css('padding-left', '10px');
         }
+
+        // Fungsi khusus untuk membuka Modal Tambah
+        function openTambahModalPendidikan() {
+            // 1. Inisialisasi Select2 untuk dropdown Strata
+            initSelect2('#tambahModalPendidikan', '#tambah_strata_id');
+            
+            // 2. Tampilkan Modal
+            document.getElementById('tambahModalPendidikan').classList.remove('hidden');
+        }
+        
+        // --- LOGIKA VALIDASI KUSTOM DI SISI KLIEN ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('tambahFormPendidikan');
+            
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    
+                    let isValid = true;
+                    
+                    // --- Definisikan Field Wajib ---
+                    const fields = [
+                        // Sesuaikan ID dengan input di Modal Tambah Pendidikan Anda
+                        { id: 'tambah_strata_id', errorId: 'strata_id_error', type: 'select2' },
+                        { id: 'tambah_nm_sekolah_pt', errorId: 'nm_sekolah_pt_error', type: 'input' },
+                        { id: 'tambah_no_ijazah', errorId: 'no_ijazah_error', type: 'input' },
+                        { id: 'tambah_thn_lulus', errorId: 'thn_lulus_error', type: 'input' },
+                        { id: 'tambah_pimpinan', errorId: 'pimpinan_error', type: 'input' },
+                        { id: 'tambah_kode_pendidikan', errorId: 'kode_pendidikan_error', type: 'input' },
+                    ];
+
+                    // --- Loop dan Validasi (Menggunakan logika yang sama) ---
+                    fields.forEach(field => {
+                        const inputElement = document.getElementById(field.id);
+                        const errorDiv = document.getElementById(field.errorId);
+                        let valueToCheck = inputElement.value;
+                        let isFieldValid = true;
+
+                        // Logika pengecekan value (Select2 atau Input)
+                        if (field.type === 'select2') {
+                            if (!valueToCheck) {
+                                isFieldValid = false;
+                            }
+                        } else { 
+                            if (!valueToCheck || valueToCheck.trim() === '') {
+                                isFieldValid = false;
+                            }
+                        }
+
+                        if (!isFieldValid) {
+                            errorDiv.style.display = 'block';
+                            // Tambahkan class error pada input/container
+                            if (field.type === 'select2') {
+                                $(inputElement).next('.select2-container').find('.select2-selection--single').addClass('border-red-500');
+                            } else {
+                                inputElement.classList.add('border-red-500');
+                            }
+                            isValid = false;
+                        } else {
+                            errorDiv.style.display = 'none';
+                            if (field.type === 'select2') {
+                                $(inputElement).next('.select2-container').find('.select2-selection--single').removeClass('border-red-500');
+                            } else {
+                                inputElement.classList.remove('border-red-500');
+                            }
+                        }
+                    });
+
+                    // --- Mencegah Submit Jika Tidak Valid ---
+                    if (!isValid) {
+                        e.preventDefault(); 
+                    }
+                });
+            }
+        });
 
         function closeTambahModalPendidikan() {
             document.getElementById('tambahModalPendidikan').classList.add('hidden');
@@ -362,12 +508,88 @@
             document.getElementById('edit_pimpinan').value = pimpinan;
             document.getElementById('edit_kode_pendidikan').value = kode_pendidikan;
 
+            initSelect2('#editModalPendidikan', '#edit_strata_id');
+            $('#editModalPendidikan #edit_strata_id').val(strata_id).trigger('change');
+
             document.getElementById('editFormPendidikan').action = `/admin/riwayat_pendidikan/${id}`;
             document.getElementById('editModalPendidikan').classList.remove('hidden');
         }
 
         function closeEditModalPendidikan() {
             document.getElementById('editModalPendidikan').classList.add('hidden');
+        }
+    </script>
+
+    {{-- JAVASCRIPT UNTUK VALIDASI EDIT MODAL EDIT --}}
+    <script>
+        // Ambil form secara langsung setelah form di-render oleh Blade
+        const formEdit = document.getElementById('editFormPendidikan');
+
+        if (formEdit) {
+            formEdit.addEventListener('submit', function(e) {
+                
+                let isValid = true;
+                
+                // --- Definisikan semua elemen Input/Error di Modal Edit ---
+                const fields = [
+                    // PASTIKAN ID ERROR INI ADA DI BLADE EDIT MODAL!
+                    { id: 'edit_strata_id', errorId: 'edit_strata_id_error', type: 'select2' },
+                    { id: 'edit_nm_sekolah_pt', errorId: 'edit_nm_sekolah_pt_error', type: 'input' },
+                    { id: 'edit_no_ijazah', errorId: 'edit_no_ijazah_error', type: 'input' },
+                    { id: 'edit_thn_lulus', errorId: 'edit_thn_lulus_error', type: 'input' },
+                    { id: 'edit_pimpinan', errorId: 'edit_pimpinan_error', type: 'input' },
+                    { id: 'edit_kode_pendidikan', errorId: 'edit_kode_pendidikan_error', type: 'input' },
+                ];
+
+                // --- Logika Validasi Tetap Sama ---
+                fields.forEach(field => {
+                    const inputElement = document.getElementById(field.id);
+                    // PASTIKAN errorDiv DITEMUKAN: Tambahkan pengecekan null
+                    const errorDiv = document.getElementById(field.errorId);
+                    
+                    // Tambahkan pengecekan di sini
+                    if (!inputElement) {
+                        console.error("Input Element not found:", field.id);
+                        return;
+                    }
+                    if (!errorDiv) {
+                        console.error("Error Div not found:", field.errorId);
+                    }
+
+                    // ... (Sisa Logika Validasi Tetap Sama) ...
+                    
+                    let valueToCheck = inputElement.value;
+                    let isFieldValid = true;
+
+                    if (field.type === 'select2') {
+                        if (!valueToCheck) {
+                            isFieldValid = false;
+                        }
+                    } else { 
+                        if (!valueToCheck || valueToCheck.trim() === '') {
+                            isFieldValid = false;
+                        }
+                    }
+
+                    if (!isFieldValid) {
+                        if(errorDiv) errorDiv.style.display = 'block'; 
+                        
+                        const selector = field.type === 'select2' ? $(inputElement).next('.select2-container').find('.select2-selection--single') : $(inputElement);
+                        selector.addClass('border-red-500');
+                        
+                        isValid = false;
+                    } else {
+                        if(errorDiv) errorDiv.style.display = 'none';
+                        const selector = field.type === 'select2' ? $(inputElement).next('.select2-container').find('.select2-selection--single') : $(inputElement);
+                        selector.removeClass('border-red-500');
+                    }
+                });
+
+                // --- Mencegah Submit Jika Tidak Valid ---
+                if (!isValid) {
+                    e.preventDefault(); 
+                }
+            });
         }
     </script>
 
