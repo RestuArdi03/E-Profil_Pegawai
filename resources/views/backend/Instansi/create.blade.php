@@ -29,7 +29,7 @@
                     name="id" 
                     value="{{ old('id') }}" 
                     class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
-                    placeholder="Masukkan ID Instansi (Wajib Unik)" 
+                    placeholder="Masukkan ID Instansi" 
                     required>
         </div>
 
@@ -53,25 +53,25 @@
                     name="kd_instansi" 
                     value="{{ old('kd_instansi') }}" 
                     class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
-                    placeholder="Kode lama yang harus diisi" 
+                    placeholder="Kode yang harus diisi" 
                     required>
         </div>
 
         {{-- FIELD KEDUA: kode (Kode Baru) --}}
         <div class="mb-6">
-            <label for="kode" class="block text-sm font-medium text-gray-700 mb-1">Kode (Kode Baru)</label>
+            <label for="kode" class="block text-sm font-medium text-gray-700 mb-1">Kode</label>
             <input type="text" 
                     id="kode" 
                     name="kode" 
                     value="{{ old('kode') }}" 
                     class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
-                    placeholder="Kode unik baru" 
+                    placeholder="Kode baru" 
                     required>
         </div>
 
         <!-- Field Alamat Instansi -->
         <div class="mb-4">
-            <label for="alamat_instansi" class="block text-sm font-medium text-gray-700 mb-1">Alamat Instansi (Opsional)</label>
+            <label for="alamat_instansi" class="block text-sm font-medium text-gray-700 mb-1">Alamat Instansi</label>
             <textarea id="alamat_instansi" 
                       name="alamat_instansi" 
                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
@@ -80,25 +80,25 @@
 
         <!-- Field Telepon Instansi -->
         <div class="mb-4">
-            <label for="telp_instansi" class="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon (Opsional)</label>
+            <label for="telp_instansi" class="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon</label>
             <input type="text" 
                     id="telp_instansi" 
                     name="telp_instansi" 
                     value="{{ old('telp_instansi') }}" 
                     class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
-                    placeholder="Cth: (0274) 773017" 
+                    placeholder="Cth: 08123456789" 
                     >
         </div>
 
         <!-- Field Fax Instansi -->
         <div class="mb-4">
-            <label for="fax_instansi" class="block text-sm font-medium text-gray-700 mb-1">Nomor Fax (Opsional)</label>
+            <label for="fax_instansi" class="block text-sm font-medium text-gray-700 mb-1">Nomor Fax</label>
             <input type="text" 
                     id="fax_instansi" 
                     name="fax_instansi" 
                     value="{{ old('fax_instansi') }}" 
                     class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
-                    placeholder="Cth: (0274) 773092" 
+                    placeholder="Cth: 08987654321" 
                     >
         </div>
 
